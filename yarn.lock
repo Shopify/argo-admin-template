@@ -988,21 +988,21 @@
   resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-1.17.0.tgz#e87aee588071bdac95bcfbbd18daf489de6a375b"
   integrity sha512-zNPXI+hLyxveVDipLpHxtJIzHnE4EvQfz5XEjNdgR8GkgX47bKj/0lW1emKlIax6qRATKqDIX1xijJrgq+DL3Q==
 
-"@shopify/app-extensions-polaris-components@^0.0.38":
-  version "0.0.38"
-  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/app-extensions-polaris-components/-/app-extensions-polaris-components-0.0.38.tgz#088a2b2a827bd4a791785f1c4f1a5c144d0593cd"
-  integrity sha1-CIorKoJ71KeReF8cTxpcFE0Fk80=
+"@shopify/app-extensions-polaris-components@^0.0.39":
+  version "0.0.39"
+  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/app-extensions-polaris-components/-/app-extensions-polaris-components-0.0.39.tgz#c8144bab8678e18d858cbe9125fc63896358ff9b"
+  integrity sha1-yBRLq4Z44Y2FjL6RJfxjiWNY/5s=
   dependencies:
-    "@shopify/remote-ui-core" "^0.0.14"
+    "@shopify/remote-ui-core" "^0.0.15"
     typescript "^3.7.2"
 
-"@shopify/app-extensions-renderer@^0.0.38":
-  version "0.0.38"
-  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/app-extensions-renderer/-/app-extensions-renderer-0.0.38.tgz#ed7fe55cb15b07ba8ea907ba5a5dc38c1db2cf24"
-  integrity sha1-7X/lXLFbB7qOqQe6Wl3DjB2yzyQ=
+"@shopify/app-extensions-renderer@^0.0.39":
+  version "0.0.39"
+  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/app-extensions-renderer/-/app-extensions-renderer-0.0.39.tgz#e5d855dc08ee598d5e74401905c87c557f2f535d"
+  integrity sha1-5dhV3AjuWY1edEAZBch8VX8vU10=
   dependencies:
-    "@shopify/remote-ui-core" "^0.0.14"
-    "@shopify/remote-ui-react" "^0.0.16"
+    "@shopify/remote-ui-core" "^0.0.15"
+    "@shopify/remote-ui-react" "^0.0.18"
     "@shopify/remote-ui-types" "^0.0.9"
     "@shopify/useful-types" "^2.1.4"
     "@shopify/web-worker" "^1.3.5"
@@ -1068,36 +1068,22 @@
     "@shopify/useful-types" "^2.1.4"
     "@shopify/web-worker" "^1.3.5"
 
-"@shopify/remote-ui-core@^0.0.14":
-  version "0.0.14"
-  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/remote-ui-core/-/remote-ui-core-0.0.14.tgz#f0acd9f06dcae93a3d52339b155c07e8c77046ae"
-  integrity sha1-8KzZ8G3K6To9UjObFVwH6MdwRq4=
+"@shopify/remote-ui-core@^0.0.15":
+  version "0.0.15"
+  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/remote-ui-core/-/remote-ui-core-0.0.15.tgz#b98c9a2c577ffff2e9551b8fffcc7e23d2b36f81"
+  integrity sha1-uYyaLFd///LpVRuP/8x+I9Kzb4E=
   dependencies:
-    "@shopify/remote-ui-rpc" "^0.0.6"
     "@shopify/remote-ui-types" "^0.0.9"
+    "@shopify/rpc" "^1.0.5"
 
-"@shopify/remote-ui-react@^0.0.16":
-  version "0.0.16"
-  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/remote-ui-react/-/remote-ui-react-0.0.16.tgz#4054e41e03335f8c85925f698920acdf85b3d87c"
-  integrity sha1-QFTkHgMzX4yFkl9piSCs34Wz2Hw=
+"@shopify/remote-ui-react@^0.0.18":
+  version "0.0.18"
+  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/remote-ui-react/-/remote-ui-react-0.0.18.tgz#cdf3a0542e11c07d612cc0edb98756408650469c"
+  integrity sha1-zfOgVC4RwH1hLMDtuYdWQIZQRpw=
   dependencies:
-    "@shopify/remote-ui-core" "^0.0.14"
+    "@shopify/remote-ui-core" "^0.0.15"
     "@types/react" ">=16.8.0 <17.0.0"
     react-reconciler "*"
-
-"@shopify/remote-ui-react@^0.0.17":
-  version "0.0.17"
-  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/remote-ui-react/-/remote-ui-react-0.0.17.tgz#45c25599a64caf1385ca2e749d890a16938cae27"
-  integrity sha1-RcJVmaZMrxOFyi50nYkKFpOMric=
-  dependencies:
-    "@shopify/remote-ui-core" "^0.0.14"
-    "@types/react" ">=16.8.0 <17.0.0"
-    react-reconciler "*"
-
-"@shopify/remote-ui-rpc@^0.0.6":
-  version "0.0.6"
-  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/remote-ui-rpc/-/remote-ui-rpc-0.0.6.tgz#d5a459f42a3e15cb32c9c8e47c65840f14084f18"
-  integrity sha1-1aRZ9Co+FcsyycjkfGWEDxQITxg=
 
 "@shopify/remote-ui-types@^0.0.9":
   version "0.0.9"
