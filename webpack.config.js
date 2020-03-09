@@ -8,7 +8,7 @@ module.exports = {
   output: {
     globalObject: 'self',
     filename: '[name].js',
-    path: __dirname + '/dist',
+    path: __dirname + '/build',
   },
   plugins: [new WebWorkerPlugin(), new HtmlWebpackPlugin()],
   devServer: {
