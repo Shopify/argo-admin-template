@@ -6,6 +6,7 @@
   "author": "Shopify <app-extensions@shopify.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/preset-env": "^7.8.7",
     "@shopify/polaris": "^4.3.0",
     "@shopify/react-web-worker": "^1.2.6",
     "@shopify/remote-ui-core": "^0.0.14",
