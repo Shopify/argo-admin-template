@@ -4,7 +4,7 @@ import {
   DataTypeForExtensionCallback,
   ShopifyApi,
 } from '@shopify/app-extensions-renderer';
-import {createRemoteRoot, RemoteChannel} from '@shopify/remote-ui-core';
+import {createRemoteRoot, RemoteChannel, retain} from '@shopify/remote-ui-core';
 
 const registeredExtensions = new Map<
   ExtensionPoint,
@@ -40,6 +40,7 @@ export function render<T extends ExtensionPoint>(
     return false;
   }
 
+  retain(channel);
   const callback = registeredExtensions.get(extensionPoint)!;
 
   return callback(createRemoteRoot(channel, {components: components as any}), data);
