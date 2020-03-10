@@ -5,12 +5,13 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 module.exports = {
   mode: isDevelopment ? "development" : "production",
   entry: isDevelopment ? "./host/index.tsx" : "./src/index.tsx",
+  target: isDevelopment ? 'web' : 'webworker',
   output: {
     globalObject: "self",
     filename: "[name].js",
     path: __dirname + "/build"
   },
-  plugins: [new WebWorkerPlugin(), new HtmlWebpackPlugin()],
+  plugins: isDevelopment ? [new WebWorkerPlugin(), new HtmlWebpackPlugin()] : [],
   devServer: {
     disableHostCheck: true,
     host: "0.0.0.0",
@@ -60,7 +61,7 @@ module.exports = {
                 }
               ]
             ],
-            plugins: [require.resolve("@shopify/web-worker/babel")]
+            plugins: isDevelopment ? [require.resolve("@shopify/web-worker/babel")] : [],
           }
         }
       },
