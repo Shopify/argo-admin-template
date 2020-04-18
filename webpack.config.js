@@ -61,7 +61,10 @@ module.exports = {
                 }
               ]
             ],
-            plugins: isDevelopment ? [require.resolve("@shopify/web-worker/babel")] : [],
+            plugins: isDevelopment ? [
+              '@babel/transform-runtime',
+              require.resolve("@shopify/web-worker/babel"),
+            ] : [],
           }
         }
       },

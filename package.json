@@ -6,6 +6,7 @@
   "author": "Shopify <app-extensions@shopify.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.9.0",
     "@babel/preset-env": "^7.8.7",
     "@shopify/polaris": "^4.3.0",
     "@shopify/react-web-worker": "^1.2.6",
