@@ -1,20 +1,22 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { WebWorkerPlugin } = require("@shopify/web-worker/webpack");
-const isDevelopment = process.env.NODE_ENV !== "production";
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {WebWorkerPlugin} = require('@shopify/web-worker/webpack');
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
-  mode: isDevelopment ? "development" : "production",
-  entry: isDevelopment ? "./host/index.tsx" : "./src/index.tsx",
+  mode: isDevelopment ? 'development' : 'production',
+  entry: isDevelopment ? './host/index.tsx' : './src/index.tsx',
   target: isDevelopment ? 'web' : 'webworker',
   output: {
-    globalObject: "self",
-    filename: "[name].js",
-    path: __dirname + "/build"
+    globalObject: 'self',
+    filename: '[name].js',
+    path: __dirname + '/build',
   },
-  plugins: isDevelopment ? [new WebWorkerPlugin(), new HtmlWebpackPlugin()] : [],
+  plugins: isDevelopment
+    ? [new WebWorkerPlugin(), new HtmlWebpackPlugin()]
+    : [],
   devServer: {
     disableHostCheck: true,
-    host: "0.0.0.0",
+    host: '0.0.0.0',
     hot: false,
     inline: false,
     port: 39351,
@@ -22,56 +24,55 @@ module.exports = {
       rewrites: [
         {
           from: /./,
-          to: "/index.html"
-        }
-      ]
-    }
+          to: '/index.html',
+        },
+      ],
+    },
   },
-  devtool: isDevelopment ? "source-map" : false,
+  devtool: isDevelopment ? 'source-map' : false,
   resolve: {
-    extensions: [".tsx", ".ts", "jsx", ".js", ".json"]
+    extensions: ['.tsx', '.ts', 'jsx', '.js', '.json'],
   },
   module: {
     rules: [
       {
         test: /\.[j|t]s(x?)$/,
-        exclude: /(node_modules)/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             babelrc: false,
             presets: [
               [
-                "babel-preset-shopify/web",
+                'babel-preset-shopify/web',
                 {
-                  modules: false,
+                  modules: 'commonjs',
                   typescript: true,
                   browsers: [
-                    "last 1 chrome version",
-                    "last 1 firefox version",
-                    "last 1 safari version"
-                  ]
-                }
+                    'last 1 chrome version',
+                    'last 1 firefox version',
+                    'last 1 safari version',
+                  ],
+                },
               ],
-              "babel-preset-shopify/react",
+              'babel-preset-shopify/react',
               [
-                "@babel/preset-env",
+                '@babel/preset-env',
                 {
-                  forceAllTransforms: true
-                }
-              ]
+                  forceAllTransforms: true,
+                },
+              ],
             ],
-            plugins: isDevelopment ? [
+            plugins: [
               '@babel/transform-runtime',
-              require.resolve("@shopify/web-worker/babel"),
-            ] : [],
-          }
-        }
+              require.resolve('@shopify/web-worker/babel'),
+            ],
+          },
+        },
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
-    ]
-  }
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
 };
