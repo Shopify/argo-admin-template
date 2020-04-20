@@ -86,7 +86,7 @@ function useSessionTokenInput(): SessionTokenInput {
     () => ({
       sessionToken: {
         getSessionToken: () => {
-          return Promise.resolve('Bearer YOUR-SESSION-TOKEN-HERE');
+          return Promise.resolve('YOUR-SESSION-TOKEN-HERE');
         },
       },
     }),
