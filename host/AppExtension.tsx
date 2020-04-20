@@ -1,22 +1,18 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {RemoteReceiver, RemoteRenderer} from '@shopify/remote-ui-react/host';
+import React, {useEffect, useMemo} from 'react';
 import {
-  createWorkerFactory,
-  useWorker,
-  createIframeWorkerMessenger,
-} from '@shopify/react-web-worker';
-import {
+  CallbackTypeForExtensionPoint,
   ExtensionPoint,
   ExtractedInputFromRenderExtension,
-  CallbackTypeForExtensionPoint,
-  Layout,
-  LayoutInput,
-  LayoutHandler,
-  SessionTokenInput,
 } from '@shopify/app-extensions-renderer';
-import {retain} from '@shopify/remote-ui-core';
+import {
+  createIframeWorkerMessenger,
+  createWorkerFactory,
+  useWorker,
+} from '@shopify/react-web-worker';
+import {RemoteReceiver, RemoteRenderer} from '@shopify/remote-ui-react/host';
 
-import useResizeObserver from './utils/ResizeObserver';
+import useLayoutInput from './utils/useLayoutInput';
+import useSessionTokenInput from './utils/useSessionTokenInput';
 
 interface Props<T extends ExtensionPoint> {
   extensionPoint: T;
@@ -28,8 +24,6 @@ interface Props<T extends ExtensionPoint> {
 const createWorker = createWorkerFactory(() =>
   import(/* webpackChunkName: 'worker' */ './worker'),
 );
-
-const SIZE_CLASS_BREAK_POINT = 480;
 
 export function AppExtension<T extends ExtensionPoint>({
   extensionPoint,
@@ -79,67 +73,4 @@ export function AppExtension<T extends ExtensionPoint>({
       <RemoteRenderer receiver={receiver} components={components} />
     </div>
   );
-}
-
-function useSessionTokenInput(): SessionTokenInput {
-  return useMemo(
-    () => ({
-      sessionToken: {
-        getSessionToken: () => {
-          return Promise.resolve('YOUR-SESSION-TOKEN-HERE');
-        },
-      },
-    }),
-    [],
-  );
-}
-
-function useLayoutInput(): [
-  ReturnType<typeof useResizeObserver>[0],
-  LayoutInput | undefined,
-] {
-  const [ref, entry] = useResizeObserver();
-  const [layout, setLayout] = useState<Layout>();
-  const [initialData, setInitialData] = useState<Layout>();
-  const [layoutHandler, setLayoutHandler] = useState<LayoutHandler>();
-
-  useEffect(() => {
-    if (!entry) {
-      return;
-    }
-    const newLayout: Layout = {
-      horizontal:
-        entry.contentRect.width > SIZE_CLASS_BREAK_POINT
-          ? 'regular'
-          : 'compact',
-    };
-    if (!initialData) {
-      setInitialData(newLayout);
-    }
-    if (JSON.stringify(newLayout) !== JSON.stringify(layout)) {
-      setLayout(newLayout);
-    }
-  }, [entry]);
-
-  useEffect(() => {
-    if (!layout || !layoutHandler) {
-      return;
-    }
-    layoutHandler.onLayoutChange(layout);
-  }, [layout, layoutHandler]);
-
-  return useMemo(() => {
-    const layoutInput: LayoutInput | undefined = initialData
-      ? {
-          layout: {
-            initialData: initialData,
-            setHandler: (newHandler) => {
-              retain(newHandler);
-              setLayoutHandler(newHandler);
-            },
-          },
-        }
-      : undefined;
-    return [ref, layoutInput];
-  }, [initialData]);
 }
