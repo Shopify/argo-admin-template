@@ -1,24 +1,37 @@
 import React from 'react';
 import {createPlainWorkerFactory} from '@shopify/web-worker';
-import {Page, AppProvider} from '@shopify/polaris';
-import {ExtensionPoint} from '@shopify/app-extensions-renderer';
+import {SubscriptionHost} from './SubscriptionsHost';
+import {PageHost} from './PageHost';
+import {AppProvider} from '@shopify/polaris';
 import {host as components} from '@shopify/app-extensions-polaris-components';
-import {AppExtension} from './AppExtension';
+import {HostProps} from './types';
 
 const reactThirdPartyWorker = createPlainWorkerFactory(() =>
   import(/* webpackChunkName: 'extension' */ '../src'),
 );
 
-export function Host() {
+const extensionType = process.env.EXTENSION_TYPE;
+
+export {HostWrapper as Host}
+
+function HostWrapper() {
   return (
     <AppProvider i18n={{}}>
-      <Page>
-        <AppExtension
-          script={reactThirdPartyWorker.url}
-          extensionPoint={ExtensionPoint.AppLink}
-          components={components}
-        />
-      </Page>
+      {getHost()}
     </AppProvider>
-  );
+  ) 
+}
+
+function getHost() {
+  const props: HostProps = {
+    worker: reactThirdPartyWorker,
+    components,
+  }
+
+  switch (extensionType) {
+    case 'SUBSCRIPTION_MANAGEMENT':
+      return <SubscriptionHost {...props} />;
+    default:
+      return <PageHost {...props} />;
+  }
 }
