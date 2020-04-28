@@ -11,10 +11,10 @@ export function SubscriptionHost({worker, components}: HostProps) {
     <>
       <Button onClick={() => setOpen(true)}>Click me</Button>
       <Modal
-        appInfo={{name: ''}}
+        appInfo={{name: ""}}
         script={worker.url}
         open={open}
-        defaultTitle=''
+        defaultTitle=""
         onClose={() => setOpen(false)}
         extensionPoint={ExtensionPoint.SubscriptionsManagement}
         components={components}
