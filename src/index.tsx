@@ -1,8 +1,9 @@
 import React from 'react';
-import {render, ExtensionPoint} from '@shopify/app-extensions-renderer';
+import {render} from '@shopify/app-extensions-renderer';
 import {Card} from '@shopify/app-extensions-polaris-components/dist/client';
+import config from '../config';
 
-render(ExtensionPoint.SubscriptionsManagement, () => <App />);
+render(config.EXTENSION_POINT, () => <App />);
 
 function App() {
   return (
