@@ -21,7 +21,7 @@ const useResizeObserver: () => [
     }
     const observer = new ResizeObserver(([entry]) => setEntry(entry));
     observer.observe(element);
-    return observer.disconnect;
+    return () => observer.disconnect();
   }, [element]);
 
   return [setRef, entry];

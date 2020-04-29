@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {WebWorkerPlugin} = require('@shopify/web-worker/webpack');
+const Dotenv = require('dotenv-webpack');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
     path: __dirname + '/build',
   },
   plugins: isDevelopment
-    ? [new WebWorkerPlugin(), new HtmlWebpackPlugin()]
+    ? [new WebWorkerPlugin(), new HtmlWebpackPlugin(), new Dotenv()]
     : [],
   devServer: {
     disableHostCheck: true,
