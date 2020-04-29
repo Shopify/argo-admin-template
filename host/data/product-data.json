@@ -1,0 +1,9 @@
+{
+  "product": {
+    "id": 1234,
+    "title": "Gnarly skate board",
+    "price": "$79.99",
+    "imgUrl": "http://coolskate.pic",
+    "description": "This is a dope board"
+  }
+}

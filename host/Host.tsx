@@ -4,6 +4,7 @@ import {Page, AppProvider} from '@shopify/polaris';
 import {ExtensionPoint} from '@shopify/app-extensions-renderer';
 import {host as components} from '@shopify/app-extensions-polaris-components';
 import {AppExtension} from './AppExtension';
+import data from './data/product-data.json';
 
 const reactThirdPartyWorker = createPlainWorkerFactory(() =>
   import(/* webpackChunkName: 'extension' */ '../src'),
@@ -17,6 +18,7 @@ export function Host() {
           script={reactThirdPartyWorker.url}
           extensionPoint={ExtensionPoint.AppLink}
           components={components}
+          input={{data}}
         />
       </Page>
     </AppProvider>
