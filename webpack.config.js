@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {WebWorkerPlugin} = require('@shopify/web-worker/webpack');
 const Dotenv = require('dotenv-webpack');
@@ -14,7 +15,11 @@ module.exports = {
   },
   plugins: isDevelopment
     ? [new WebWorkerPlugin(), new HtmlWebpackPlugin(), new Dotenv()]
-    : [],
+    : [
+        new webpack.ProvidePlugin({
+          React: 'react',
+        }),
+      ],
   devServer: {
     disableHostCheck: true,
     host: '0.0.0.0',
