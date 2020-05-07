@@ -10,7 +10,6 @@
     "@babel/preset-env": "^7.8.7",
     "@shopify/argo-host": "latest",
     "@shopify/polaris": "^4.3.0",
-    "@shopify/react-web-worker": "^1.2.6",
     "@types/yargs": "^15.0.4",
     "babel-loader": "^8.0.6",
     "babel-preset-shopify": "21.0.0",
