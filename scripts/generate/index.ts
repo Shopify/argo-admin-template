@@ -12,9 +12,9 @@ const {type} = yargs.command<{type: string}>(
 let extensionPoint = extensionTypeToPoint[type];
 if (!extensionPoint) {
   console.warn(
-    'Warning: Unknown extension point ${type}, using AppLink instead'
+    'Warning: Unknown extension point ${type}, using SubscriptionsManagement instead'
   );
-  extensionPoint = ExtensionPoint.AppLink;
+  extensionPoint = ExtensionPoint.SubscriptionsManagement;
 }
 
 generateSrc(extensionPoint);
