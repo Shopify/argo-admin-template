@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 const template = ({extensionPoint}: {extensionPoint: string}) => `
-import {ExtensionPoint} from '@shopify/app-extensions-renderer';
+import {ExtensionPoint} from '@shopify/argo';
 
 const config = {
   EXTENSION_POINT: ExtensionPoint.${extensionPoint},
