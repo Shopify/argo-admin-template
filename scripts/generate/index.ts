@@ -1,5 +1,5 @@
 import yargs from 'yargs';
-import {ExtensionPoint} from '@shopify/app-extensions-renderer';
+import {ExtensionPoint} from '@shopify/argo';
 import {generateSrc} from './generate-src';
 import {generateConfig} from './generate-config';
 import {extensionTypeToPoint} from './constants';

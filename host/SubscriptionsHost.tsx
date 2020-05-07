@@ -1,23 +1,22 @@
 import React, {useState} from 'react';
-import {Modal} from './components/modal';
-import {ExtensionPoint} from '@shopify/app-extensions-renderer';
+import {ExtensionPoint} from '@shopify/argo';
 import {Button} from '@shopify/polaris';
+
+import {ModalContainer} from './containers/ModalContainer';
 import {HostProps} from './types';
 
-export function SubscriptionHost({worker, components}: HostProps) {
+export function SubscriptionHost(props: HostProps) {
   const [open, setOpen] = useState(false);
-
   return (
     <>
       <Button onClick={() => setOpen(true)}>Click me</Button>
-      <Modal
-        appInfo={{name: ""}}
-        script={worker.url}
+      <ModalContainer
+        app={{name: '', appId: 'app-id'}}
         open={open}
         defaultTitle=""
         onClose={() => setOpen(false)}
         extensionPoint={ExtensionPoint.SubscriptionsManagement}
-        components={components}
+        {...props}
       />
     </>
   );

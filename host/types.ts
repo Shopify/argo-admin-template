@@ -1,6 +1,3 @@
-import {host as components} from '@shopify/app-extensions-polaris-components';
+import {ArgoExtensionsProps} from '@shopify/argo-host';
 
-export interface HostProps {
-  worker: any;
-  components: typeof components;
-}
+export type HostProps = Pick<ArgoExtensionsProps<any>, 'script' | 'components'>;
