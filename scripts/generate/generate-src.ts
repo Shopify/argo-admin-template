@@ -1,8 +1,21 @@
 import fs from 'fs';
 import path from 'path';
 
-export function generateSrc(extensionPoint: string) {
-  const file = fs.readFileSync(__dirname + '/index.tsx.template');
+export enum Framework {
+  vanilla = 'vanilla',
+  react = 'react',
+}
+
+const indexPaths = {
+  [Framework.react]: 'react.tsx.template',
+  [Framework.vanilla]: 'vanilla.ts.template',
+};
+
+export function generateSrc(extensionPoint: string, framework: Framework) {
+  const indexPath = (indexPaths[framework] || indexPaths[Framework.vanilla]);
+  const ext = indexPath.split('.')[1];
+
+  const file = fs.readFileSync(__dirname + `/templates/${indexPath}`);
   const text = file.toString();
 
   const tsx = text.replace('<% EXTENSION_POINT %>', extensionPoint);
@@ -13,7 +26,7 @@ export function generateSrc(extensionPoint: string) {
       fs.mkdirSync(outDir);
     }
 
-    const outPath = path.resolve(__dirname, '../../src/index.tsx');
+    const outPath = path.resolve(__dirname, `../../src/index.${ext}`);
     fs.writeFileSync(outPath, tsx);
 
     console.log('src/index.tsx file was created.');

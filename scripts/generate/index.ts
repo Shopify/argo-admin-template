@@ -1,21 +1,20 @@
 import yargs from 'yargs';
-import {ExtensionPoint} from '@shopify/argo';
-import {generateSrc} from './generate-src';
+import {generateSrc, Framework} from './generate-src';
 import {generateConfig} from './generate-config';
 import {extensionTypeToPoint} from './constants';
 
-const {type} = yargs.option('type', {
-  type: 'string',
-  description: 'Extension type identifier',
-}).argv;
-
-let extensionPoint = extensionTypeToPoint[type!];
+const {type, framework} = yargs.argv;
+let extensionPoint = extensionTypeToPoint[type as string];
+console.log('Create ', type, ' extension project')
 if (!extensionPoint) {
-  console.warn(
-    `Warning: Unknown extension point ${type}, using SubscriptionsManagement instead`
+  throw(
+    `
+Warning: Unknown extension point ${type}.
+Please use a supported extension type and generate your project manually.
+See README.md for instructions.
+    `
   );
-  extensionPoint = ExtensionPoint.SubscriptionsManagement;
 }
 
-generateSrc(extensionPoint);
+generateSrc(extensionPoint, framework as Framework);
 generateConfig(extensionPoint);
