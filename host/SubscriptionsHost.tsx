@@ -11,9 +11,9 @@ export function SubscriptionHost(props: HostProps) {
     <>
       <Button onClick={() => setOpen(true)}>Click me</Button>
       <ModalContainer
-        app={{name: '', appId: 'app-id'}}
+        app={{name: 'App name', appId: 'app-id'}}
         open={open}
-        defaultTitle=""
+        defaultTitle="Default title"
         onClose={() => setOpen(false)}
         extensionPoint={ExtensionPoint.SubscriptionsManagement}
         {...props}

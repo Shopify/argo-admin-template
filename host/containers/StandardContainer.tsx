@@ -3,12 +3,15 @@ import {ExtensionPoint} from '@shopify/argo';
 import {
   ArgoExtension,
   ArgoExtensionsProps,
-  createIframeWorkerMessenger,
   useLayoutInput,
   useLocaleInput,
   useSessionTokenInput,
 } from '@shopify/argo-host';
-import {createWorkerFactory, useWorker} from '@shopify/react-web-worker';
+import {
+  createWorkerFactory,
+  useWorker,
+  createIframeWorkerMessenger,
+} from '@shopify/react-web-worker';
 
 const createWorker = createWorkerFactory(() =>
   import(/* webpackChunkName: 'sandbox-worker' */ '@shopify/argo-host/worker'),
