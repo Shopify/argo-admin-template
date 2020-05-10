@@ -12,31 +12,41 @@ If you grabbed this template directly from github:
 
 #### npm
 ```bash
+## With npm
 npm install
 
-# See list of available extension types: `scripts/generate/constants.ts`
 npm run generate -- --type=SUBSCRIPTIONS_MANAGEMENT
-```
 
-#### yarn
-```bin
+## With yarn
 yarn
 
-# See list of available extension types: `scripts/generate/constants.ts`
 yarn generate --type=SUBSCRIPTIONS_MANAGEMENT
 ```
 
-### Using react
-If you would like to build your extension using react, just add the `--framework=react` option.
+### Available extensions:
+ - SUBSCRIPTIONS_MANAGEMENT
+
+## Choosing a framework to start with
+You can choose from a list of frameworks as a starting point.
+
+### Available Frameworks
+
+**Typescript**
+- vanilla-typescript
+- react-typescript
+
+**Javascript**
+- vanilla
+- react
 
 #### npm
 ```bash
+## With npm
 npm run generate -- --type=SUBSCRIPTIONS_MANAGEMENT --framework=react
-```
 
-#### yarn
-```bash
+## With yarn
 yarn run generate --type=SUBSCRIPTIONS_MANAGEMENT --framework=react
 ```
+
 **Note:**
 Once you're setup, you may delete the `scripts` folder as you will no longer need it.

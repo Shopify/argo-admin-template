@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import {updateWebpack} from './update-webpack';
 
 export enum Framework {
   vanilla = 'vanilla',
@@ -33,4 +34,6 @@ export function generateSrc(extensionPoint: string, framework: Framework) {
   } catch (error) {
     console.error('src/index.tsx file could not be created: ', error);
   }
+
+  updateWebpack(ext);
 }
