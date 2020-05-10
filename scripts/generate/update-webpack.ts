@@ -13,8 +13,11 @@ export function updateWebpack(fileExt: string) {
   try {
     fs.writeFileSync(webpackConfigFileLocation, updatedConfig);
 
-    console.log('src/index.tsx file was created.');
+    console.log('webpack.config.js updated.');
   } catch (error) {
-    console.error('src/index.tsx file could not be created: ', error);
+    console.error(
+      'Couldn\'t update webpack.config.js. You can manually update it by replacing the <% FileExtension %> string with the proper file extension on your src/index file.',
+      error,
+    );
   }
 }
