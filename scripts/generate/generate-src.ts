@@ -3,21 +3,21 @@ import path from 'path';
 import {updateWebpack} from './update-webpack';
 
 export enum Framework {
-  vanilla = 'vanilla',
-  react = 'react',
-  vanillatypescript = 'vanilla-typescript',
-  reacttypescript = 'react-typescript',
+  Vanilla = 'vanilla',
+  React = 'react',
+  VanillaTypescript = 'vanilla-typescript',
+  ReactTypescript = 'react-typescript',
 }
 
 const indexPaths = {
-  [Framework.react]: 'react.js.template',
-  [Framework.vanilla]: 'vanilla.js.template',
-  [Framework.reacttypescript]: 'react.tsx.template',
-  [Framework.vanillatypescript]: 'vanilla.ts.template',
+  [Framework.Vanilla]: 'vanilla.js.template',
+  [Framework.React]: 'react.js.template',
+  [Framework.VanillaTypescript]: 'vanilla.ts.template',
+  [Framework.ReactTypescript]: 'react.tsx.template',
 };
 
 export function generateSrc(extensionPoint: string, framework: Framework) {
-  const indexPath = (indexPaths[framework] || indexPaths[Framework.vanilla]);
+  const indexPath = (indexPaths[framework] || indexPaths[Framework.Vanilla]);
   const ext = indexPath.split('.')[1];
 
   const file = fs.readFileSync(__dirname + `/templates/${indexPath}`);
