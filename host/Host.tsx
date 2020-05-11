@@ -4,7 +4,7 @@ import {AppProvider} from '@shopify/polaris';
 import {createPlainWorkerFactory} from '@shopify/web-worker';
 
 import config from '../config';
-import {SubscriptionHost} from './SubscriptionsHost';
+import {SubscriptionHost} from './SubscriptionHost';
 import {HostProps} from './types';
 
 const reactThirdPartyWorker = createPlainWorkerFactory(() =>
