@@ -9,34 +9,21 @@ Start developing your awesome extension in the `./src` folder.
 ## From github
 If you grabbed this template directly from github:
 
-
 #### npm
 ```bash
+## With npm
 npm install
 
-# See list of available extension types: `scripts/generate/constants.ts`
-npm run generate -- --type=SUBSCRIPTIONS_MANAGEMENT
-```
+npm run generate -- --type=SUBSCRIPTION_MANAGEMENT
 
-#### yarn
-```bin
+## With yarn
 yarn
 
-# See list of available extension types: `scripts/generate/constants.ts`
-yarn generate --type=SUBSCRIPTIONS_MANAGEMENT
+yarn generate --type=SUBSCRIPTION_MANAGEMENT
 ```
 
-### Using react
-If you would like to build your extension using react, just add the `--framework=react` option.
+### Available extensions:
+ - SUBSCRIPTION_MANAGEMENT
 
-#### npm
-```bash
-npm run generate -- --type=SUBSCRIPTIONS_MANAGEMENT --framework=react
-```
-
-#### yarn
-```bash
-yarn run generate --type=SUBSCRIPTIONS_MANAGEMENT --framework=react
-```
 **Note:**
 Once you're setup, you may delete the `scripts` folder as you will no longer need it.

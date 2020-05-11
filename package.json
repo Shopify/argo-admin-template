@@ -33,6 +33,7 @@
   "dependencies": {
     "@shopify/argo": "latest",
     "@shopify/argo-react": "latest",
+    "inquirer": "^7.1.0",
     "react": "^16.13.0"
   }
 }

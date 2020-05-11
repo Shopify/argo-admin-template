@@ -3,7 +3,7 @@ import {ExtensionPoint} from '@shopify/argo';
 import {render} from '@shopify/argo-react';
 import {Card} from '@shopify/argo-react/components';
 
-render(ExtensionPoint.AppLink, () => <App />);
+render(ExtensionPoint.<% EXTENSION_POINT %>, () => <App />);
 
 function App() {
   return (

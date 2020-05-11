@@ -1,18 +1,23 @@
 import fs from 'fs';
 import path from 'path';
+import {updateWebpack} from './update-webpack';
 
 export enum Framework {
-  vanilla = 'vanilla',
-  react = 'react',
+  Vanilla = 'vanilla',
+  React = 'react',
+  VanillaTypescript = 'vanilla-typescript',
+  ReactTypescript = 'react-typescript',
 }
 
 const indexPaths = {
-  [Framework.react]: 'react.tsx.template',
-  [Framework.vanilla]: 'vanilla.ts.template',
+  [Framework.Vanilla]: 'vanilla.js.template',
+  [Framework.React]: 'react.js.template',
+  [Framework.VanillaTypescript]: 'vanilla.ts.template',
+  [Framework.ReactTypescript]: 'react.tsx.template',
 };
 
 export function generateSrc(extensionPoint: string, framework: Framework) {
-  const indexPath = (indexPaths[framework] || indexPaths[Framework.vanilla]);
+  const indexPath = (indexPaths[framework] || indexPaths[Framework.Vanilla]);
   const ext = indexPath.split('.')[1];
 
   const file = fs.readFileSync(__dirname + `/templates/${indexPath}`);
@@ -29,8 +34,10 @@ export function generateSrc(extensionPoint: string, framework: Framework) {
     const outPath = path.resolve(__dirname, `../../src/index.${ext}`);
     fs.writeFileSync(outPath, tsx);
 
-    console.log('src/index.tsx file was created.');
+    console.log(`src/index.${ext} file was created.`);
   } catch (error) {
-    console.error('src/index.tsx file could not be created: ', error);
+    console.error(`src/index.${ext} file could not be created: `, error);
   }
+
+  updateWebpack(ext);
 }
