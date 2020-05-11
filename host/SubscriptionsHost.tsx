@@ -15,7 +15,7 @@ export function SubscriptionHost(props: HostProps) {
         open={open}
         defaultTitle="Default title"
         onClose={() => setOpen(false)}
-        extensionPoint={ExtensionPoint.SubscriptionsManagement}
+        extensionPoint={ExtensionPoint.SubscriptionManagement}
         {...props}
       />
     </>

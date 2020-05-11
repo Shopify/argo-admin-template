@@ -27,7 +27,7 @@
     "yargs": "^15.3.1"
   },
   "scripts": {
-    "generate": "ts-node ./scripts/generate && rm -rf ./scripts",
+    "generate": "ts-node ./scripts/generate",
     "build": "rm -rf ./build && NODE_ENV=production webpack",
     "server": "webpack-dev-server"
   },
