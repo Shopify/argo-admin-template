@@ -2,6 +2,7 @@ import yargs from 'yargs';
 import {generateSrc, Framework} from './generate-src';
 import {generateConfig} from './generate-config';
 import {extensionTypeToPoint} from './constants';
+import {cleanUp} from './clean-up';
 
 const inquirer = require('inquirer');
 
@@ -19,7 +20,7 @@ See README.md for instructions.
     );
     return;
   }
-
+  
   const response = await inquirer.prompt([
     {
       type: 'list',
@@ -41,4 +42,7 @@ See README.md for instructions.
 
   generateSrc(extensionPoint, framework as Framework);
   generateConfig(extensionPoint);
+
+  cleanUp();
 })();
+
