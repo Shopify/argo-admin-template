@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ExtensionPoint} from '@shopify/argo';
-import {Button, Navigation, Frame} from '@shopify/polaris';
+import {Button, Navigation, Frame, TopBar} from '@shopify/polaris';
 import {
   ProductsMajorTwotone,
   SettingsMajorMonotone,
@@ -37,8 +37,9 @@ export function SubscriptionHost(props: HostProps) {
       />
     </Navigation>
   );
+
   return (
-    <Frame navigation={navigationMarkup}>
+    <Frame navigation={navigationMarkup} topBar={<TopBar />}>
       <SubscriptionExtension>
         <Button onClick={() => setOpen(true)}>Create subscription plan</Button>
         <ModalContainer
