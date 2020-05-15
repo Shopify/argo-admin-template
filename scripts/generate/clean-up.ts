@@ -1,9 +1,9 @@
 import fs from 'fs';
-import path from  'path';
+import path from 'path';
 import {exec} from 'child_process';
 
 export function cleanUp() {
-  const packagePath = path.resolve(__dirname, '../../package.json')
+  const packagePath = path.resolve(__dirname, '../../package.json');
   const file = fs.readFileSync(packagePath);
   const json = JSON.parse(file.toString());
 
@@ -14,10 +14,10 @@ export function cleanUp() {
   delete json.devDependencies['ts-node'];
   delete json.devDependencies['yargs'];
 
-
   const newPackage = JSON.stringify(json, null, 2);
 
-  exec(`rm -rf ${path.resolve(__dirname, '../../scripts')}`)
+  exec(`rm -rf ${path.resolve(__dirname, '../../scripts')}`);
+  exec(`rm -rf ${path.resolve(__dirname, '../../.prettierrc')}`);
 
   try {
     fs.writeFileSync(packagePath, newPackage);

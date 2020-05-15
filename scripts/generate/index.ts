@@ -9,7 +9,7 @@ const inquirer = require('inquirer');
 (async () => {
   const {type} = yargs.argv;
   let extensionPoint = extensionTypeToPoint[type as string];
-  console.log('Create ', type, ' extension project')
+  console.log('Create ', type, ' extension project');
   if (!extensionPoint) {
     console.error(
       `
@@ -20,7 +20,7 @@ See README.md for instructions.
     );
     return;
   }
-  
+
   const response = await inquirer.prompt([
     {
       type: 'list',
@@ -29,13 +29,8 @@ See README.md for instructions.
       min: 1,
       max: 1,
       instructions: false,
-      choices: [
-        'vanilla',
-        'react',
-        'vanilla-typescript',
-        'react-typescript',
-      ],
-    }
+      choices: ['vanilla', 'react', 'vanilla-typescript', 'react-typescript'],
+    },
   ]);
 
   const {framework} = response;
@@ -45,4 +40,3 @@ See README.md for instructions.
 
   cleanUp();
 })();
-
