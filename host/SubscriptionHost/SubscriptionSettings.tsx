@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  SkeletonBodyText,
-  Page,
-  Layout,
-  Card,
-} from '@shopify/polaris';
+import {SkeletonBodyText, Page, Layout, Card} from '@shopify/polaris';
 
 export function SubscriptionSettings() {
   return (

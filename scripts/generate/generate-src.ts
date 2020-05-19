@@ -17,7 +17,7 @@ const indexPaths = {
 };
 
 export function generateSrc(extensionPoint: string, framework: Framework) {
-  const indexPath = (indexPaths[framework] || indexPaths[Framework.Vanilla]);
+  const indexPath = indexPaths[framework] || indexPaths[Framework.Vanilla];
   const ext = indexPath.split('.')[1];
 
   const file = fs.readFileSync(__dirname + `/templates/${indexPath}`);
