@@ -10,6 +10,7 @@ import {ModalContainer} from '../containers/ModalContainer';
 import {HostProps} from '../types';
 import {SubscriptionExtension} from './SubscriptionExtension';
 import {SubscriptionSettings} from './SubscriptionSettings';
+import {useSettings} from './useSettings';
 
 const SETTINGS_PATH = '/settings';
 
@@ -17,8 +18,9 @@ export function SubscriptionHost(props: HostProps) {
   const [open, setOpen] = useState(false);
   const {pathname} = window.location;
   const [settingsActive, setSettingsActive] = useState(
-    window.location.pathname === SETTINGS_PATH
+    pathname === SETTINGS_PATH
   );
+  const [settings, setSettings] = useSettings();
 
   const navigationMarkup = (
     <Navigation location={pathname}>
@@ -48,7 +50,9 @@ export function SubscriptionHost(props: HostProps) {
     </Navigation>
   );
 
-  const settingsMarkup = <SubscriptionSettings />;
+  const settingsMarkup = (
+    <SubscriptionSettings settings={settings} updateSettings={setSettings} />
+  );
 
   const extensionMarkup = (
     <SubscriptionExtension>
@@ -59,6 +63,7 @@ export function SubscriptionHost(props: HostProps) {
         defaultTitle="Default title"
         onClose={() => setOpen(false)}
         extensionPoint={ExtensionPoint.SubscriptionManagement}
+        input={settings}
         {...props}
       />
     </SubscriptionExtension>
