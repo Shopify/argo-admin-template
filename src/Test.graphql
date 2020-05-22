@@ -1,0 +1,5 @@
+query Test {
+  countries {
+    name
+  }
+}

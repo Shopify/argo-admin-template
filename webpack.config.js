@@ -6,7 +6,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
-  entry: isDevelopment ? './host/index.tsx' : './src/index.<% FileExtension %>',
+  entry: isDevelopment ? './host/index.tsx' : './src/index.tsx',
   target: isDevelopment ? 'web' : 'webworker',
   output: {
     globalObject: 'self',
@@ -82,6 +82,11 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: ['file-loader'],
+      },
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader',
       },
     ],
   },
