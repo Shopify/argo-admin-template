@@ -1,13 +1,30 @@
 import React from 'react';
-import {SkeletonBodyText, Page, Layout, Card} from '@shopify/polaris';
+import {Select, Page, Layout, Card} from '@shopify/polaris';
+import {Settings} from './types';
+import {LOCALES} from './constants';
 
-export function SubscriptionSettings() {
+interface Props {
+  settings: Settings;
+  updateSettings: (settings: Settings) => void;
+}
+
+export function SubscriptionSettings({settings, updateSettings}: Props) {
   return (
     <Page title="Settings">
       <Layout>
-        <Layout.Section>
+        <Layout.Section oneHalf>
+          <Card sectioned title="Locale">
+            <Select
+              label=""
+              options={LOCALES}
+              value={settings.locale}
+              onChange={(value) => updateSettings({locale: value})}
+            />
+          </Card>
+        </Layout.Section>
+        <Layout.Section oneHalf>
           <Card sectioned>
-            <SkeletonBodyText />
+            <pre>{JSON.stringify(settings, null, '  ')}</pre>
           </Card>
         </Layout.Section>
       </Layout>
