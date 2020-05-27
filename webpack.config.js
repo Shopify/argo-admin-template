@@ -8,6 +8,7 @@ module.exports = {
   mode: isDevelopment ? 'development' : 'production',
   entry: isDevelopment ? './host/index.tsx' : './src/index.<% FileExtension %>',
   target: isDevelopment ? 'web' : 'webworker',
+  stats: 'minimal',
   output: {
     globalObject: 'self',
     filename: '[name].js',
