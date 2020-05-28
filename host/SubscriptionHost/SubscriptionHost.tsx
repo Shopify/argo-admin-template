@@ -1,77 +1,139 @@
 import React, {useState} from 'react';
-import {ExtensionPoint} from '@shopify/argo';
-import {Button, Navigation, Frame, TopBar} from '@shopify/polaris';
 import {
-  ProductsMajorTwotone,
-  SettingsMajorMonotone,
-} from '@shopify/polaris-icons';
+  Frame,
+  Navigation,
+  Page,
+  Layout,
+  TopBar,
+  Card,
+  PageActions,
+  Modal,
+  TextContainer,
+} from '@shopify/polaris';
+import {ProductsMajorTwotone} from '@shopify/polaris-icons';
+import {ExtensionPoint} from '@shopify/argo';
 
-import {ModalContainer} from '../containers/ModalContainer';
 import {HostProps} from '../types';
-import {SubscriptionExtension} from './SubscriptionExtension';
-import {SubscriptionSettings} from './SubscriptionSettings';
-import {useSettings} from './useSettings';
-
-const SETTINGS_PATH = '/settings';
+import {ModalContainer} from '../containers/ModalContainer';
+import {SubscriptionManagementActions} from './types';
+import {actionFields, defaultSettings} from './config';
+import {useStorage, useSettings} from './useStorage';
+import {SettingsForm} from './SettingsForm';
 
 export function SubscriptionHost(props: HostProps) {
-  const [open, setOpen] = useState(false);
-  const {pathname} = window.location;
-  const [settingsActive, setSettingsActive] = useState(
-    pathname === SETTINGS_PATH
+  const [settings, updateSettings] = useSettings();
+  const [{modalOpen}, setPageState] = useStorage(
+    'SubscriptionHost::pageState',
+    {modalOpen: false}
   );
-  const [settings, setSettings] = useSettings();
+  const [confirmResetOpen, setConfirmResetOpen] = useState(false);
 
-  const navigationMarkup = (
-    <Navigation location={pathname}>
+  const selectedAction =
+    settings.data?.action || SubscriptionManagementActions.Create;
+
+  const outData = actionFields[selectedAction].reduce(
+    (_settings, key) => {
+      _settings[key] = settings.data?.[key];
+      return _settings;
+    },
+    {action: settings.data?.action} as any
+  );
+  const outSettings = {...settings, data: outData};
+
+  const extension = (
+    <ModalContainer
+      app={{name: 'App name', appId: 'app-id'}}
+      open={modalOpen}
+      defaultTitle="Default title"
+      onClose={() => setPageState({modalOpen: false})}
+      extensionPoint={ExtensionPoint.SubscriptionManagement}
+      input={outSettings}
+      {...props}
+    />
+  );
+
+  const closeConfirmReset = () => setConfirmResetOpen(false);
+  const confirmResetModal = (
+    <Modal
+      open={confirmResetOpen}
+      onClose={closeConfirmReset}
+      title="Are you sure you want to reset?"
+      primaryAction={{
+        content: 'Reset',
+        destructive: true,
+        onAction: () => {
+          updateSettings(defaultSettings);
+          closeConfirmReset();
+        },
+      }}
+      secondaryActions={[
+        {
+          content: 'Cancel',
+          onAction: closeConfirmReset,
+        },
+      ]}
+    >
+      <Modal.Section>
+        <TextContainer>
+          <p>
+            Resetting your settings will permanently erase your changes
+          </p>
+        </TextContainer>
+      </Modal.Section>
+    </Modal>
+  );
+
+  const navigation = (
+    <Navigation location="">
       <Navigation.Section
         fill
         items={[
           {
             url: '/',
-            onClick: () => setSettingsActive(false),
-            label: 'Subscription extension',
+            label: 'Subscription Management',
             icon: ProductsMajorTwotone,
-            selected: !settingsActive,
-          },
-        ]}
-      />
-      <Navigation.Section
-        items={[
-          {
-            url: SETTINGS_PATH,
-            onClick: () => setSettingsActive(true),
-            label: 'Settings',
-            icon: SettingsMajorMonotone,
-            selected: settingsActive,
+            selected: true,
           },
         ]}
       />
     </Navigation>
   );
 
-  const settingsMarkup = (
-    <SubscriptionSettings settings={settings} updateSettings={setSettings} />
-  );
-
-  const extensionMarkup = (
-    <SubscriptionExtension>
-      <Button onClick={() => setOpen(true)}>Create subscription plan</Button>
-      <ModalContainer
-        app={{name: 'App name', appId: 'app-id'}}
-        open={open}
-        defaultTitle="Default title"
-        onClose={() => setOpen(false)}
-        extensionPoint={ExtensionPoint.SubscriptionManagement}
-        input={settings}
-        {...props}
-      />
-    </SubscriptionExtension>
-  );
-
   return (
-    <Frame navigation={navigationMarkup} topBar={<TopBar />}>
-      {settingsActive ? settingsMarkup : extensionMarkup}
+    <Frame navigation={navigation} topBar={<TopBar />}>
+      <Page
+        title="Subscription Management"
+        primaryAction={{
+          content: 'Show extension',
+          onAction: () => setPageState({modalOpen: true}),
+        }}
+      >
+        {extension}
+        {confirmResetModal}
+        <Layout>
+          <SettingsForm settings={settings} updateSettings={updateSettings} />
+          <Layout.Section oneHalf>
+            <Card sectioned>
+              <pre>{JSON.stringify(outSettings, null, '  ')}</pre>
+            </Card>
+          </Layout.Section>
+          <Layout.Section>
+            <PageActions
+              primaryAction={{
+                content: 'Show extension',
+                onAction: () => setPageState({modalOpen: true}),
+              }}
+              secondaryActions={[
+                {
+                  content: 'Reset',
+                  destructive: true,
+                  onAction: () => setConfirmResetOpen(true),
+                },
+              ]}
+            />
+          </Layout.Section>
+        </Layout>
+      </Page>
     </Frame>
   );
 }
