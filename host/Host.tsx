@@ -3,7 +3,6 @@ import {components} from '@shopify/argo-host';
 import {AppProvider} from '@shopify/polaris';
 import {createPlainWorkerFactory} from '@shopify/web-worker';
 
-import config from '../config';
 import {SubscriptionHost} from './SubscriptionHost';
 import {HostProps} from './types';
 import {ThemeConfig} from '@shopify/polaris/types/latest/src/utilities/theme';
@@ -38,8 +37,5 @@ function HostWrapper() {
 }
 
 function Host(props: HostProps) {
-  switch (config.EXTENSION_POINT) {
-    default:
-      return <SubscriptionHost {...props} />;
-  }
+  return <SubscriptionHost {...props} />
 }

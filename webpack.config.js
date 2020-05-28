@@ -4,22 +4,25 @@ const {WebWorkerPlugin} = require('@shopify/web-worker/webpack');
 const Dotenv = require('dotenv-webpack');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
+const ignore = [
+  /[\/\\]core-js/,
+  /@babel[\/\\]runtime/,
+];
+
 module.exports = {
   mode: 'production',
-  entry: isDevelopment ? './host/index.tsx' : './src/index.tsx',
-  target: isDevelopment ? 'web' : 'webworker',
+  entry: './src/index.tsx',
+  target: 'webworker',
   output: {
     globalObject: 'self',
     filename: '[name].js',
     path: __dirname + '/build',
   },
-  plugins: isDevelopment
-    ? [new WebWorkerPlugin(), new HtmlWebpackPlugin(), new Dotenv()]
-    : [
-        new webpack.ProvidePlugin({
-          React: 'react',
-        }),
-      ],
+  plugins: [
+    new webpack.ProvidePlugin({
+      React: 'react',
+    }),
+  ],
   devServer: {
     disableHostCheck: true,
     host: '0.0.0.0',
@@ -35,7 +38,7 @@ module.exports = {
       ],
     },
   },
-  devtool: isDevelopment ? 'source-map' : false,
+  devtool: false,
   resolve: {
     extensions: ['.tsx', '.ts', 'jsx', '.js', '.json'],
   },
@@ -48,6 +51,8 @@ module.exports = {
           options: {
             babelrc: false,
             presets: [
+              '@babel/preset-react',
+              "@babel/preset-typescript",
               [
                 "@babel/preset-env",
                 {
@@ -58,18 +63,20 @@ module.exports = {
                     ],
                   },
                   useBuiltIns: "usage",
-                  corejs: '3',
+                  corejs: 3,
+                  debug: true,
                   forceAllTransforms: true,
                 },
               ],
-              '@babel/preset-react',
-              "@babel/preset-typescript",
             ],
             plugins: [
-              '@babel/transform-runtime',
+              "@babel/plugin-transform-runtime",
               "@babel/plugin-proposal-class-properties",
-              require.resolve('@shopify/web-worker/babel'),
+              // require.resolve('@shopify/web-worker/babel'),
             ],
+            //https://github.com/babel/babel/issues/9175
+            ignore,
+            sourceType: 'unambiguous',
           },
         },
       },
@@ -83,7 +90,7 @@ module.exports = {
       },
       {
         test: /\.(graphql|gql)$/,
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
         loader: 'graphql-tag/loader',
       },
     ],
