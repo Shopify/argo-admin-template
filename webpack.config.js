@@ -5,8 +5,8 @@ const Dotenv = require('dotenv-webpack');
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
-  mode: isDevelopment ? 'development' : 'production',
-  entry: isDevelopment ? './host/index.tsx' : './src/index.<% FileExtension %>',
+  mode: 'production',
+  entry: isDevelopment ? './host/index.tsx' : './src/index.tsx',
   target: isDevelopment ? 'web' : 'webworker',
   output: {
     globalObject: 'self',
@@ -49,27 +49,25 @@ module.exports = {
             babelrc: false,
             presets: [
               [
-                'babel-preset-shopify/web',
+                "@babel/preset-env",
                 {
                   modules: 'commonjs',
-                  typescript: true,
-                  browsers: [
-                    'last 1 chrome version',
-                    'last 1 firefox version',
-                    'last 1 safari version',
-                  ],
-                },
-              ],
-              'babel-preset-shopify/react',
-              [
-                '@babel/preset-env',
-                {
+                  targets: {
+                    browsers: [
+                      "iOS >= 7"
+                    ],
+                  },
+                  useBuiltIns: "usage",
+                  corejs: '3',
                   forceAllTransforms: true,
                 },
               ],
+              '@babel/preset-react',
+              "@babel/preset-typescript",
             ],
             plugins: [
               '@babel/transform-runtime',
+              "@babel/plugin-proposal-class-properties",
               require.resolve('@shopify/web-worker/babel'),
             ],
           },
@@ -82,6 +80,11 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: ['file-loader'],
+      },
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader',
       },
     ],
   },
