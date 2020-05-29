@@ -59,23 +59,18 @@ module.exports = {
                   modules: 'commonjs',
                   targets: {
                     browsers: [
-                      "iOS >= 7"
+                      'last 1 chrome version',
+                      'last 1 firefox version',
+                      'last 1 safari version',
                     ],
                   },
-                  useBuiltIns: "usage",
-                  corejs: 3,
-                  debug: true,
-                  forceAllTransforms: true,
                 },
               ],
             ],
             plugins: [
               "@babel/plugin-transform-runtime",
               "@babel/plugin-proposal-class-properties",
-              // require.resolve('@shopify/web-worker/babel'),
             ],
-            //https://github.com/babel/babel/issues/9175
-            ignore,
             sourceType: 'unambiguous',
           },
         },
