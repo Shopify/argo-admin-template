@@ -1,0 +1,20 @@
+{
+  "name": "<%= name %>",
+  "version": "1.0.0",
+  "main": "index.<%= language === 'typescript' ? 'ts' : 'js' %>",
+  "scripts": {
+    "build": "@shopify/argo-admin-cli build",
+    "server": "@shopify/argo-admin-cli run"
+  },
+  "devDependencies": {
+    "@shopify/argo-admin-cli": "latest"
+  },
+  "dependencies": {
+    <% if (code === 'react') { %>
+    "@shopify/argo": "latest"
+    <% } else { %>
+    "@shopify/argo-react": "latest",
+    "react": "^16.13.0"
+    <% }  %>
+  }
+}
