@@ -2,6 +2,7 @@ import yargs from 'yargs';
 
 import {generateSrc, Template} from './generate-src';
 import {generateConfig} from './generate-config';
+<<<<<<< HEAD:scripts/generate/index.ts
 import {extensionTypes} from './constants';
 import {cleanUp} from './clean-up';
 
@@ -15,6 +16,13 @@ const choiceMap: {[key: string]: string} = {
 };
 
 (async () => {
+=======
+import {extensionTypeToPoint} from './constants';
+
+const inquirer = require('inquirer');
+
+export async function init() {
+>>>>>>> 010afc0... single cli command:src/init/index.ts
   const {type} = yargs.argv;
   const extensionType = String(type);
 
@@ -45,6 +53,7 @@ See README.md for instructions.
 
   const {template} = response;
 
+<<<<<<< HEAD:scripts/generate/index.ts
   console.log('✅ You selected:', choiceMap[template]);
 
   try {
@@ -56,3 +65,8 @@ See README.md for instructions.
     process.exit(1);
   }
 })();
+=======
+  generateSrc(extensionPoint, framework as Framework);
+  generateConfig(extensionPoint);
+};
+>>>>>>> 010afc0... single cli command:src/init/index.ts

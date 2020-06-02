@@ -6,7 +6,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
-  entry: isDevelopment ? './host/index.tsx' : './src/index.<% FileExtension %>',
+  entry: isDevelopment ? './host/index.tsx' : './src/index<% FileExtension %>',
   target: isDevelopment ? 'web' : 'webworker',
   stats: 'minimal',
   output: {

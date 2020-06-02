@@ -6,17 +6,17 @@
   "author": "Shopify <app-extensions@shopify.com>",
   "license": "MIT",
   "scripts": {
-    "init": "ts-node ./scripts/generate",
-    "build": "rm -rf ./build && NODE_ENV=production webpack",
-    "server": "webpack-dev-server"
+    "build": "rm -rf ./build && tsc --project tsconfig.json",
+    "build-client": "rm -rf ./build && NODE_ENV=production webpack",
+    "server-client": "webpack-dev-server"
   },
   "bin": {
-    "init": "",
-    "build": "",
-    "server": ""
+    "argo-admin-cli": "./build/cli.js"
   },
   "dependencies": {
     "@shopify/argo-admin": "latest",
+    "@types/ejs": "^3.0.4",
+    "ejs": "^3.1.3",
     "react": "^16.13.0"
   },
   "devDependencies": {
@@ -45,7 +45,7 @@
     "typescript": "^3.0.0",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3",
+    "webpack-dev-server": "^3.11.0",
     "yargs": "^15.3.1"
   }
 }
