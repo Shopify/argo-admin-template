@@ -6,9 +6,14 @@
   "author": "Shopify <app-extensions@shopify.com>",
   "license": "MIT",
   "scripts": {
-    "generate": "ts-node ./scripts/generate",
+    "init": "ts-node ./scripts/generate",
     "build": "rm -rf ./build && NODE_ENV=production webpack",
     "server": "webpack-dev-server"
+  },
+  "bin": {
+    "init": "",
+    "build": "",
+    "server": ""
   },
   "dependencies": {
     "@shopify/argo-admin": "latest",

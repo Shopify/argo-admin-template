@@ -11,10 +11,10 @@
   },
   "dependencies": {
     <% if (code === 'react') { %>
-    "@shopify/argo": "latest"
-    <% } else { %>
     "@shopify/argo-react": "latest",
     "react": "^16.13.0"
+    <% } else { %>
+    "@shopify/argo": "latest"
     <% }  %>
   }
 }
