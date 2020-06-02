@@ -35,6 +35,8 @@ See README.md for instructions.
 
   const {framework} = response;
 
+  console.log('✅ You selected:', framework)
+
   generateSrc(extensionPoint, framework as Framework);
   generateConfig(extensionPoint);
 
