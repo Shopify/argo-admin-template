@@ -2,10 +2,8 @@ import fs from 'fs';
 import path from 'path';
 
 const template = ({extensionPoint}: {extensionPoint: string}) => `
-import {ExtensionPoint} from '@shopify/argo';
-
 const config = {
-  EXTENSION_POINT: ExtensionPoint.${extensionPoint},
+  EXTENSION_POINT: '${extensionPoint}',
 };
 
 export default config;
