@@ -46,8 +46,8 @@ export function SubscriptionHost(props: HostProps) {
       open={modalOpen}
       defaultTitle="Default title"
       onClose={() => setPageState({modalOpen: false})}
-      extensionPoint={ExtensionPoint.SubscriptionManagement}
-      input={outSettings}
+      extensionPoint={ExtensionPoint.SubscriptionManagementCreate}
+      api={outSettings}
       {...props}
     />
   );

@@ -3,9 +3,9 @@ import {ExtensionPoint} from '@shopify/argo';
 import {
   ArgoExtension,
   ArgoExtensionsProps,
-  useLayoutInput,
-  useLocaleInput,
-  useSessionTokenInput,
+  useLayoutApi,
+  useLocaleApi,
+  useSessionTokenApi,
 } from '@shopify/argo-host';
 import {
   createWorkerFactory,
@@ -19,11 +19,11 @@ const createWorker = createWorkerFactory(() =>
 
 type BaseProps<T extends ExtensionPoint> = Omit<
   ArgoExtensionsProps<T>,
-  'input' | 'worker' | 'receiver'
+  'api' | 'worker' | 'receiver'
 >;
 
-type Input<T extends ExtensionPoint> = Omit<
-  ArgoExtensionsProps<T>['input'],
+type Api<T extends ExtensionPoint> = Omit<
+  ArgoExtensionsProps<T>['api'],
   'layout' | 'locale' | 'sessionToken'
 >;
 
@@ -34,7 +34,7 @@ export interface StandardContainerProps<T extends ExtensionPoint>
     icon?: string;
     appId: string;
   };
-  input?: Input<T>;
+  api?: Api<T>;
 }
 
 export function StandardContainer<T extends ExtensionPoint>(
@@ -43,29 +43,29 @@ export function StandardContainer<T extends ExtensionPoint>(
   const worker = useWorker(createWorker, {
     createMessenger: createIframeWorkerMessenger,
   });
-  const [ref, layoutInput] = useLayoutInput();
-  const sessionTokenInput = useSessionTokenInput(() => {
+  const [ref, layoutApi] = useLayoutApi();
+  const sessionTokenApi = useSessionTokenApi(() => {
     return Promise.resolve(
       'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaG9wIjoic2hvcDEubXlzaG9waWZ5LmlvIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.DPRpE9-UGNOFtgJV72KfqCfSIde0WW-0snwErCK3mHg',
     );
   }, []);
-  const localeInput = useLocaleInput('en');
-  const input = useMemo(() => {
-    if (!layoutInput) {
+  const localeApi = useLocaleApi('en');
+  const api = useMemo(() => {
+    if (!layoutApi) {
       return undefined;
     }
     return {
-      ...layoutInput,
-      ...sessionTokenInput,
-      ...localeInput,
-      ...props.input,
+      ...layoutApi,
+      ...sessionTokenApi,
+      ...localeApi,
+      ...props.api,
     };
-  }, [layoutInput, sessionTokenInput, localeInput, props.input]);
+  }, [layoutApi, sessionTokenApi, localeApi, props.api]);
 
   return (
     <div ref={ref}>
-      {input && (
-        <ArgoExtension {...props} input={input as any} worker={worker} />
+      {api && (
+        <ArgoExtension {...props} api={api as any} worker={worker} />
       )}
     </div>
   );

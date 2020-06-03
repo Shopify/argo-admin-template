@@ -1,4 +1,4 @@
-import {LocaleInput} from '@shopify/argo';
+import {LocaleApi} from '@shopify/argo';
 
 export enum SubscriptionManagementActions {
   Create = 'CREATE',
@@ -17,7 +17,7 @@ export interface ProductData {
 }
 
 export interface Settings {
-  locale?: LocaleInput['locale'];
+  locale?: LocaleApi['locale'];
   data?: ProductData;
 }
 
