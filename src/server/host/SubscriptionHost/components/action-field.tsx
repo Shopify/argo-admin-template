@@ -14,13 +14,16 @@ import {
   Settings,
   SubscriptionData,
   SubscriptionManagementActions,
-  PathFn,
 } from '../types';
 import {proxyGetPath, getter} from '../utils';
 
 // Assumes key and value of enum are the same
 function enumToArray<T>(enumMap: T): (keyof T)[] {
   return Object.keys(enumMap).map((key) => (enumMap as any)[key]);
+}
+
+interface PathFn<T, V> {
+  (state: T): V;
 }
 
 export interface BasicFieldProps<T> {

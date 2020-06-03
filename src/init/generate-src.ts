@@ -1,9 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import ejs from 'ejs';
-import {updateWebpack} from './update-webpack';
+import inquirer from 'inquirer';
 
-export enum Framework {
+export enum Template {
   Vanilla = 'vanilla',
   React = 'react',
   VanillaTypescript = 'vanilla-typescript',
@@ -11,32 +10,66 @@ export enum Framework {
 }
 
 const indexPaths = {
-  [Framework.Vanilla]: 'vanilla.template.js',
-  [Framework.React]: 'react.template.js',
-  [Framework.VanillaTypescript]: 'vanilla.template.ts',
-  [Framework.ReactTypescript]: 'react.template.tsx',
+  [Template.Vanilla]: 'vanilla.js.template',
+  [Template.React]: 'react.js.template',
+  [Template.VanillaTypescript]: 'vanilla.ts.template',
+  [Template.ReactTypescript]: 'react.tsx.template',
 };
 
-export async function generateSrc(extensionPoint: string, framework: Framework) {
-  const indexPath = indexPaths[framework] || indexPaths[Framework.Vanilla];
-  
-  const templateFilename = path.resolve(__dirname, 'templates', indexPath);
-  const renderedTemplate = await ejs.renderFile(templateFilename, {extensionPoint});
-  const ext = path.extname(templateFilename);
+const choiceMap: {[key: string]: Template} = {
+  'Vanilla JS': Template.Vanilla,
+  React: Template.React,
+  'Vanilla JS with Typescript': Template.VanillaTypescript,
+  'React with Typescript': Template.ReactTypescript,
+};
+
+export async function generateSrc({
+  extensionType,
+  srcDir,
+  rootDir,
+}: {
+  extensionType: string;
+  srcDir: string;
+  rootDir: string;
+}) {
+  const response = await inquirer.prompt<{template: string}>([
+    {
+      type: 'list',
+      name: 'template',
+      message: 'Select template:',
+      min: 1,
+      max: 1,
+      instructions: false,
+      choices: Object.keys(choiceMap),
+    },
+  ]);
+
+  const {template} = response;
+
+  const indexPath =
+    indexPaths[choiceMap[template]] || indexPaths[Template.Vanilla];
+  const ext = indexPath.split('.')[1];
+
+  const file = fs.readFileSync(
+    __dirname + `/templates/${extensionType}/${indexPath}`
+  );
+  const text = file.toString();
 
   try {
-    const outDir = path.resolve(__dirname, '../../src');
-    if (!fs.existsSync(outDir)) {
-      fs.mkdirSync(outDir);
+    if (!fs.existsSync(srcDir)) {
+      fs.mkdirSync(srcDir);
     }
 
-    const outPath = path.resolve(__dirname, `../../src/index${ext}`);
-    fs.writeFileSync(outPath, renderedTemplate);
+    const outFile = path.resolve(srcDir, `index.${ext}`);
+    fs.writeFileSync(outFile, text);
 
-    console.log(`src/index${ext} file was created.`);
+    const entry = path.relative(rootDir, outFile);
+    console.log(`${entry} file was created.`);
+
+    return {entry};
   } catch (error) {
-    console.error(`src/index${ext} file could not be created: `, error);
+    const errorMessage = `index.${ext} file could not be created`;
+    console.error(`${errorMessage}: `, error);
+    throw new Error(errorMessage);
   }
-
-  updateWebpack(ext);
 }

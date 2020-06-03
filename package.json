@@ -1,27 +1,17 @@
 {
   "name": "@shopify/argo-admin-cli",
   "version": "0.1.0",
-  "main": "extension.ts",
+  "main": "build/cli.js",
   "repository": "https://github.com/Shopify/shopify-app-extension-template.git",
   "author": "Shopify <app-extensions@shopify.com>",
   "license": "MIT",
   "scripts": {
-    "build": "rm -rf ./build && tsc --project tsconfig.json",
-    "build-client": "rm -rf ./build && NODE_ENV=production webpack",
-    "server-client": "webpack-dev-server"
+    "build": "rm -rf ./build && tsc && cp -r ./src/init/templates ./build/init/templates && cp -r ./src/server/host ./build/server/host"
   },
   "bin": {
     "argo-admin-cli": "./build/cli.js"
   },
   "dependencies": {
-    "@shopify/argo-admin": "latest",
-    "@types/ejs": "^3.0.4",
-    "ejs": "^3.1.3",
-    "react": "^16.13.0"
-  },
-  "devDependencies": {
-    "@shopify/argo-admin-host": "latest",
-    "@shopify/polaris": "^4.3.0",
     "@babel/core": "^7.10.1",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.1",
     "@babel/plugin-proposal-numeric-separator": "^7.10.1",
@@ -31,6 +21,13 @@
     "@babel/preset-react": "^7.10.0",
     "@babel/preset-typescript": "^7.10.1",
     "@babel/runtime": "^7.10.1",
+    "@shopify/argo-admin": "latest",
+    "@shopify/argo-admin-host": "latest",
+    "@shopify/polaris": "^4.3.0",
+    "@shopify/web-worker": "latest",
+    "@types/inquirer": "^6.5.0",
+    "@types/webpack": "^4.41.17",
+    "@types/webpack-dev-server": "^3.11.0",
     "@types/yargs": "^15.0.4",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.2",
@@ -39,6 +36,7 @@
     "html-webpack-plugin": "^3.2.0",
     "inquirer": "^7.1.0",
     "lodash": "^4.17.15",
+    "react": "^16.13.0",
     "react-dom": "^16.12.0",
     "style-loader": "^1.1.3",
     "ts-node": "^8.9.1",
@@ -47,5 +45,8 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0",
     "yargs": "^15.3.1"
-  }
+  },
+  "files": [
+    "/build/"
+  ]
 }

@@ -1,72 +1,48 @@
-import yargs from 'yargs';
-
-import {generateSrc, Template} from './generate-src';
-import {generateConfig} from './generate-config';
-<<<<<<< HEAD:scripts/generate/index.ts
+import path from 'path';
+import {generateSrc} from './generate-src';
 import {extensionTypes} from './constants';
-import {cleanUp} from './clean-up';
+import {addArgoAdminCli, addScripts} from './update-package-json';
 
-const inquirer = require('inquirer');
-
-const choiceMap: {[key: string]: string} = {
-  'Vanilla JS': 'vanilla',
-  'React': 'react',
-  'Vanilla JS with Typescript': 'vanilla-typescript',
-  'React with Typescript': 'react-typescript',
-};
-
-(async () => {
-=======
-import {extensionTypeToPoint} from './constants';
-
-const inquirer = require('inquirer');
-
-export async function init() {
->>>>>>> 010afc0... single cli command:src/init/index.ts
-  const {type} = yargs.argv;
-  const extensionType = String(type);
-
-  if (extensionTypes.indexOf(extensionType) === -1) {
-    console.error(
-      `
+const UNKNOWN_TYPE_ERROR = (type: string) => `
 Warning: Unknown extension point ${type}.
 Please use a supported extension type and generate your project manually.
 See README.md for instructions.
-      `
-    );
-    return;
+`;
+
+interface InitConfig {
+  type: string;
+}
+
+export async function init({type}: InitConfig) {
+  const extensionType = String(type);
+
+  if (extensionTypes.indexOf(extensionType) === -1) {
+    console.error(UNKNOWN_TYPE_ERROR(type));
+    process.exit(1);
   }
 
   console.log('Create ', type, ' extension project');
 
-  const response = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'template',
-      message: 'Select template:',
-      min: 1,
-      max: 1,
-      instructions: false,
-      choices: Object.keys(choiceMap),
-    },
-  ]);
+  const rootDir = path.resolve('.');
 
-  const {template} = response;
+  await tryCatch(addArgoAdminCli);
 
-<<<<<<< HEAD:scripts/generate/index.ts
-  console.log('✅ You selected:', choiceMap[template]);
+  const {entry} = await tryCatch(() =>
+    generateSrc({
+      extensionType,
+      rootDir,
+      srcDir: rootDir,
+    })
+  );
 
+  await tryCatch(() => addScripts({entry, type}));
+}
+
+async function tryCatch<T = void>(fn: () => T): Promise<T> {
   try {
-    generateSrc(extensionType, choiceMap[template] as Template);
-    generateConfig(extensionType);
-    cleanUp();
+    return await fn();
   } catch (error) {
     console.error(error.message);
     process.exit(1);
   }
-})();
-=======
-  generateSrc(extensionPoint, framework as Framework);
-  generateConfig(extensionPoint);
-};
->>>>>>> 010afc0... single cli command:src/init/index.ts
+}

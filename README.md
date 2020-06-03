@@ -1,31 +1,84 @@
-# Setup
+# Argo Admin CLI
 
-## CLI
-If you have grabbed this template from the Shopify CLI you should be good to go!
+The Argo Admin CLI allows you to build
 
-Start developing your awesome extension in the `./src` folder.
+**Note:** If you're using the Shopify CLI, the set up, local server, and build will be integrated. You can skip the steps below.
 
+## Setup
 
-## From github
-If you grabbed this template directly from github:
+### Install the CLI
+
+Download and install the `argo-admin-cli`
 
 #### npm
 ```bash
-## With npm
-npm install
-
-npm run generate -- --type=SUBSCRIPTION_MANAGEMENT
-
-## With yarn
-yarn
-
-yarn generate --type=SUBSCRIPTION_MANAGEMENT
+npm install -g @shopify/argo-admin-cli
 ```
 
-### Available extensions:
- - SUBSCRIPTION_MANAGEMENT
+#### yarn
+```bash
+yarn global add @shopify/argo-admin-cli
+```
 
-**Note:**
-Once you're setup, you may delete the `scripts` folder as you will no longer need it.
+### Initialize the project
+```bash
+argo-admin-cli init --type=EXTENSION
+```
 
-Documentation on all of the components and utilities in the `argo-admin` library can be found in the [docs folder](./docs).
+See below for a list of [available extensions](#available-extensions)
+
+Run through the prompt, then go into your project directory.
+
+```bash
+cd path/to/project
+```
+
+## Local development
+
+Run a local server.
+
+#### CLI
+Run this if you haven't run `argo-admin-cli init`
+
+```bash
+argo-admin-cli server --entry=\"ENTRY_FILE\" --port=PORT --type=EXTENSION_POINT
+# eg, argo-admin-cli server --entry=\"index.tsx\" --port=39351 --type=SUBSCRIPTION_MANAGEMENT"
+```
+
+#### npm
+```bash
+npm run server
+```
+
+#### yarn
+```bash
+yarn server
+```
+
+The server is on `localhost:PORT` where the default port is 39351.
+
+## Build
+
+#### CLI
+Run this if you haven't run `argo-admin-cli init`
+
+```bash
+argo-admin-cli build --entry=\"ENTRY_FILE\"
+# eg, argo-admin-cli build --entry=\"index.tsx\"
+```
+
+#### npm
+```bash
+npm run build
+```
+
+#### yarn
+```bash
+yarn build
+```
+
+Built files are found in the `build/` folder.
+
+## Available extensions
+
+  - SUBSCRIPTION_MANAGEMENT
