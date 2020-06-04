@@ -42,7 +42,7 @@ export function SubscriptionHost(props: HostProps) {
       app={{name: 'App name', appId: 'app-id'}}
       open={extensionOpen}
       defaultTitle="Default title"
-      onClose={() => setPageState(['extensionOpen'], false)}
+      onClose={() => setPageState(state => state.extensionOpen, false)}
       extensionPoint={ExtensionPoint.SubscriptionManagementCreate}
       api={outSettings}
       {...props}
@@ -102,7 +102,7 @@ export function SubscriptionHost(props: HostProps) {
         title="Subscription Management"
         primaryAction={{
           content: 'Show extension',
-          onAction: () => setPageState(['extensionOpen'], true),
+          onAction: () => setPageState(state => state.extensionOpen, true),
         }}
       >
         {extension}
@@ -118,7 +118,7 @@ export function SubscriptionHost(props: HostProps) {
             <PageActions
               primaryAction={{
                 content: 'Show extension',
-                onAction: () => setPageState(['extensionOpen'], true),
+                onAction: () => setPageState(state => state.extensionOpen, true),
               }}
               secondaryActions={[
                 {

@@ -1,13 +1,13 @@
 import React from 'react';
 import {Card, Select, Layout, Stack} from '@shopify/polaris';
-import {SubscriptionManagementActions, Settings, Path} from '../types';
+import {SubscriptionManagementActions, Settings} from '../types';
 import {actionFields, LOCALES} from '../config';
 import {ActionField} from './action-field';
 import {SellingPlanGroup} from './SellingPlanGroup';
 
 interface Props {
   settings: Settings;
-  updateSettings: (path: Path, value: any) => void;
+  updateSettings: <V>(pathFn: (state: Settings) => V, value: V) => void;
 }
 
 export function SettingsForm({settings, updateSettings}: Props) {
@@ -20,7 +20,6 @@ export function SettingsForm({settings, updateSettings}: Props) {
     return (
       <Field
         key={key}
-        path={[field]}
         state={settings}
         updateState={updateSettings}
       />
@@ -50,7 +49,7 @@ export function SettingsForm({settings, updateSettings}: Props) {
           label="locale"
           options={LOCALES}
           value={settings.locale}
-          onChange={(value) => updateSettings(['locale'], value)}
+          onChange={(value) => updateSettings(state => state.locale, value)}
         />
       </Card>
     </Layout.Section>

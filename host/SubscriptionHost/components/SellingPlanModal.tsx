@@ -1,23 +1,28 @@
 import React, {useState, useEffect} from 'react';
 import {Card, Modal, Layout, Heading, Button, Stack} from '@shopify/polaris';
 import {AddMajorMonotone} from '@shopify/polaris-icons';
-import set from 'lodash/fp/set';
 import last from 'lodash/fp/last';
 import {
-  Path,
   SellingPlan,
   SellingPlanInterval,
   SellingPlanPricingPolicyAdjustmentType,
   CurrencyCode,
+  Policy as PolicyType,
+  PricingPolicy as PricingPolicyType,
 } from '../types';
 import {BasicField, Select} from './action-field';
 import {mockPricingPolicy} from '../mocks';
+import {setter, proxyGetPath, pipe} from '../utils';
 
 interface ModalProps {
   edit?: boolean;
-  sellingPlan?: SellingPlan;
+  sellingPlan?: SellingPlan | null;
   onClose: () => void;
   onSave: (newPlan: SellingPlan) => void;
+}
+
+interface PathFn {
+  (state: SellingPlan): string | number;
 }
 
 export function SellingPlanModal({
@@ -27,24 +32,26 @@ export function SellingPlanModal({
   onSave,
 }: ModalProps) {
   const [state, setState] = useState(sellingPlan!);
-  function setPathState<T>(path: Path, value: T): void {
-    setState(set(path, value)(state));
+  function updatePathState<V>(pathFn: (state: SellingPlan) => V, value: V) {
+    setState(setter(pathFn, value)(state));
   }
 
   useEffect(() => {
     setState(sellingPlan!);
   }, [sellingPlan]);
 
-  function field(path: Path) {
-    return <BasicField state={state} updateState={setPathState} path={path} />;
+  function field(pathFn: PathFn) {
+    return (
+      <BasicField state={state} updateState={updatePathState} pathFn={pathFn} />
+    );
   }
-  function select<T>(path: Path, options: T) {
+  function select<O>(pathFn: PathFn, options: O) {
     return (
       <Select
         options={options}
         state={state!}
-        updateState={setPathState}
-        path={path}
+        updateState={updatePathState}
+        pathFn={pathFn}
       />
     );
   }
@@ -73,25 +80,33 @@ export function SellingPlanModal({
               <Card>
                 <Card.Section>
                   <Stack vertical>
-                    {field(['id'])}
-                    {field(['name'])}
+                    {field((state) => state.id)}
+                    {field((state) => state.name)}
                   </Stack>
                 </Card.Section>
-                <Policy field={field} select={select} path={['billingPolicy']} />
-                <Policy field={field} select={select} path={['deliveryPolicy']} />
+                <Policy
+                  field={field}
+                  select={select}
+                  pathFn={(state) => state.billingPolicy}
+                />
+                <Policy
+                  field={field}
+                  select={select}
+                  pathFn={(state) => state.deliveryPolicy}
+                />
               </Card>
 
               <Heading>pricingPolicies</Heading>
-              {state?.pricingPolicies.map(({id}, index) => (
+              {state?.pricingPolicies.map((_, index) => (
                 <PricingPolicy
-                  key={`PricingPolicy-${id}`}
+                  key={`PricingPolicy-${index}`}
                   field={field}
                   select={select}
-                  path={['pricingPolicies', index]}
+                  pathFn={(state) => state.pricingPolicies[index]}
                   onRemove={() => {
-                    setPathState(
-                      ['pricingPolicies'],
-                      state.pricingPolicies.filter((policy) => policy.id !== id)
+                    updatePathState(
+                      (state) => state.pricingPolicies,
+                      state.pricingPolicies.filter((_, i) => i !== index)
                     );
                   }}
                 />
@@ -99,8 +114,8 @@ export function SellingPlanModal({
               <Button
                 icon={AddMajorMonotone}
                 onClick={() => {
-                  setPathState(
-                    ['pricingPolicies'],
+                  updatePathState(
+                    (state) => state.pricingPolicies,
                     state.pricingPolicies.concat(mockPricingPolicy())
                   );
                 }}
@@ -120,29 +135,33 @@ export function SellingPlanModal({
   );
 }
 
-interface PolicyProps {
-  field: (path: Path) => JSX.Element;
-  select: <T>(path: Path, options: T) => JSX.Element;
-  path: Path;
+interface PolicyProps<P extends PolicyType | PricingPolicyType = PolicyType> {
+  field: (pathFn: PathFn) => JSX.Element;
+  select: <O>(pathFn: PathFn, options: O) => JSX.Element;
+  pathFn: (state: SellingPlan) => P;
 }
 
-function Policy({field, select, path}: PolicyProps) {
+function Policy({field, select, pathFn}: PolicyProps) {
+  const path = proxyGetPath(pathFn);
   return (
     <Card.Section title={last(path)}>
       <Stack vertical>
-        {field([...path, 'id'])}
-        {select([...path, 'interval'], SellingPlanInterval)}
-        {field([...path, 'intervalCount'])}
+        {field(pipe(pathFn, (state) => state.id))}
+        {select(
+          pipe(pathFn, (state) => state.interval),
+          SellingPlanInterval
+        )}
+        {field(pipe(pathFn, (state) => state.intervalCount))}
       </Stack>
     </Card.Section>
   );
 }
 
-interface PricingPolicyProps extends PolicyProps {
+interface PricingPolicyProps extends PolicyProps<PricingPolicyType> {
   onRemove: () => void;
 }
 
-function PricingPolicy({field, select, path, onRemove}: PricingPolicyProps) {
+function PricingPolicy({field, select, pathFn, onRemove}: PricingPolicyProps) {
   return (
     <Card
       title="pricingPolicy"
@@ -150,18 +169,21 @@ function PricingPolicy({field, select, path, onRemove}: PricingPolicyProps) {
     >
       <Card.Section>
         <Stack vertical>
-          {field([...path, 'id'])}
+          {field(pipe(pathFn, (state) => state.id))}
           {select(
-            [...path, 'adjustmentType'],
+            pipe(pathFn, (state) => state.adjustmentType),
             SellingPlanPricingPolicyAdjustmentType
           )}
         </Stack>
       </Card.Section>
       <Card.Section title="adjustmentValue">
         <Stack vertical>
-          {field([...path, 'adjustmentValue', 'percentage'])}
-          {field([...path, 'adjustmentValue', 'amount'])}
-          {select([...path, 'adjustmentValue', 'currencyCode'], CurrencyCode)}
+          {field(pipe(pathFn, (state) => state.adjustmentValue.percentage))}
+          {field(pipe(pathFn, (state) => state.adjustmentValue.amount))}
+          {select(
+            pipe(pathFn, (state) => state.adjustmentValue.currencyCode),
+            CurrencyCode
+          )}
         </Stack>
       </Card.Section>
     </Card>

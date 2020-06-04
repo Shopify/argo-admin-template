@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import {defaultSettings} from './config';
-import set from 'lodash/fp/set';
-import {Path, SellingPlan} from './types';
+import {SellingPlan} from './types';
+import {setter} from './utils';
 
 const states = new Map<string, object>();
 
@@ -24,9 +24,9 @@ export function useStorage<T extends object>(
   storageKey: string,
   initialState: T
 ) {
-  const [state, setState] = useState(getInitialState(storageKey, initialState));
-  function setPathState<T>(path: Path, value: T): void {
-    setState(set(path, value)(state));
+  const [state, setState] = useState<T>(getInitialState(storageKey, initialState));
+  function setPathState<V>(pathFn: (state: T) => V, value: V): void {
+    setState(setter(pathFn, value)(state));
   }
 
   useEffect(() => {

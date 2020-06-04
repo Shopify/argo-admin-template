@@ -10,22 +10,22 @@ import {
 import {PlusMinor} from '@shopify/polaris-icons';
 import {BasicField} from './action-field';
 import {SellingPlanModal} from './SellingPlanModal';
-import {Settings, Path, SellingPlan} from '../types';
+import {Settings, SellingPlan} from '../types';
 import {mockSellingPlan} from '../mocks';
 import {usePageState} from '../useStorage';
 
 interface SellingPlanGroupProps {
   settings: Settings;
-  updateSettings: (path: Path, value: any) => void;
+  updateSettings: (pathFn: (state: Settings) => any, value: any) => void;
 }
 
 export function SellingPlanGroup(props: SellingPlanGroupProps) {
   const {settings, updateSettings} = props;
   const [{activeSellingPlan, newSellingPlan}, setPageState] = usePageState();
   const setActiveSellingPlan = (plan?: SellingPlan) =>
-    setPageState(['activeSellingPlan'], plan);
+    setPageState((state) => state.activeSellingPlan, plan);
   const setNewSellingPlan = (plan?: SellingPlan) =>
-    setPageState(['newSellingPlan'], plan);
+    setPageState((state) => state.newSellingPlan, plan);
 
   function onSave(newPlan: SellingPlan) {
     const index = settings.data!.sellingPlanGroup.sellingPlans.findIndex(
@@ -33,7 +33,7 @@ export function SellingPlanGroup(props: SellingPlanGroupProps) {
     );
 
     updateSettings(
-      ['data', 'sellingPlanGroup', 'sellingPlans', index],
+      state => state.data!.sellingPlanGroup.sellingPlans[index],
       newPlan
     );
     setActiveSellingPlan(undefined);
@@ -42,11 +42,13 @@ export function SellingPlanGroup(props: SellingPlanGroupProps) {
   function onCreate(newPlan: SellingPlan) {
     const index = settings.data!.sellingPlanGroup.sellingPlans.length;
     updateSettings(
-      ['data', 'sellingPlanGroup', 'sellingPlans', index],
+      state => state.data!.sellingPlanGroup.sellingPlans[index],
       newPlan
     );
     setNewSellingPlan(undefined);
   }
+
+  const sellingPlans = settings.data?.sellingPlanGroup.sellingPlans || [];
 
   return (
     <>
@@ -65,19 +67,19 @@ export function SellingPlanGroup(props: SellingPlanGroupProps) {
         <BasicField
           state={settings}
           updateState={updateSettings}
-          path={['data', 'sellingPlanGroup', 'id']}
+          pathFn={(state) => state.data!.sellingPlanGroup.id}
         />
         <BasicField
           state={settings}
           updateState={updateSettings}
-          path={['data', 'sellingPlanGroup', 'name']}
+          pathFn={(state) => state.data!.sellingPlanGroup.name}
         />
         <Card>
           <ResourceList
-            items={settings.data?.sellingPlanGroup.sellingPlans || []}
+            items={sellingPlans}
             filterControl={
               <Stack alignment="center" distribution="equalSpacing">
-                <div>Showing 3 SellingPlans</div>
+                <div>Showing {sellingPlans.length} SellingPlan{sellingPlans.length === 1 ? '' : 's'}</div>
                 <Button
                   accessibilityLabel="Add selling plan"
                   onClick={() => setNewSellingPlan(mockSellingPlan())}
@@ -85,7 +87,7 @@ export function SellingPlanGroup(props: SellingPlanGroupProps) {
                 ></Button>
               </Stack>
             }
-            renderItem={(item,) => {
+            renderItem={(item) => {
               const {id, name} = item;
               return (
                 <ResourceItem
@@ -101,7 +103,10 @@ export function SellingPlanGroup(props: SellingPlanGroupProps) {
                         const plans = settings.data?.sellingPlanGroup.sellingPlans.filter(
                           (plan) => plan.id !== id
                         );
-                        updateSettings(['data', 'sellingPlanGroup', 'sellingPlans'], plans);
+                        updateSettings(
+                          (state) => state.data!.sellingPlanGroup.sellingPlans,
+                          plans
+                        );
                       },
                     },
                   ]}
