@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import {updateWebpack} from './update-webpack';
+import {ExtensionPoint} from '@shopify/argo';
+import findKey from 'lodash/findKey';
 
 export enum Framework {
   Vanilla = 'vanilla',
@@ -23,7 +25,10 @@ export function generateSrc(extensionPoint: string, framework: Framework) {
   const file = fs.readFileSync(__dirname + `/templates/${indexPath}`);
   const text = file.toString();
 
-  const tsx = text.replace('<% EXTENSION_POINT %>', extensionPoint);
+  const tsx = text.replace(
+    '<% EXTENSION_POINT %>',
+    findKey(ExtensionPoint, value => value === extensionPoint)!
+  );
 
   try {
     const outDir = path.resolve(__dirname, '../../src');
