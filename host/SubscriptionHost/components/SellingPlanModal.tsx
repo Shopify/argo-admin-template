@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Card, Modal, Layout, Heading, Button, Stack} from '@shopify/polaris';
 import {AddMajorMonotone} from '@shopify/polaris-icons';
+import get from 'lodash/fp/get';
 import last from 'lodash/fp/last';
 import {
   SellingPlan,
@@ -40,11 +41,12 @@ export function SellingPlanModal({
     setState(sellingPlan!);
   }, [sellingPlan]);
 
-  function field(pathFn: PathFn) {
+  function field(pathFn: PathFn, error?: string) {
     return (
-      <BasicField state={state} updateState={updatePathState} pathFn={pathFn} />
+      <BasicField state={state} updateState={updatePathState} pathFn={pathFn} error={error} />
     );
   }
+
   function select<O>(pathFn: PathFn, options: O) {
     return (
       <Select
@@ -54,6 +56,21 @@ export function SellingPlanModal({
         pathFn={pathFn}
       />
     );
+  }
+
+  function isUnique(collection: Array<any>) {
+    return (pathFn: PathFn) => {
+      const path = proxyGetPath(pathFn);
+      const thisItem = get(path)(state);
+      const key = String(last(path));
+
+      const matches = collection.filter((item) => item[key] === thisItem);
+      if (matches.length > 1) {
+        return `${key} is not unique.`;
+      }
+
+      return undefined;
+    };
   }
 
   return (
@@ -109,6 +126,7 @@ export function SellingPlanModal({
                       state.pricingPolicies.filter((policy) => policy.id !== id)
                     );
                   }}
+                  isUnique={isUnique(state?.pricingPolicies)}
                 />
               ))}
               <Button
@@ -136,7 +154,7 @@ export function SellingPlanModal({
 }
 
 interface PolicyProps<P extends PolicyType | PricingPolicyType = PolicyType> {
-  field: (pathFn: PathFn) => JSX.Element;
+  field: (pathFn: PathFn, error?: string) => JSX.Element;
   select: <O>(pathFn: PathFn, options: O) => JSX.Element;
   pathFn: (state: SellingPlan) => P;
 }
@@ -159,9 +177,16 @@ function Policy({field, select, pathFn}: PolicyProps) {
 
 interface PricingPolicyProps extends PolicyProps<PricingPolicyType> {
   onRemove: () => void;
+  isUnique: (pathFn: PathFn) => string | undefined;
 }
 
-function PricingPolicy({field, select, pathFn, onRemove}: PricingPolicyProps) {
+function PricingPolicy({
+  field,
+  select,
+  pathFn,
+  onRemove,
+  isUnique,
+}: PricingPolicyProps) {
   return (
     <Card
       title="pricingPolicy"
@@ -169,7 +194,7 @@ function PricingPolicy({field, select, pathFn, onRemove}: PricingPolicyProps) {
     >
       <Card.Section>
         <Stack vertical>
-          {field(pipe(pathFn, (state) => state.id))}
+          {field(pipe(pathFn, (state) => state.id), isUnique(pipe(pathFn, (state) => state.id)))}
           {select(
             pipe(pathFn, (state) => state.adjustmentType),
             SellingPlanPricingPolicyAdjustmentType

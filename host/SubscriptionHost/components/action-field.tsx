@@ -22,6 +22,7 @@ export interface BasicFieldProps<T> {
     pathFn: PathFn<T, string | number>,
     value: string | number
   ) => void;
+  error?: string;
 }
 
 export interface SettingsFieldProps {
@@ -36,6 +37,7 @@ export function BasicField<T extends object>({
   pathFn,
   state,
   updateState,
+  error
 }: BasicFieldProps<T>) {
   const path = proxyGetPath(pathFn);
   return (
@@ -43,6 +45,7 @@ export function BasicField<T extends object>({
       label={last(path) as string}
       value={get(path)(state)}
       onChange={(value) => updateState(pathFn, value as any)}
+      error={error}
     />
   );
 }
