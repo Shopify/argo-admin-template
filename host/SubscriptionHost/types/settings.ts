@@ -9,7 +9,7 @@ export enum SubscriptionManagementActions {
   EditVariants = 'EDIT_VARIANTS',
 }
 
-export interface ProductData {
+export interface SubscriptionData {
   action: SubscriptionManagementActions;
   sellingPlanGroup: SellingPlanGroup;
   productId: string;
@@ -19,5 +19,5 @@ export interface ProductData {
 
 export interface Settings {
   locale?: LocaleApi['locale'];
-  data?: ProductData;
+  data?: SubscriptionData;
 }

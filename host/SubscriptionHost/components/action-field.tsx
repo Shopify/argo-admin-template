@@ -4,7 +4,7 @@ import get from 'lodash/fp/get';
 import last from 'lodash/fp/last';
 import {
   Settings,
-  ProductData,
+  SubscriptionData,
   SubscriptionManagementActions,
   PathFn,
 } from '../types';
@@ -104,7 +104,7 @@ function VariantIds({state, updateState}: SettingsFieldProps) {
 }
 
 export const ActionField: Record<
-  keyof ProductData,
+  keyof SubscriptionData,
   (props: SettingsFieldProps) => React.ReactElement
 > = {
   action: Action,

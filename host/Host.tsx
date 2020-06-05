@@ -38,7 +38,7 @@ function HostWrapper() {
 }
 
 function Host(props: HostProps) {
-  switch (config.EXTENSION_POINT) {
+  switch (config.EXTENSION_TYPE) {
     default:
       return <SubscriptionHost {...props} />;
   }

@@ -1,7 +1,6 @@
-import {ExtensionPoint, render} from '@shopify/argo';
-import {Card, CardSection, TextField} from '@shopify/argo/components';
+import {ExtensionPoint, render, Card, CardSection, TextField} from '@shopify/argo';
 
-render(ExtensionPoint.<% EXTENSION_POINT %>, (root, input) => {
+function App(root, api) {
   const card = root.createComponent(Card, {
     title: 'Hello World!',
   });
@@ -21,4 +20,9 @@ render(ExtensionPoint.<% EXTENSION_POINT %>, (root, input) => {
   root.appendChild(card);
 
   root.mount();
-});
+}
+
+render(ExtensionPoint.SubscriptionManagementAdd, App);
+render(ExtensionPoint.SubscriptionManagementCreate, App);
+render(ExtensionPoint.SubscriptionManagementRemove, App);
+render(ExtensionPoint.SubscriptionManagementEdit, App);
