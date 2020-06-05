@@ -49,30 +49,38 @@ module.exports = {
           options: {
             babelrc: false,
             presets: [
+              '@babel/preset-react',
+              '@babel/preset-typescript',
               [
                 '@babel/preset-env',
                 {
+                  modules: false,
+                  targets: {
+                    browsers: [
+                      'last 2 chrome version',
+                      'last 2 firefox version',
+                      'last 2 safari version',
+                      'last 2 edge version',
+                    ],
+                  },
                   forceAllTransforms: true,
                 },
               ],
-              [
-                'babel-preset-shopify/web',
-                {
-                  modules: 'commonjs',
-                  typescript: true,
-                  browsers: [
-                    'last 1 chrome version',
-                    'last 1 firefox version',
-                    'last 1 safari version',
-                  ],
-                },
-              ],
-              'babel-preset-shopify/react',
             ],
             plugins: [
-              '@babel/transform-runtime',
-              require.resolve('@shopify/web-worker/babel'),
+              [
+                '@babel/plugin-transform-runtime',
+                {
+                  regenerator: true,
+                  useESModules: true,
+                },
+              ],
+              '@babel/plugin-proposal-numeric-separator',
+              '@babel/plugin-proposal-optional-chaining',
+              '@babel/plugin-proposal-nullish-coalescing-operator',
+              ['@babel/plugin-proposal-class-properties', {loose: true}],
             ],
+            sourceType: 'unambiguous',
           },
         },
       },
