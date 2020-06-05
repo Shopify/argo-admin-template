@@ -1,7 +1,7 @@
 import {
   Settings,
   SubscriptionManagementActions,
-  ProductData,
+  SubscriptionData,
 } from './types';
 import {mockSellingPlan} from './mocks';
 
@@ -32,7 +32,7 @@ export const LOCALES = [
 
 export const actionFields: Record<
   SubscriptionManagementActions,
-  (keyof ProductData)[]
+  (keyof SubscriptionData)[]
 > = {
   [SubscriptionManagementActions.Add]: ['action', 'productId'],
   [SubscriptionManagementActions.Create]: ['action', 'productId'],
