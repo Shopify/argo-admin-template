@@ -1,8 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import {updateWebpack} from './update-webpack';
-import {ExtensionPoint} from '@shopify/argo';
-import findKey from 'lodash/findKey';
 
 export enum Framework {
   Vanilla = 'vanilla',
@@ -18,17 +16,14 @@ const indexPaths = {
   [Framework.ReactTypescript]: 'react.tsx.template',
 };
 
-export function generateSrc(extensionPoint: string, framework: Framework) {
+export function generateSrc(extensionType: string, framework: Framework) {
   const indexPath = indexPaths[framework] || indexPaths[Framework.Vanilla];
   const ext = indexPath.split('.')[1];
 
-  const file = fs.readFileSync(__dirname + `/templates/${indexPath}`);
-  const text = file.toString();
-
-  const tsx = text.replace(
-    '<% EXTENSION_POINT %>',
-    findKey(ExtensionPoint, value => value === extensionPoint)!
+  const file = fs.readFileSync(
+    __dirname + `/templates/${extensionType}/${indexPath}`
   );
+  const text = file.toString();
 
   try {
     const outDir = path.resolve(__dirname, '../../src');
@@ -37,7 +32,7 @@ export function generateSrc(extensionPoint: string, framework: Framework) {
     }
 
     const outPath = path.resolve(__dirname, `../../src/index.${ext}`);
-    fs.writeFileSync(outPath, tsx);
+    fs.writeFileSync(outPath, text);
 
     console.log(`src/index.${ext} file was created.`);
   } catch (error) {
