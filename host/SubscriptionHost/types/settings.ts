@@ -1,4 +1,5 @@
-import {LocaleInput} from '@shopify/argo';
+import {LocaleApi} from '@shopify/argo';
+import {SellingPlanGroup} from './selling-plan-group';
 
 export enum SubscriptionManagementActions {
   Create = 'CREATE',
@@ -10,19 +11,13 @@ export enum SubscriptionManagementActions {
 
 export interface ProductData {
   action: SubscriptionManagementActions;
-  sellingPlanGroup: any;
+  sellingPlanGroup: SellingPlanGroup;
   productId: string;
   variantId: string;
   variantIds: string; // string[];
 }
 
 export interface Settings {
-  locale?: LocaleInput['locale'];
+  locale?: LocaleApi['locale'];
   data?: ProductData;
 }
-
-export type DeepPartial<T> = T extends Function
-  ? T
-  : T extends object
-  ? {[P in keyof T]?: DeepPartial<T[P]>}
-  : T;

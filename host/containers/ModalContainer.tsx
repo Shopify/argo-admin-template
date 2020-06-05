@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import {ExtensionPoint} from '@shopify/argo';
-import {useModalActionsInput} from '@shopify/argo-host';
+import {useModalActionsApi} from '@shopify/argo-host';
 import {Modal, ModalProps} from '@shopify/polaris';
 import {retain} from '@shopify/web-worker';
 
@@ -9,11 +9,11 @@ import {StandardContainer, StandardContainerProps} from './StandardContainer';
 
 type BaseProps<T extends ExtensionPoint> = Omit<
   StandardContainerProps<T>,
-  'input'
+  'api'
 >;
 
-type Input<T extends ExtensionPoint> = Omit<
-  StandardContainerProps<T>['input'],
+type Api<T extends ExtensionPoint> = Omit<
+  StandardContainerProps<T>['api'],
   'modalActions'
 >;
 
@@ -24,7 +24,7 @@ export interface ModalContainerProps<T extends ExtensionPoint>
   onClose: () => void;
   onBackClick?: () => void;
   height?: string;
-  input?: Input<T>;
+  api?: Api<T>;
 }
 
 type Action = () => void;
@@ -36,7 +36,7 @@ export function ModalContainer<T extends ExtensionPoint>({
   onClose,
   onBackClick,
   height,
-  input: externalInput,
+  api: externalApi,
   app,
   ...props
 }: ModalContainerProps<T>) {
@@ -69,7 +69,7 @@ export function ModalContainer<T extends ExtensionPoint>({
     onClose();
   }, [onClose]);
 
-  const modalActions = useModalActionsInput({
+  const modalActions = useModalActionsApi({
     setPrimaryContent,
     setPrimaryAction: setPrimaryActionCallback,
     setSecondaryContent,
@@ -103,8 +103,8 @@ export function ModalContainer<T extends ExtensionPoint>({
     ];
   }
 
-  const input = useMemo(() => ({...modalActions, ...externalInput}), [
-    externalInput,
+  const api = useMemo(() => ({...modalActions, ...externalApi}), [
+    externalApi,
     modalActions,
   ]);
 
@@ -117,7 +117,7 @@ export function ModalContainer<T extends ExtensionPoint>({
             height,
           }}
         >
-          <StandardContainer input={input as any} {...props} />
+          <StandardContainer api={api as any} {...props} />
         </div>
       </Modal>
     </>

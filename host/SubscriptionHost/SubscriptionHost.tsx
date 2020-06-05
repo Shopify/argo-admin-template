@@ -17,15 +17,12 @@ import {HostProps} from '../types';
 import {ModalContainer} from '../containers/ModalContainer';
 import {SubscriptionManagementActions} from './types';
 import {actionFields, defaultSettings} from './config';
-import {useStorage, useSettings} from './useStorage';
-import {SettingsForm} from './SettingsForm';
+import {usePageState, useSettings} from './useStorage';
+import {SettingsForm} from './components/SettingsForm';
 
 export function SubscriptionHost(props: HostProps) {
-  const [settings, updateSettings] = useSettings();
-  const [{modalOpen}, setPageState] = useStorage(
-    'SubscriptionHost::pageState',
-    {modalOpen: false}
-  );
+  const [settings, updateSettings, setSettings] = useSettings();
+  const [{extensionOpen}, setPageState] = usePageState();
   const [confirmResetOpen, setConfirmResetOpen] = useState(false);
 
   const selectedAction =
@@ -43,11 +40,11 @@ export function SubscriptionHost(props: HostProps) {
   const extension = (
     <ModalContainer
       app={{name: 'App name', appId: 'app-id'}}
-      open={modalOpen}
+      open={extensionOpen}
       defaultTitle="Default title"
-      onClose={() => setPageState({modalOpen: false})}
-      extensionPoint={ExtensionPoint.SubscriptionManagement}
-      input={outSettings}
+      onClose={() => setPageState(state => state.extensionOpen, false)}
+      extensionPoint={ExtensionPoint.SubscriptionManagementCreate}
+      api={outSettings}
       {...props}
     />
   );
@@ -62,7 +59,7 @@ export function SubscriptionHost(props: HostProps) {
         content: 'Reset',
         destructive: true,
         onAction: () => {
-          updateSettings(defaultSettings);
+          setSettings(defaultSettings);
           closeConfirmReset();
         },
       }}
@@ -105,7 +102,7 @@ export function SubscriptionHost(props: HostProps) {
         title="Subscription Management"
         primaryAction={{
           content: 'Show extension',
-          onAction: () => setPageState({modalOpen: true}),
+          onAction: () => setPageState(state => state.extensionOpen, true),
         }}
       >
         {extension}
@@ -121,7 +118,7 @@ export function SubscriptionHost(props: HostProps) {
             <PageActions
               primaryAction={{
                 content: 'Show extension',
-                onAction: () => setPageState({modalOpen: true}),
+                onAction: () => setPageState(state => state.extensionOpen, true),
               }}
               secondaryActions={[
                 {

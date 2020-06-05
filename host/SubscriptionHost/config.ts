@@ -1,4 +1,9 @@
-import {Settings, SubscriptionManagementActions, ProductData} from './types';
+import {
+  Settings,
+  SubscriptionManagementActions,
+  ProductData,
+} from './types';
+import {mockSellingPlan} from './mocks';
 
 export const LOCALES = [
   'cs',
@@ -25,13 +30,29 @@ export const LOCALES = [
   'ko',
 ];
 
-export const actionFields: Record<SubscriptionManagementActions, (keyof ProductData)[]> = {
+export const actionFields: Record<
+  SubscriptionManagementActions,
+  (keyof ProductData)[]
+> = {
   [SubscriptionManagementActions.Add]: ['action', 'productId'],
   [SubscriptionManagementActions.Create]: ['action', 'productId'],
-  [SubscriptionManagementActions.Edit]: ['action', 'productId', 'sellingPlanGroup'],
-  [SubscriptionManagementActions.EditVariants]: ['action', 'productId', 'sellingPlanGroup', 'variantIds'],
-  [SubscriptionManagementActions.Remove]: ['action', 'productId', 'sellingPlanGroup'],
-}
+  [SubscriptionManagementActions.Edit]: [
+    'action',
+    'productId',
+    'sellingPlanGroup',
+  ],
+  [SubscriptionManagementActions.EditVariants]: [
+    'action',
+    'productId',
+    'sellingPlanGroup',
+    'variantIds',
+  ],
+  [SubscriptionManagementActions.Remove]: [
+    'action',
+    'productId',
+    'sellingPlanGroup',
+  ],
+};
 
 export const defaultSettings: Settings = {
   data: {
@@ -39,7 +60,11 @@ export const defaultSettings: Settings = {
     productId: '1',
     variantId: '2',
     variantIds: '3',
-    sellingPlanGroup: '4',
+    sellingPlanGroup: {
+      id: '4',
+      name: 'Selling Plan Group name',
+      sellingPlans: [mockSellingPlan()],
+    },
   },
   locale: 'en',
 };
