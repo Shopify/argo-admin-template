@@ -42,9 +42,5 @@ export function useSettings() {
 }
 
 export function usePageState() {
-  return useStorage('SubscriptionHost::pageState', {
-    extensionOpen: false,
-    activeSellingPlan: null as SellingPlan | null,
-    newSellingPlan: null as SellingPlan | null,
-  });
+  return useStorage('SubscriptionHost::pageState', {extensionOpen: false});
 }

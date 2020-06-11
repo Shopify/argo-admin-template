@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ResourceList,
   ResourceItem,
@@ -12,7 +12,6 @@ import {BasicField} from './action-field';
 import {SellingPlanModal} from './SellingPlanModal';
 import {Settings, SellingPlan} from '../types';
 import {mockSellingPlan} from '../mocks';
-import {usePageState} from '../useStorage';
 
 interface SellingPlanGroupProps {
   settings: Settings;
@@ -21,11 +20,8 @@ interface SellingPlanGroupProps {
 
 export function SellingPlanGroup(props: SellingPlanGroupProps) {
   const {settings, updateSettings} = props;
-  const [{activeSellingPlan, newSellingPlan}, setPageState] = usePageState();
-  const setActiveSellingPlan = (plan?: SellingPlan) =>
-    setPageState((state) => state.activeSellingPlan, plan);
-  const setNewSellingPlan = (plan?: SellingPlan) =>
-    setPageState((state) => state.newSellingPlan, plan);
+  const [activeSellingPlan, setActiveSellingPlan] = useState<SellingPlan | undefined>();
+  const [newSellingPlan, setNewSellingPlan] = useState<SellingPlan | undefined>();
 
   function onSave(newPlan: SellingPlan) {
     const index = settings.data!.sellingPlanGroup.sellingPlans.findIndex(
