@@ -6,7 +6,6 @@ export enum SubscriptionManagementActions {
   Edit = 'EDIT',
   Remove = 'REMOVE',
   Add = 'ADD',
-  EditVariants = 'EDIT_VARIANTS',
 }
 
 export interface SubscriptionData {
