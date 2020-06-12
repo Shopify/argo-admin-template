@@ -117,7 +117,9 @@ export function ModalContainer<T extends ExtensionPoint>({
             height,
           }}
         >
-          <StandardContainer api={api as any} {...props} />
+          <Modal.Section>
+            <StandardContainer api={api as any} {...props} />
+          </Modal.Section>
         </div>
       </Modal>
     </>
