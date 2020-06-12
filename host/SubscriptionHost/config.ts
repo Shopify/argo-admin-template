@@ -41,12 +41,6 @@ export const actionFields: Record<
     'productId',
     'sellingPlanGroup',
   ],
-  [SubscriptionManagementActions.EditVariants]: [
-    'action',
-    'productId',
-    'sellingPlanGroup',
-    'variantIds',
-  ],
   [SubscriptionManagementActions.Remove]: [
     'action',
     'productId',
