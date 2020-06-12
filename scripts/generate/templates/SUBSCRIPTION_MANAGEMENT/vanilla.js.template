@@ -1,28 +1,62 @@
-import {ExtensionPoint, render, Card, CardSection, TextField} from '@shopify/argo';
+import {ExtensionPoint, render, TextField} from '@shopify/argo';
 
-function App(root, api) {
-  const card = root.createComponent(Card, {
-    title: 'Hello World!',
-  });
-
-  const cardSection = root.createComponent(CardSection, {});
-  const textField = root.createComponent(TextField, {
-    value: 'From my app',
+function Add(root, api) {
+  const textElement = root.createComponent(TextField, {
+    value: 'From my app: Add Action',
     onAfterChange(value) {
-      textField.updateProps({
+      textElement.updateProps({
         value,
       });
     },
   });
 
-  cardSection.appendChild(textField);
-  card.appendChild(cardSection);
-  root.appendChild(card);
-
+  root.appendChild(textElement);
   root.mount();
 }
 
-render(ExtensionPoint.SubscriptionManagementAdd, App);
-render(ExtensionPoint.SubscriptionManagementCreate, App);
-render(ExtensionPoint.SubscriptionManagementRemove, App);
-render(ExtensionPoint.SubscriptionManagementEdit, App);
+function Create(root, api) {
+  const textElement = root.createComponent(TextField, {
+    value: 'From my app: Create Action',
+    onAfterChange(value) {
+      textElement.updateProps({
+        value,
+      });
+    },
+  });
+
+  root.appendChild(textElement);
+  root.mount();
+}
+
+function Remove(root, api) {
+  const textElement = root.createComponent(TextField, {
+    value: 'From my app: Remove Action',
+    onAfterChange(value) {
+      textElement.updateProps({
+        value,
+      });
+    },
+  });
+
+  root.appendChild(textElement);
+  root.mount();
+}
+
+function Edit(root, api) {
+  const textElement = root.createComponent(TextField, {
+    value: 'From my app: Edit Action',
+    onAfterChange(value) {
+      textElement.updateProps({
+        value,
+      });
+    },
+  });
+
+  root.appendChild(textElement);
+  root.mount();
+}
+
+render(ExtensionPoint.SubscriptionManagementAdd, Add);
+render(ExtensionPoint.SubscriptionManagementCreate, Create);
+render(ExtensionPoint.SubscriptionManagementRemove, Remove);
+render(ExtensionPoint.SubscriptionManagementEdit, Edit);
