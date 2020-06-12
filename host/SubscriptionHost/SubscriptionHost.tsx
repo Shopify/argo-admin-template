@@ -20,6 +20,13 @@ import {actionFields, defaultSettings} from './config';
 import {usePageState, useSettings} from './useStorage';
 import {SettingsForm} from './components/SettingsForm';
 
+const actionToExtensionPoint: {[key:string]: ExtensionPoint} = {
+  [SubscriptionManagementActions.Add]: ExtensionPoint.SubscriptionManagementAdd,
+  [SubscriptionManagementActions.Create]: ExtensionPoint.SubscriptionManagementCreate,
+  [SubscriptionManagementActions.Edit]: ExtensionPoint.SubscriptionManagementEdit,
+  [SubscriptionManagementActions.Remove]: ExtensionPoint.SubscriptionManagementRemove,
+}
+
 export function SubscriptionHost(props: HostProps) {
   const [settings, updateSettings, setSettings] = useSettings();
   const [{extensionOpen}, setPageState] = usePageState();
@@ -43,7 +50,7 @@ export function SubscriptionHost(props: HostProps) {
       open={extensionOpen}
       defaultTitle="Default title"
       onClose={() => setPageState(state => state.extensionOpen, false)}
-      extensionPoint={ExtensionPoint.SubscriptionManagementCreate}
+      extensionPoint={actionToExtensionPoint[selectedAction]}
       api={outSettings}
       {...props}
     />
