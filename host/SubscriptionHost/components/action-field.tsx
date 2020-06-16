@@ -1,5 +1,13 @@
-import React from 'react';
-import {TextField, Select as PolarisSelect} from '@shopify/polaris';
+import React, {useState} from 'react';
+import {
+  TextField,
+  Select as PolarisSelect,
+  Card,
+  Stack,
+  Link,
+  Button,
+  Form,
+} from '@shopify/polaris';
 import get from 'lodash/fp/get';
 import last from 'lodash/fp/last';
 import {
@@ -8,7 +16,7 @@ import {
   SubscriptionManagementActions,
   PathFn,
 } from '../types';
-import {proxyGetPath} from '../utils';
+import {proxyGetPath, getter} from '../utils';
 
 // Assumes key and value of enum are the same
 function enumToArray<T>(enumMap: T): (keyof T)[] {
@@ -16,33 +24,37 @@ function enumToArray<T>(enumMap: T): (keyof T)[] {
 }
 
 export interface BasicFieldProps<T> {
-  pathFn: PathFn<T, string | number>;
+  pathFn: PathFn<T, string | number | string[]>;
   state: T;
   updateState: (
-    pathFn: PathFn<T, string | number>,
-    value: string | number
+    pathFn: PathFn<T, string | number | string[]>,
+    value: string | number | string[]
   ) => void;
+
+  // if optional=true, then empty string will convert to undefined
+  // so that settings parsing will delete the key
+  optional?: boolean;
 }
 
-export interface SettingsFieldProps {
-  state: Settings;
-  updateState: (
-    pathFn: PathFn<Settings, string | number>,
-    value: string | number
-  ) => void;
-}
+export type SettingsFieldProps = Pick<
+  BasicFieldProps<Settings>,
+  'state' | 'updateState'
+>;
 
 export function BasicField<T extends object>({
   pathFn,
   state,
   updateState,
+  optional,
 }: BasicFieldProps<T>) {
   const path = proxyGetPath(pathFn);
+  const getValue = (value: string) =>
+    optional && value === '' ? undefined : value;
   return (
     <TextField
       label={last(path) as string}
       value={get(path)(state)}
-      onChange={(value) => updateState(pathFn, value as any)}
+      onChange={(value) => updateState(pathFn, getValue(value) as any)}
     />
   );
 }
@@ -87,20 +99,64 @@ function ProductId({state, updateState}: SettingsFieldProps) {
   });
 }
 
+function SellingPlanGroupId({state, updateState}: SettingsFieldProps) {
+  return BasicField({
+    state,
+    updateState,
+    pathFn: (state) => state.data!.sellingPlanGroupId,
+  });
+}
+
 function VariantId({state, updateState}: SettingsFieldProps) {
   return BasicField({
     state,
     updateState,
-    pathFn: (state) => state.data!.variantId,
+    pathFn: (state) => state.data!.variantId!,
+    optional: true,
   });
 }
 
 function VariantIds({state, updateState}: SettingsFieldProps) {
-  return BasicField({
-    state,
-    updateState,
-    pathFn: (state) => state.data!.variantIds,
-  });
+  const [variantId, setVariantId] = useState('');
+  const variantIdsPath = ({data}: Settings) => data!.variantIds;
+  const variantIds = getter(variantIdsPath)(state);
+
+  return (
+    <Card sectioned title="variantIds">
+      <Stack vertical>
+        {variantIds.map((variantId, index) => (
+          <Stack key={index}>
+            <Stack.Item fill>{variantId}</Stack.Item>
+            <Link
+              onClick={() => {
+                updateState(
+                  variantIdsPath,
+                  variantIds.filter((_, idIndex) => index !== idIndex)
+                );
+              }}
+            >
+              Remove
+            </Link>
+          </Stack>
+        ))}
+        <Form
+          onSubmit={() => {
+            if (variantId) {
+              updateState(variantIdsPath, variantIds.concat(variantId));
+              setVariantId('');
+            }
+          }}
+        >
+          <Stack>
+            <Stack.Item fill>
+              <TextField label="" value={variantId} onChange={setVariantId} />
+            </Stack.Item>
+            <Button submit>Add</Button>
+          </Stack>
+        </Form>
+      </Stack>
+    </Card>
+  );
 }
 
 export const ActionField: Record<
@@ -111,5 +167,5 @@ export const ActionField: Record<
   productId: ProductId,
   variantId: VariantId,
   variantIds: VariantIds,
-  sellingPlanGroup: () => <div></div>,
+  sellingPlanGroupId: SellingPlanGroupId,
 };

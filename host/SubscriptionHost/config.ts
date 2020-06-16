@@ -3,7 +3,6 @@ import {
   SubscriptionManagementActions,
   SubscriptionData,
 } from './types';
-import {mockSellingPlan} from './mocks';
 
 export const LOCALES = [
   'cs',
@@ -34,17 +33,20 @@ export const actionFields: Record<
   SubscriptionManagementActions,
   (keyof SubscriptionData)[]
 > = {
-  [SubscriptionManagementActions.Add]: ['action', 'productId'],
-  [SubscriptionManagementActions.Create]: ['action', 'productId'],
+  [SubscriptionManagementActions.Add]: ['action', 'productId', 'variantId'],
+  [SubscriptionManagementActions.Create]: ['action', 'productId', 'variantId'],
   [SubscriptionManagementActions.Edit]: [
     'action',
     'productId',
-    'sellingPlanGroup',
+    'sellingPlanGroupId',
+    'variantId',
   ],
   [SubscriptionManagementActions.Remove]: [
     'action',
     'productId',
-    'sellingPlanGroup',
+    'sellingPlanGroupId',
+    'variantId',
+    'variantIds',
   ],
 };
 
@@ -52,13 +54,9 @@ export const defaultSettings: Settings = {
   data: {
     action: SubscriptionManagementActions.Create,
     productId: '1',
-    variantId: '2',
-    variantIds: '3',
-    sellingPlanGroup: {
-      id: '4',
-      name: 'Selling Plan Group name',
-      sellingPlans: [mockSellingPlan()],
-    },
+    sellingPlanGroupId: '2',
+    variantId: '3',
+    variantIds: ['4'],
   },
-  locale: 'en',
+  locale: {initialValue: 'en', setOnChange() {}},
 };

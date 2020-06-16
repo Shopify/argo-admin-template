@@ -44,11 +44,7 @@ export function StandardContainer<T extends ExtensionPoint>(
     createMessenger: createIframeWorkerMessenger,
   });
   const [ref, layoutApi] = useLayoutApi();
-  const sessionTokenApi = useSessionTokenApi(() => {
-    return Promise.resolve(
-      'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaG9wIjoic2hvcDEubXlzaG9waWZ5LmlvIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.DPRpE9-UGNOFtgJV72KfqCfSIde0WW-0snwErCK3mHg',
-    );
-  }, []);
+  const sessionTokenApi = useSessionTokenApi(() => Promise.resolve(''), []);
   const localeApi = useLocaleApi('en');
   const api = useMemo(() => {
     if (!layoutApi) {
