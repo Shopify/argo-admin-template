@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import {updateWebpack} from './update-webpack';
+
+import {replaceString} from './replace-string';
 
 export enum Framework {
   Vanilla = 'vanilla',
@@ -11,10 +12,12 @@ export enum Framework {
 
 const indexPaths = {
   [Framework.Vanilla]: 'vanilla.js.template',
-  [Framework.React]: 'react.js.template',
+  [Framework.React]: 'react.jsx.template',
   [Framework.VanillaTypescript]: 'vanilla.ts.template',
   [Framework.ReactTypescript]: 'react.tsx.template',
 };
+
+const FILE_EXTENSION = '<% FileExtension %>';
 
 export function generateSrc(extensionType: string, framework: Framework) {
   const indexPath = indexPaths[framework] || indexPaths[Framework.Vanilla];
@@ -39,5 +42,6 @@ export function generateSrc(extensionType: string, framework: Framework) {
     console.error(`src/index.${ext} file could not be created: `, error);
   }
 
-  updateWebpack(ext);
+  replaceString('../../webpack.config.js', ext, FILE_EXTENSION);
+  replaceString('../../host/Host.tsx', ext, FILE_EXTENSION);
 }
