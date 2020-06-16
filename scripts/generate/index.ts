@@ -41,8 +41,12 @@ See README.md for instructions.
 
   console.log('✅ You selected:', framework);
 
-  generateSrc(extensionType, framework as Framework);
-  generateConfig(extensionType);
-
-  cleanUp();
+  try {
+    generateSrc(extensionType, framework as Framework);
+    generateConfig(extensionType);
+    cleanUp();
+  } catch (error) {
+    console.error(error.message);
+    process.exit(1);
+  }
 })();
