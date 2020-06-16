@@ -11,7 +11,7 @@ import {ThemeConfig} from '@shopify/polaris/types/latest/src/utilities/theme';
 const {default: Logo} = require('../src/assets/logo/logo.svg');
 
 const reactThirdPartyWorker = createPlainWorkerFactory(() =>
-  import(/* webpackChunkName: 'extension' */ '../src')
+  import(/* webpackChunkName: 'extension' */ '../src/index.<% FileExtension %>')
 );
 
 export {HostWrapper as Host};
