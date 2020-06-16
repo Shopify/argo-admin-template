@@ -3,7 +3,6 @@ import {Card, Select, Layout, Stack} from '@shopify/polaris';
 import {SubscriptionManagementActions, Settings} from '../types';
 import {actionFields, LOCALES} from '../config';
 import {ActionField} from './action-field';
-import {SellingPlanGroup} from './SellingPlanGroup';
 
 interface Props {
   settings: Settings;
@@ -25,9 +24,6 @@ export function SettingsForm({settings, updateSettings}: Props) {
       />
     );
   });
-  const hasSellingPlanGroup = actionFields[selectedAction].includes(
-    'sellingPlanGroup'
-  );
 
   return (
     <Layout.Section oneHalf>
@@ -35,21 +31,12 @@ export function SettingsForm({settings, updateSettings}: Props) {
         <Stack vertical>{dataForm}</Stack>
       </Card>
 
-      {hasSellingPlanGroup && (
-        <Card sectioned title="sellingPlanGroup">
-          <SellingPlanGroup
-            settings={settings}
-            updateSettings={updateSettings}
-          />
-        </Card>
-      )}
-
       <Card sectioned title="Argo data">
         <Select
-          label="locale"
+          label="locale.initialValue"
           options={LOCALES}
-          value={settings.locale}
-          onChange={(value) => updateSettings(state => state.locale, value)}
+          value={settings.locale?.initialValue}
+          onChange={(value) => updateSettings(state => state.locale?.initialValue, value)}
         />
       </Card>
     </Layout.Section>

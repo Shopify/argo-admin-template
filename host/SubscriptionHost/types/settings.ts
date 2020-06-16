@@ -1,5 +1,4 @@
 import {LocaleApi} from '@shopify/argo';
-import {SellingPlanGroup} from './selling-plan-group';
 
 export enum SubscriptionManagementActions {
   Create = 'CREATE',
@@ -10,10 +9,10 @@ export enum SubscriptionManagementActions {
 
 export interface SubscriptionData {
   action: SubscriptionManagementActions;
-  sellingPlanGroup: SellingPlanGroup;
+  sellingPlanGroupId: string;
   productId: string;
-  variantId: string;
-  variantIds: string; // string[];
+  variantId?: string;
+  variantIds: string[];
 }
 
 export interface Settings {

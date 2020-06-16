@@ -12,6 +12,7 @@ import {
 } from '@shopify/polaris';
 import {ProductsMajorTwotone} from '@shopify/polaris-icons';
 import {ExtensionPoint} from '@shopify/argo';
+import merge from 'lodash/fp/merge';
 
 import {HostProps} from '../types';
 import {ModalContainer} from '../containers/ModalContainer';
@@ -20,12 +21,15 @@ import {actionFields, defaultSettings} from './config';
 import {usePageState, useSettings} from './useStorage';
 import {SettingsForm} from './components/SettingsForm';
 
-const actionToExtensionPoint: {[key:string]: ExtensionPoint} = {
+const actionToExtensionPoint: {[key: string]: ExtensionPoint} = {
   [SubscriptionManagementActions.Add]: ExtensionPoint.SubscriptionManagementAdd,
-  [SubscriptionManagementActions.Create]: ExtensionPoint.SubscriptionManagementCreate,
-  [SubscriptionManagementActions.Edit]: ExtensionPoint.SubscriptionManagementEdit,
-  [SubscriptionManagementActions.Remove]: ExtensionPoint.SubscriptionManagementRemove,
-}
+  [SubscriptionManagementActions.Create]:
+    ExtensionPoint.SubscriptionManagementCreate,
+  [SubscriptionManagementActions.Edit]:
+    ExtensionPoint.SubscriptionManagementEdit,
+  [SubscriptionManagementActions.Remove]:
+    ExtensionPoint.SubscriptionManagementRemove,
+};
 
 export function SubscriptionHost(props: HostProps) {
   const [settings, updateSettings, setSettings] = useSettings();
@@ -37,19 +41,34 @@ export function SubscriptionHost(props: HostProps) {
 
   const outData = actionFields[selectedAction].reduce(
     (_settings, key) => {
-      _settings[key] = settings.data?.[key];
+      // remove optional but undefined data values
+      const value = settings.data?.[key];
+      if (key !== 'action' && value !== undefined) {
+        _settings[key] = settings.data?.[key];
+      }
       return _settings;
     },
-    {action: settings.data?.action} as any
+    {
+      done() {
+        console.log('done() was called');
+      },
+    } as any
   );
-  const outSettings = {...settings, data: outData};
+  const outSettings = merge(settings, {
+    data: outData,
+    locale: {
+      setOnChange() {
+        console.log('Your onChange callback was set');
+      },
+    },
+  });
 
   const extension = (
     <ModalContainer
       app={{name: 'App name', appId: 'app-id'}}
       open={extensionOpen}
       defaultTitle="Default title"
-      onClose={() => setPageState(state => state.extensionOpen, false)}
+      onClose={() => setPageState((state) => state.extensionOpen, false)}
       extensionPoint={actionToExtensionPoint[selectedAction]}
       api={outSettings}
       {...props}
@@ -79,9 +98,7 @@ export function SubscriptionHost(props: HostProps) {
     >
       <Modal.Section>
         <TextContainer>
-          <p>
-            Resetting your settings will permanently erase your changes
-          </p>
+          <p>Resetting your settings will permanently erase your changes</p>
         </TextContainer>
       </Modal.Section>
     </Modal>
@@ -109,7 +126,7 @@ export function SubscriptionHost(props: HostProps) {
         title="Subscription Management"
         primaryAction={{
           content: 'Show extension',
-          onAction: () => setPageState(state => state.extensionOpen, true),
+          onAction: () => setPageState((state) => state.extensionOpen, true),
         }}
       >
         {extension}
@@ -125,7 +142,8 @@ export function SubscriptionHost(props: HostProps) {
             <PageActions
               primaryAction={{
                 content: 'Show extension',
-                onAction: () => setPageState(state => state.extensionOpen, true),
+                onAction: () =>
+                  setPageState((state) => state.extensionOpen, true),
               }}
               secondaryActions={[
                 {
