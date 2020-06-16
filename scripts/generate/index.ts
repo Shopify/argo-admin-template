@@ -1,7 +1,6 @@
 import yargs from 'yargs';
-import find from 'lodash/find';
 
-import {generateSrc, Framework} from './generate-src';
+import {generateSrc, Template} from './generate-src';
 import {generateConfig} from './generate-config';
 import {extensionTypes} from './constants';
 import {cleanUp} from './clean-up';
@@ -37,12 +36,12 @@ See README.md for instructions.
     },
   ]);
 
-  const {framework} = response;
+  const {template} = response;
 
-  console.log('✅ You selected:', framework);
+  console.log('✅ You selected:', template);
 
   try {
-    generateSrc(extensionType, framework as Framework);
+    generateSrc(extensionType, template as Template);
     generateConfig(extensionType);
     cleanUp();
   } catch (error) {

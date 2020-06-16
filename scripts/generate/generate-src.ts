@@ -3,24 +3,24 @@ import path from 'path';
 
 import {replaceString} from './replace-string';
 
-export enum Framework {
-  Vanilla = 'vanilla',
-  React = 'react',
-  VanillaTypescript = 'vanilla-typescript',
-  ReactTypescript = 'react-typescript',
+export enum Template {
+  Vanilla = 'Vanilla JS',
+  React = 'React',
+  VanillaTypescript = 'Vanilla JS with Typescript',
+  ReactTypescript = 'React with Typescript',
 }
 
 const indexPaths = {
-  [Framework.Vanilla]: 'vanilla.js.template',
-  [Framework.React]: 'react.jsx.template',
-  [Framework.VanillaTypescript]: 'vanilla.ts.template',
-  [Framework.ReactTypescript]: 'react.tsx.template',
+  [Template.Vanilla]: 'vanilla.js.template',
+  [Template.React]: 'react.jsx.template',
+  [Template.VanillaTypescript]: 'vanilla.ts.template',
+  [Template.ReactTypescript]: 'react.tsx.template',
 };
 
 const FILE_EXTENSION = '<% FileExtension %>';
 
-export function generateSrc(extensionType: string, framework: Framework) {
-  const indexPath = indexPaths[framework] || indexPaths[Framework.Vanilla];
+export function generateSrc(extensionType: string, template: Template) {
+  const indexPath = indexPaths[template] || indexPaths[Template.Vanilla];
   const ext = indexPath.split('.')[1];
 
   const file = fs.readFileSync(
