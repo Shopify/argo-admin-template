@@ -4,10 +4,10 @@ import path from 'path';
 import {replaceString} from './replace-string';
 
 export enum Template {
-  Vanilla = 'Vanilla JS',
-  React = 'React',
-  VanillaTypescript = 'Vanilla JS with Typescript',
-  ReactTypescript = 'React with Typescript',
+  Vanilla = 'vanilla',
+  React = 'react',
+  VanillaTypescript = 'vanilla-typescript',
+  ReactTypescript = 'react-typescript',
 }
 
 const indexPaths = {

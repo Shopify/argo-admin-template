@@ -7,6 +7,13 @@ import {cleanUp} from './clean-up';
 
 const inquirer = require('inquirer');
 
+const choiceMap: {[key: string]: string} = {
+  'Vanilla JS': 'vanilla',
+  'React': 'react',
+  'Vanilla JS with Typescript': 'vanilla-typescript',
+  'React with Typescript': 'react-typescript',
+};
+
 (async () => {
   const {type} = yargs.argv;
   const extensionType = String(type);
@@ -27,18 +34,18 @@ See README.md for instructions.
   const response = await inquirer.prompt([
     {
       type: 'list',
-      name: 'framework',
-      message: 'Select framework:',
+      name: 'template',
+      message: 'Select template:',
       min: 1,
       max: 1,
       instructions: false,
-      choices: ['vanilla', 'react', 'vanilla-typescript', 'react-typescript'],
+      choices: Object.keys(choiceMap),
     },
   ]);
 
   const {template} = response;
 
-  console.log('✅ You selected:', template);
+  console.log('✅ You selected:', choiceMap[template]);
 
   try {
     generateSrc(extensionType, template as Template);
