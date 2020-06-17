@@ -1,6 +1,14 @@
-import {ExtensionPoint, render, TextField} from '@shopify/argo';
+import {
+  ExtensionPoint,
+  render,
+  TextField,
+  ExtensionPointCallback,
+} from '@shopify/argo';
 
-function Add(root, api) {
+const Add: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementAdd] = (
+  root,
+  api
+) => {
   const textElement = root.createComponent(TextField, {
     value: 'From my app: Add Action',
     onAfterChange(value) {
@@ -12,9 +20,12 @@ function Add(root, api) {
 
   root.appendChild(textElement as any);
   root.mount();
-}
+};
 
-function Create(root, api) {
+const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate] = (
+  root,
+  api
+) => {
   const textElement = root.createComponent(TextField, {
     value: 'From my app: Create Action',
     onAfterChange(value) {
@@ -26,9 +37,12 @@ function Create(root, api) {
 
   root.appendChild(textElement as any);
   root.mount();
-}
+};
 
-function Remove(root, api) {
+const Remove: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementRemove] = (
+  root,
+  api
+) => {
   const textElement = root.createComponent(TextField, {
     value: 'From my app: Remove Action',
     onAfterChange(value) {
@@ -40,9 +54,12 @@ function Remove(root, api) {
 
   root.appendChild(textElement as any);
   root.mount();
-}
+};
 
-function Edit(root, api) {
+const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = (
+  root,
+  api
+) => {
   const textElement = root.createComponent(TextField, {
     value: 'From my app: Edit Action',
     onAfterChange(value) {
@@ -54,7 +71,7 @@ function Edit(root, api) {
 
   root.appendChild(textElement as any);
   root.mount();
-}
+};
 
 render(ExtensionPoint.SubscriptionManagementAdd, Add);
 render(ExtensionPoint.SubscriptionManagementCreate, Create);
