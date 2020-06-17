@@ -1,56 +1,178 @@
-import React, {useState} from 'react';
-import {ExtensionPoint, TextField} from '@shopify/argo';
-import {render} from '@shopify/argo/react';
+import React, {useState, useEffect} from 'react';
+import {ExtensionPoint, TextField, Text, Stack, Checkbox} from '@shopify/argo';
+import {render, useData, useModalActions} from '@shopify/argo/react';
 
 function Add() {
-  const [value, setValue] = useState('');
+  const [selectedPlans, setSelectedPlans] = useState([]);
+  const data = useData();
+  const {primaryAction, secondaryAction, closeModal} = useModalActions();
+  const mockPlans = [
+    {name: 'Subscription Plan A', id: 'a'},
+    {name: 'Subscription Plan B', id: 'b'},
+    {name: 'Subscription Plan C', id: 'c'},
+  ];
+
+  useEffect(() => {
+    primaryAction.setContent('Save plan');
+    primaryAction.setAction(() => {
+      data.done();
+      closeModal();
+    });
+
+    secondaryAction.setContent('Cancel');
+    secondaryAction.setAction(() => {
+      closeModal();
+    });
+  }, []);
+
   return (
     <>
-      <TextField
-        label="From my app: Add Action"
-        value={value}
-        onAfterChange={setValue}
-      />
+      <Text>
+        Add {`{Product id ${data.productId}}`} to an existing plan or existing
+        plans
+      </Text>
+
+      <Stack>
+        {mockPlans.map((plan) => (
+          <Checkbox
+            key={plan.id}
+            label={plan.name}
+            onChange={(checked) => {
+              const plans = checked
+                ? selectedPlans.concat(plan.id)
+                : selectedPlans.filter((id) => id !== plan.id);
+              setSelectedPlans(plans);
+            }}
+            checked={selectedPlans.includes(plan.id)}
+          />
+        ))}
+      </Stack>
     </>
   );
 }
 
 function Create() {
-  const [value, setValue] = useState('');
+  const data = useData();
+  const [planTitle, setPlanTitle] = useState('');
+  const [percentageOff, setPercentageOff] = useState('');
+  const [deliveryFrequency, setDeliveryFrequency] = useState('');
+  const {primaryAction, secondaryAction, closeModal} = useModalActions();
+
+  useEffect(() => {
+    primaryAction.setContent('Create plan');
+    primaryAction.setAction(() => {
+      data.done();
+      closeModal();
+    });
+
+    secondaryAction.setContent('Cancel');
+    secondaryAction.setAction(() => {
+      closeModal();
+    });
+  }, []);
+
   return (
-    <>
+    <Stack vertical>
+      <Text>
+        Create subscription plan for {`{Product id ${data.productId}}`}
+      </Text>
+
       <TextField
-        label="From my app: Create Action"
-        value={value}
-        onAfterChange={setValue}
+        label="Plan title"
+        value={planTitle}
+        onAfterChange={setPlanTitle}
       />
-    </>
+
+      <Stack>
+        <TextField
+          type="number"
+          label="Delivery frequency (in weeks)"
+          value={deliveryFrequency}
+          onAfterChange={setDeliveryFrequency}
+        />
+        <TextField
+          type="number"
+          label="Percentage off (%)"
+          value={percentageOff}
+          onAfterChange={setPercentageOff}
+        />
+      </Stack>
+    </Stack>
   );
 }
 
 function Remove() {
-  const [value, setValue] = useState('');
+  const data = useData();
+  const {primaryAction, secondaryAction, closeModal} = useModalActions();
+
+  useEffect(() => {
+    primaryAction.setContent('Remove plan');
+    primaryAction.setAction(() => {
+      data.done();
+      closeModal();
+    });
+
+    secondaryAction.setContent('Cancel');
+    secondaryAction.setAction(() => {
+      closeModal();
+    });
+  }, []);
+
   return (
-    <>
-      <TextField
-        label="From my app: Remove Action"
-        value={value}
-        onAfterChange={setValue}
-      />
-    </>
+    <Text>
+      Remove {`{Product id ${data.productId}}`} from{' '}
+      {`{Plan group id ${data.sellingPlanGroupId}}`}
+    </Text>
   );
 }
 
 function Edit() {
-  const [value, setValue] = useState('');
+  const data = useData();
+  const [planTitle, setPlanTitle] = useState('Current plan');
+  const [percentageOff, setPercentageOff] = useState('10');
+  const [deliveryFrequency, setDeliveryFrequency] = useState('1');
+  const {primaryAction, secondaryAction, closeModal} = useModalActions();
+
+  useEffect(() => {
+    primaryAction.setContent('Edit plan');
+    primaryAction.setAction(() => {
+      data.done();
+      closeModal();
+    });
+
+    secondaryAction.setContent('Cancel');
+    secondaryAction.setAction(() => {
+      closeModal();
+    });
+  }, []);
+
   return (
-    <>
+    <Stack vertical>
+      <Text>
+        Create subscription plan for {`{Product id ${data.productId}}`}
+      </Text>
+
       <TextField
-        label="From my app: Edit Action"
-        value={value}
-        onAfterChange={setValue}
+        label="Plan title"
+        value={planTitle}
+        onAfterChange={setPlanTitle}
       />
-    </>
+
+      <Stack>
+        <TextField
+          type="number"
+          label="Delivery frequency (in weeks)"
+          value={deliveryFrequency}
+          onAfterChange={setDeliveryFrequency}
+        />
+        <TextField
+          type="number"
+          label="Percentage off (%)"
+          value={percentageOff}
+          onAfterChange={setPercentageOff}
+        />
+      </Stack>
+    </Stack>
   );
 }
 

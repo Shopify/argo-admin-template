@@ -161,8 +161,9 @@ function VariantIds({state, updateState}: SettingsFieldProps) {
 
 export const ActionField: Record<
   keyof SubscriptionData,
-  (props: SettingsFieldProps) => React.ReactElement
+  (props: SettingsFieldProps) => React.ReactNode
 > = {
+  done: () => null,
   action: Action,
   productId: ProductId,
   variantId: VariantId,

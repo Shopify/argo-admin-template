@@ -1,4 +1,4 @@
-import {LocaleApi} from '@shopify/argo';
+import {LocaleApi, ExtensionData, ExtensionPoint} from '@shopify/argo';
 
 export enum SubscriptionManagementActions {
   Create = 'CREATE',
@@ -7,13 +7,12 @@ export enum SubscriptionManagementActions {
   Add = 'ADD',
 }
 
-export interface SubscriptionData {
+export type SubscriptionData = {
   action: SubscriptionManagementActions;
-  sellingPlanGroupId: string;
-  productId: string;
-  variantId?: string;
-  variantIds: string[];
-}
+} & ExtensionData<ExtensionPoint.SubscriptionManagementAdd> &
+  ExtensionData<ExtensionPoint.SubscriptionManagementCreate> &
+  ExtensionData<ExtensionPoint.SubscriptionManagementEdit> &
+  ExtensionData<ExtensionPoint.SubscriptionManagementRemove>;
 
 export interface Settings {
   locale?: LocaleApi['locale'];
