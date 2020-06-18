@@ -15,7 +15,7 @@ import {ExtensionPoint} from '@shopify/argo';
 import merge from 'lodash/fp/merge';
 
 import {HostProps} from '../types';
-import {ModalContainer} from '../containers/ModalContainer';
+import {SubscriptionModalContainer} from './SubscriptionModalContainer';
 import {SubscriptionManagementActions} from './types';
 import {actionFields, defaultSettings} from './config';
 import {usePageState, useSettings} from './useStorage';
@@ -48,11 +48,7 @@ export function SubscriptionHost(props: HostProps) {
       }
       return _settings;
     },
-    {
-      done() {
-        console.log('done() was called');
-      },
-    } as any
+    {} as any
   );
   const outSettings = merge({...settings, data: outData}, {
     locale: {
@@ -63,10 +59,11 @@ export function SubscriptionHost(props: HostProps) {
   });
 
   const extension = (
-    <ModalContainer
+    <SubscriptionModalContainer
       app={{name: 'App name', appId: 'app-id'}}
       open={extensionOpen}
       defaultTitle="Default title"
+      onDone={() => console.log('done() was called')}
       onClose={() => setPageState((state) => state.extensionOpen, false)}
       extensionPoint={actionToExtensionPoint[selectedAction]}
       api={outSettings}

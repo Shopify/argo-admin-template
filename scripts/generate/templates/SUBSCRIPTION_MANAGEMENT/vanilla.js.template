@@ -1,23 +1,32 @@
-import {ExtensionPoint, TextField, Text, Stack, Checkbox, render} from '@shopify/argo';
+import {
+  ExtensionPoint,
+  TextField,
+  Text,
+  Stack,
+  Checkbox,
+  render,
+} from '@shopify/argo';
 
 function Add(root, api) {
   const data = api.data;
-  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
   const mockPlans = [
     {name: 'Subscription Plan A', id: 'a'},
     {name: 'Subscription Plan B', id: 'b'},
     {name: 'Subscription Plan C', id: 'c'},
   ];
 
-  primaryAction.setContent('Add to plan');
-  primaryAction.setAction(() => {
-    data.done();
-    closeModal();
+  setPrimaryAction({
+    content: 'Add to plan',
+    onAction: () => {
+      done();
+      close();
+    },
   });
 
-  secondaryAction.setContent('Cancel');
-  secondaryAction.setAction(() => {
-    closeModal();
+  setSecondaryAction({
+    content: 'Cancel',
+    onAction: () => close(),
   });
 
   const textElement = root.createComponent(Text);
@@ -51,17 +60,19 @@ function Add(root, api) {
 
 function Create(root, api) {
   const data = api.data;
-  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
-  primaryAction.setContent('Add to plan');
-  primaryAction.setAction(() => {
-    data.done();
-    closeModal();
+  setPrimaryAction({
+    content: 'Create plan',
+    onAction: () => {
+      done();
+      close();
+    },
   });
 
-  secondaryAction.setContent('Cancel');
-  secondaryAction.setAction(() => {
-    closeModal();
+  setSecondaryAction({
+    content: 'Cancel',
+    onAction: () => close(),
   });
 
   const rootStack = root.createComponent(Stack, {vertical: true});
@@ -118,17 +129,19 @@ function Create(root, api) {
 
 function Remove(root, api) {
   const data = api.data;
-  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
-  primaryAction.setContent('Remove from plan');
-  primaryAction.setAction(() => {
-    data.done();
-    closeModal();
+  setPrimaryAction({
+    content: 'Remove from plan',
+    onAction: () => {
+      done();
+      close();
+    },
   });
 
-  secondaryAction.setContent('Cancel');
-  secondaryAction.setAction(() => {
-    closeModal();
+  setSecondaryAction({
+    content: 'Cancel',
+    onAction: () => close(),
   });
 
   const textElement = root.createComponent(Text);
@@ -144,17 +157,19 @@ function Remove(root, api) {
 
 function Edit(root, api) {
   const data = api.data;
-  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
-  primaryAction.setContent('Edit plan');
-  primaryAction.setAction(() => {
-    data.done();
-    closeModal();
+  setPrimaryAction({
+    content: 'Edit plan',
+    onAction: () => {
+      done();
+      close();
+    },
   });
 
-  secondaryAction.setContent('Cancel');
-  secondaryAction.setAction(() => {
-    closeModal();
+  setSecondaryAction({
+    content: 'Cancel',
+    onAction: () => close(),
   });
 
   const rootStack = root.createComponent(Stack, {vertical: true});

@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {ExtensionPoint, TextField, Text, Stack, Checkbox} from '@shopify/argo';
-import {render, useData, useModalActions} from '@shopify/argo/react';
+import {render, useData, useContainer} from '@shopify/argo/react';
 
 function Add() {
   const [selectedPlans, setSelectedPlans] = useState([]);
   const data = useData();
-  const {primaryAction, secondaryAction, closeModal} = useModalActions();
+  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
   const mockPlans = [
     {name: 'Subscription Plan A', id: 'a'},
     {name: 'Subscription Plan B', id: 'b'},
@@ -13,15 +13,17 @@ function Add() {
   ];
 
   useEffect(() => {
-    primaryAction.setContent('Save plan');
-    primaryAction.setAction(() => {
-      data.done();
-      closeModal();
+    setPrimaryAction({
+      content: 'Add to plan',
+      onAction: () => {
+        done();
+        close();
+      },
     });
 
-    secondaryAction.setContent('Cancel');
-    secondaryAction.setAction(() => {
-      closeModal();
+    setSecondaryAction({
+      content: 'Cancel',
+      onAction: () => close(),
     });
   }, []);
 
@@ -56,18 +58,20 @@ function Create() {
   const [planTitle, setPlanTitle] = useState('');
   const [percentageOff, setPercentageOff] = useState('');
   const [deliveryFrequency, setDeliveryFrequency] = useState('');
-  const {primaryAction, secondaryAction, closeModal} = useModalActions();
+  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
 
   useEffect(() => {
-    primaryAction.setContent('Create plan');
-    primaryAction.setAction(() => {
-      data.done();
-      closeModal();
+    setPrimaryAction({
+      content: 'Create plan',
+      onAction: () => {
+        done();
+        close();
+      },
     });
-
-    secondaryAction.setContent('Cancel');
-    secondaryAction.setAction(() => {
-      closeModal();
+  
+    setSecondaryAction({
+      content: 'Cancel',
+      onAction: () => close(),
     });
   }, []);
 
@@ -103,18 +107,20 @@ function Create() {
 
 function Remove() {
   const data = useData();
-  const {primaryAction, secondaryAction, closeModal} = useModalActions();
+  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
 
   useEffect(() => {
-    primaryAction.setContent('Remove plan');
-    primaryAction.setAction(() => {
-      data.done();
-      closeModal();
+    setPrimaryAction({
+      content: 'Remove from plan',
+      onAction: () => {
+        done();
+        close();
+      },
     });
 
-    secondaryAction.setContent('Cancel');
-    secondaryAction.setAction(() => {
-      closeModal();
+    setSecondaryAction({
+      content: 'Cancel',
+      onAction: () => close(),
     });
   }, []);
 
@@ -131,18 +137,20 @@ function Edit() {
   const [planTitle, setPlanTitle] = useState('Current plan');
   const [percentageOff, setPercentageOff] = useState('10');
   const [deliveryFrequency, setDeliveryFrequency] = useState('1');
-  const {primaryAction, secondaryAction, closeModal} = useModalActions();
+  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
 
   useEffect(() => {
-    primaryAction.setContent('Edit plan');
-    primaryAction.setAction(() => {
-      data.done();
-      closeModal();
+    setPrimaryAction({
+      content: 'Edit plan',
+      onAction: () => {
+        done();
+        close();
+      },
     });
 
-    secondaryAction.setContent('Cancel');
-    secondaryAction.setAction(() => {
-      closeModal();
+    setSecondaryAction({
+      content: 'Cancel',
+      onAction: () => close(),
     });
   }, []);
 
