@@ -52,6 +52,7 @@ export const actionFields: Record<
 
 export const defaultSettings: Settings = {
   data: {
+    done() {},
     action: SubscriptionManagementActions.Create,
     productId: '1',
     sellingPlanGroupId: '2',

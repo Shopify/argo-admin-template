@@ -48,7 +48,7 @@ See README.md for instructions.
   console.log('✅ You selected:', choiceMap[template]);
 
   try {
-    generateSrc(extensionType, template as Template);
+    generateSrc(extensionType, choiceMap[template] as Template);
     generateConfig(extensionType);
     cleanUp();
   } catch (error) {

@@ -1,58 +1,209 @@
-import {ExtensionPoint, render, TextField} from '@shopify/argo';
+import {ExtensionPoint, TextField, Text, Stack, Checkbox, render} from '@shopify/argo';
 
 function Add(root, api) {
-  const textElement = root.createComponent(TextField, {
-    value: 'From my app: Add Action',
-    onAfterChange(value) {
-      textElement.updateProps({
-        value,
-      });
-    },
+  const data = api.data;
+  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+  const mockPlans = [
+    {name: 'Subscription Plan A', id: 'a'},
+    {name: 'Subscription Plan B', id: 'b'},
+    {name: 'Subscription Plan C', id: 'c'},
+  ];
+
+  primaryAction.setContent('Add to plan');
+  primaryAction.setAction(() => {
+    data.done();
+    closeModal();
   });
 
+  secondaryAction.setContent('Cancel');
+  secondaryAction.setAction(() => {
+    closeModal();
+  });
+
+  const textElement = root.createComponent(Text);
+  textElement.appendChild(
+    root.createText(
+      `Add {Product id ${data.productId}} to an existing plan or existing plans`
+    )
+  );
   root.appendChild(textElement);
+
+  const stack = root.createComponent(Stack);
+
+  mockPlans.forEach((plan) => {
+    const checkbox = root.createComponent(Checkbox, {
+      label: plan.name,
+      checked: false,
+      onChange: (checked) => {
+        checkbox.updateProps({
+          checked,
+        });
+      },
+    });
+
+    stack.appendChild(checkbox);
+  });
+
+  root.appendChild(stack);
+
   root.mount();
 }
 
 function Create(root, api) {
-  const textElement = root.createComponent(TextField, {
-    value: 'From my app: Create Action',
+  const data = api.data;
+  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+
+  primaryAction.setContent('Add to plan');
+  primaryAction.setAction(() => {
+    data.done();
+    closeModal();
+  });
+
+  secondaryAction.setContent('Cancel');
+  secondaryAction.setAction(() => {
+    closeModal();
+  });
+
+  const rootStack = root.createComponent(Stack, {vertical: true});
+  root.appendChild(rootStack);
+
+  const textElement = root.createComponent(Text);
+  textElement.appendChild(
+    root.createText(
+      `Create subscription plan for {Product id ${data.productId}}`
+    )
+  );
+  rootStack.appendChild(textElement);
+
+  const planTitleField = root.createComponent(TextField, {
+    label: 'Plan title',
+    value: '',
     onAfterChange(value) {
-      textElement.updateProps({
+      planTitleField.updateProps({
         value,
       });
     },
   });
+  rootStack.appendChild(planTitleField);
 
-  root.appendChild(textElement);
+  const stack = root.createComponent(Stack);
+  rootStack.appendChild(stack);
+
+  const deliveryFrequencyField = root.createComponent(TextField, {
+    type: 'number',
+    label: 'Delivery frequency (in weeks)',
+    value: undefined,
+    onAfterChange(value) {
+      deliveryFrequencyField.updateProps({
+        value,
+      });
+    },
+  });
+  stack.appendChild(deliveryFrequencyField);
+
+  const percentageOffField = root.createComponent(TextField, {
+    type: 'number',
+    label: 'Percentage off (%)',
+    value: undefined,
+    onAfterChange(value) {
+      percentageOffField.updateProps({
+        value,
+      });
+    },
+  });
+  stack.appendChild(percentageOffField);
+
   root.mount();
 }
 
 function Remove(root, api) {
-  const textElement = root.createComponent(TextField, {
-    value: 'From my app: Remove Action',
-    onAfterChange(value) {
-      textElement.updateProps({
-        value,
-      });
-    },
+  const data = api.data;
+  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+
+  primaryAction.setContent('Remove from plan');
+  primaryAction.setAction(() => {
+    data.done();
+    closeModal();
   });
+
+  secondaryAction.setContent('Cancel');
+  secondaryAction.setAction(() => {
+    closeModal();
+  });
+
+  const textElement = root.createComponent(Text);
+  textElement.appendChild(
+    root.createText(
+      `Remove {Product id ${data.productId}} from {Plan group id ${data.sellingPlanGroupId}}`
+    )
+  );
 
   root.appendChild(textElement);
   root.mount();
 }
 
 function Edit(root, api) {
-  const textElement = root.createComponent(TextField, {
-    value: 'From my app: Edit Action',
+  const data = api.data;
+  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+
+  primaryAction.setContent('Edit plan');
+  primaryAction.setAction(() => {
+    data.done();
+    closeModal();
+  });
+
+  secondaryAction.setContent('Cancel');
+  secondaryAction.setAction(() => {
+    closeModal();
+  });
+
+  const rootStack = root.createComponent(Stack, {vertical: true});
+  root.appendChild(rootStack);
+
+  const textElement = root.createComponent(Text);
+  textElement.appendChild(
+    root.createText(`Edit subscription plan for {Product id ${data.productId}}`)
+  );
+  rootStack.appendChild(textElement);
+
+  const planTitleField = root.createComponent(TextField, {
+    label: 'Plan title',
+    value: 'Current Plan',
     onAfterChange(value) {
-      textElement.updateProps({
+      planTitleField.updateProps({
         value,
       });
     },
   });
+  rootStack.appendChild(planTitleField);
 
-  root.appendChild(textElement);
+  const stack = root.createComponent(Stack);
+  rootStack.appendChild(stack);
+
+  const deliveryFrequencyField = root.createComponent(TextField, {
+    type: 'number',
+    label: 'Delivery frequency (in weeks)',
+    value: '1',
+    onAfterChange(value) {
+      deliveryFrequencyField.updateProps({
+        value,
+      });
+    },
+  });
+  stack.appendChild(deliveryFrequencyField);
+
+  const percentageOffField = root.createComponent(TextField, {
+    type: 'number',
+    label: 'Percentage off (%)',
+    value: '10',
+    onAfterChange(value) {
+      percentageOffField.updateProps({
+        value,
+      });
+    },
+  });
+  stack.appendChild(percentageOffField);
+
   root.mount();
 }
 

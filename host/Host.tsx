@@ -1,5 +1,4 @@
 import React from 'react';
-import {components} from '@shopify/argo-host';
 import {AppProvider} from '@shopify/polaris';
 import {createPlainWorkerFactory} from '@shopify/web-worker';
 
@@ -32,7 +31,7 @@ function HostWrapper() {
 
   return (
     <AppProvider theme={theme} i18n={{}}>
-      <Host script={reactThirdPartyWorker.url} components={components} />
+      <Host script={reactThirdPartyWorker.url} />
     </AppProvider>
   );
 }

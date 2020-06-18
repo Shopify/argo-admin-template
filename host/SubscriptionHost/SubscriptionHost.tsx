@@ -54,8 +54,7 @@ export function SubscriptionHost(props: HostProps) {
       },
     } as any
   );
-  const outSettings = merge(settings, {
-    data: outData,
+  const outSettings = merge({...settings, data: outData}, {
     locale: {
       setOnChange() {
         console.log('Your onChange callback was set');
