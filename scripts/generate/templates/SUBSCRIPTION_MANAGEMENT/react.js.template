@@ -1,27 +1,50 @@
 import React, {useState, useEffect} from 'react';
-import {ExtensionPoint, TextField, Text, Stack, Checkbox} from '@shopify/argo-admin';
-import {render, useData, useContainer, useSessionToken} from '@shopify/argo-admin/react';
+import {
+  ExtensionPoint,
+  TextField,
+  Text,
+  Stack,
+  Checkbox,
+} from '@shopify/argo-admin';
+import {
+  render,
+  useData,
+  useContainer,
+  useSessionToken,
+} from '@shopify/argo-admin/react';
 
+// 'Add' mode should allow a user to add the current product to an existing selling plan
 function Add() {
-  const [selectedPlans, setSelectedPlans] = useState([]);
+  // Information about the product and/or plan your extension is editing.
+  // Your extension receives different data in each mode.
   const data = useData();
+
+  // The UI your extension renders inside
   const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
+
+  // Session token contains information about the current user. Use it to authenticate calls
+  // from your extension to your app server.
+  const {getSessionToken} = useSessionToken();
+
+  const [selectedPlans, setSelectedPlans] = useState([]);
   const mockPlans = [
     {name: 'Subscription Plan A', id: 'a'},
     {name: 'Subscription Plan B', id: 'b'},
     {name: 'Subscription Plan C', id: 'c'},
   ];
 
+  // Configure the extension container UI
   useEffect(() => {
     setPrimaryAction({
       content: 'Add to plan',
       onAction: async () => {
+        // Get a fresh session token before every call to your app server.
         const token = await getSessionToken();
-        /**
-        This is where you will need to submit the form data to your app server to add the new plan.
-        You'll need to use the `token` value to authenticate this request on your app server.
-        Upon completion, call done() to trigger a reload of the resource page and close() to close the modal.
-        */
+
+        // Here, send the form data to your app server to add the product to an existing plan.
+
+        // Upon completion, call done() to trigger a reload of the resource page, and close() to
+        // terminate the extension.
         done();
         close();
       },
@@ -31,7 +54,7 @@ function Add() {
       content: 'Cancel',
       onAction: () => close(),
     });
-  }, []);
+  }, [getSessionToken]);
 
   return (
     <>
@@ -59,23 +82,28 @@ function Add() {
   );
 }
 
+// 'Create' mode should create a new selling plan, and add the current product to it
 function Create() {
   const data = useData();
+  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
+  const {getSessionToken} = useSessionToken();
+
+  // Mock plan settings
   const [planTitle, setPlanTitle] = useState('');
   const [percentageOff, setPercentageOff] = useState('');
   const [deliveryFrequency, setDeliveryFrequency] = useState('');
-  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
 
   useEffect(() => {
     setPrimaryAction({
       content: 'Create plan',
       onAction: async () => {
+        // Get a fresh session token before every call to your app server.
         const token = await getSessionToken();
-        /**
-        This is where you will need to submit the form data to your app server to create the new plan.
-        You'll need to use the `token` value to authenticate this request on your app server.
-        Upon completion, call done() to trigger a reload of the resource page and close() to close the modal.
-        */
+
+        // Here, send the form data to your app server to create the new plan.
+
+        // Upon completion, call done() to trigger a reload of the resource page, and close() to
+        // terminate the extension.
         done();
         close();
       },
@@ -85,7 +113,7 @@ function Create() {
       content: 'Cancel',
       onAction: () => close(),
     });
-  }, []);
+  }, [getSessionToken]);
 
   return (
     <Stack vertical>
@@ -117,6 +145,8 @@ function Create() {
   );
 }
 
+// 'Remove' mode should remove the current product from a selling plan.
+// This should not delete the selling plan.
 function Remove() {
   const data = useData();
   const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
@@ -125,12 +155,13 @@ function Remove() {
     setPrimaryAction({
       content: 'Remove from plan',
       onAction: async () => {
+        // Get a fresh session token before every call to your app server.
         const token = await getSessionToken();
-        /**
-        This is where you will need to submit the form data to your app server to remove the plan.
-        You'll need to use the `token` value to authenticate this request on your app server.
-        Upon completion, call done() to trigger a reload of the resource page and close() to close the modal.
-        */
+
+        // Here, send the form data to your app server to remove the product from the plan.
+
+        // Upon completion, call done() to trigger a reload of the resource page, and close() to
+        // terminate the extension.
         done();
         close();
       },
@@ -140,7 +171,7 @@ function Remove() {
       content: 'Cancel',
       onAction: () => close(),
     });
-  }, []);
+  }, [getSessionToken]);
 
   return (
     <Text>
@@ -150,23 +181,28 @@ function Remove() {
   );
 }
 
+// 'Edit' mode should modify an existing selling plan.
+// Changes should affect other products that have this plan applied.
 function Edit() {
   const data = useData();
+  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
+  const {getSessionToken} = useSessionToken();
+
   const [planTitle, setPlanTitle] = useState('Current plan');
   const [percentageOff, setPercentageOff] = useState('10');
   const [deliveryFrequency, setDeliveryFrequency] = useState('1');
-  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
 
   useEffect(() => {
     setPrimaryAction({
       content: 'Edit plan',
       onAction: async () => {
+        // Get a fresh session token before every call to your app server.
         const token = await getSessionToken();
-        /**
-        This is where you will need to submit the form data to your app server to edit the plan.
-        You'll need to use the `token` value to authenticate this request on your app server.
-        Upon completion, call done() to trigger a reload of the resource page and close() to close the modal.
-        */
+
+        // Here, send the form data to your app server to modify the selling plan.
+
+        // Upon completion, call done() to trigger a reload of the resource page, and close() to
+        // terminate the extension.
         done();
         close();
       },
@@ -176,7 +212,7 @@ function Edit() {
       content: 'Cancel',
       onAction: () => close(),
     });
-  }, []);
+  }, [getSessionToken]);
 
   return (
     <Stack vertical>
@@ -208,6 +244,7 @@ function Edit() {
   );
 }
 
+// Your extension must render all four modes
 render(ExtensionPoint.SubscriptionManagementAdd, () => <Add />);
 render(ExtensionPoint.SubscriptionManagementCreate, () => <Create />);
 render(ExtensionPoint.SubscriptionManagementRemove, () => <Remove />);
