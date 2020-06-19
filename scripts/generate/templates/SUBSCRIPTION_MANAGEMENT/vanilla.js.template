@@ -5,7 +5,7 @@ import {
   Stack,
   Checkbox,
   render,
-} from '@shopify/argo';
+} from '@shopify/argo-admin';
 
 function Add(root, api) {
   const data = api.data;

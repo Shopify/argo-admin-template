@@ -6,6 +6,11 @@
   "author": "Shopify <app-extensions@shopify.com>",
   "license": "MIT",
   "devDependencies": {
+<<<<<<< HEAD
+=======
+    "@shopify/argo-admin-host": "latest",
+    "@shopify/polaris": "^4.3.0",
+>>>>>>> d7facf1... chore: consume public lib
     "@babel/core": "^7.10.1",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.1",
     "@babel/plugin-proposal-numeric-separator": "^7.10.1",
@@ -40,7 +45,11 @@
     "server": "webpack-dev-server"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@shopify/argo": "0.1.0",
+=======
+    "@shopify/argo-admin": "latest",
+>>>>>>> d7facf1... chore: consume public lib
     "react": "^16.13.0"
   }
 }

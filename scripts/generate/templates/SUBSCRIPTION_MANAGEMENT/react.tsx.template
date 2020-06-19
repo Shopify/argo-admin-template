@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {ExtensionPoint, TextField, Text, Stack, Checkbox} from '@shopify/argo';
-import {render, useData, useContainer} from '@shopify/argo/react';
+import {ExtensionPoint, TextField, Text, Stack, Checkbox} from '@shopify/argo-admin';
+import {render, useData, useContainer} from '@shopify/argo-admin/react';
 
 function Add() {
   const [selectedPlans, setSelectedPlans] = useState<string[]>([]);
@@ -68,7 +68,7 @@ function Create() {
         close();
       },
     });
-  
+
     setSecondaryAction({
       content: 'Cancel',
       onAction: () => close(),

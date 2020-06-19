@@ -6,7 +6,7 @@ import {
   Text,
   Stack,
   Checkbox,
-} from '@shopify/argo';
+} from '@shopify/argo-admin';
 
 const Add: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementAdd] = (
   root,
