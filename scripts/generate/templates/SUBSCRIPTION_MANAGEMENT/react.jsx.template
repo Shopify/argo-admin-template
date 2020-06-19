@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {ExtensionPoint, TextField, Text, Stack, Checkbox} from '@shopify/argo';
+import {ExtensionPoint, TextField, Text, Stack, Checkbox} from '@shopify/argo-admin';
 import {render, useData, useModalActions} from '@shopify/argo/react';
 
 function Add() {

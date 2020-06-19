@@ -1,4 +1,4 @@
-import {ExtensionPoint, TextField, Text, Stack, Checkbox, render} from '@shopify/argo';
+import {ExtensionPoint, TextField, Text, Stack, Checkbox, render} from '@shopify/argo-admin';
 
 function Add(root, api) {
   const data = api.data;

@@ -930,6 +930,15 @@
   resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-1.24.0.tgz#188fa83067355c5424f71ed1ead4626e61b04403"
   integrity sha512-nPNYVF05QrWzDis8CeQj5vS7VcRNzL+PdCmHG2br3JsCfRWM+XPKKCVSbB3ewd/wX2b51tacITbZMtJ2MKgwjw==
 
+"@shopify/argo-admin@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@shopify/argo-admin/-/argo-admin-0.2.1.tgz#7e5cfc34035f283474a85e3a6bbf9283b6a1c918"
+  integrity sha512-s8KZ7HaVgECWvD0GQwjXloZzPMB4t9rHyA8br1NTujJJDetsPAWO1Rhc0uRx3GedWS2O3QdahOdEqdhVedeq4w==
+  dependencies:
+    "@shopify/remote-ui-core" "^0.0.22"
+  optionalDependencies:
+    react "^16.8.0"
+
 "@shopify/argo-host@latest":
   version "0.1.0"
   resolved "https://packages.shopify.io/shopify/node/npm/@shopify/argo-host/-/argo-host-0.1.0.tgz#aa98f83b7ab14e6f8ee1651e0e0f542d52e67f84"
@@ -1016,6 +1025,14 @@
     "@shopify/remote-ui-types" "^0.0.13"
     "@shopify/rpc" "^1.0.5"
 
+"@shopify/remote-ui-core@^0.0.22":
+  version "0.0.22"
+  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/remote-ui-core/-/remote-ui-core-0.0.22.tgz#441c81a48f4f7b9c55589f123f43d0df7852cff6"
+  integrity sha1-RByBpI9Pe5xVWJ8SP0PQ33hSz/Y=
+  dependencies:
+    "@shopify/remote-ui-types" "^0.0.14"
+    "@shopify/rpc" "^1.0.5"
+
 "@shopify/remote-ui-react@^0.0.24":
   version "0.0.24"
   resolved "https://packages.shopify.io/shopify/node/npm/@shopify/remote-ui-react/-/remote-ui-react-0.0.24.tgz#2cf3b3639006b0dd4c82fe3699d6d36ce56707b2"
@@ -1029,6 +1046,11 @@
   version "0.0.13"
   resolved "https://packages.shopify.io/shopify/node/npm/@shopify/remote-ui-types/-/remote-ui-types-0.0.13.tgz#fd32bb8c6e658e02e93a7f6185912007665086e6"
   integrity sha1-/TK7jG5ljgLpOn9hhZEgB2ZQhuY=
+
+"@shopify/remote-ui-types@^0.0.14":
+  version "0.0.14"
+  resolved "https://packages.shopify.io/shopify/node/npm/@shopify/remote-ui-types/-/remote-ui-types-0.0.14.tgz#e6d64e0c3f4db69dda7220a77e263407c87284ac"
+  integrity sha1-5tZODD9Ntp3aciCnfiY0B8hyhKw=
 
 "@shopify/rpc@^1.0.5", "@shopify/rpc@^1.0.6":
   version "1.0.6"
