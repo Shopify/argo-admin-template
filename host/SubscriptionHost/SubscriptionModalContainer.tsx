@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import {ExtensionPoint, ContainerAction} from '@shopify/argo';
+import {ExtensionPoint, ContainerAction} from '@shopify/argo-admin';
 import {Modal, ModalProps} from '@shopify/polaris';
 import {retain} from '@shopify/web-worker';
 

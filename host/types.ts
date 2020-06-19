@@ -1,3 +1,3 @@
-import {ArgoExtensionsProps} from '@shopify/argo-host';
+import {ArgoExtensionsProps} from '@shopify/argo-admin-host';
 
 export type HostProps = Pick<ArgoExtensionsProps<any>, 'script' | 'components'>;

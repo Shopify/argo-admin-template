@@ -11,7 +11,7 @@ import {
   TextContainer,
 } from '@shopify/polaris';
 import {ProductsMajorTwotone} from '@shopify/polaris-icons';
-import {ExtensionPoint} from '@shopify/argo';
+import {ExtensionPoint} from '@shopify/argo-admin';
 import merge from 'lodash/fp/merge';
 
 import {HostProps} from '../types';
