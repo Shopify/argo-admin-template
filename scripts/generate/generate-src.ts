@@ -12,7 +12,7 @@ export enum Template {
 
 const indexPaths = {
   [Template.Vanilla]: 'vanilla.js.template',
-  [Template.React]: 'react.jsx.template',
+  [Template.React]: 'react.js.template',
   [Template.VanillaTypescript]: 'vanilla.ts.template',
   [Template.ReactTypescript]: 'react.tsx.template',
 };
@@ -43,5 +43,4 @@ export function generateSrc(extensionType: string, template: Template) {
   }
 
   replaceString('../../webpack.config.js', ext, FILE_EXTENSION);
-  replaceString('../../host/Host.tsx', ext, FILE_EXTENSION);
 }
