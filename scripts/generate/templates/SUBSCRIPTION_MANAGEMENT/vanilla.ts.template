@@ -6,29 +6,31 @@ import {
   Text,
   Stack,
   Checkbox,
-} from '@shopify/argo';
+} from '@shopify/argo-admin';
 
 const Add: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementAdd] = (
   root,
   api
 ) => {
   const data = api.data;
-  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
   const mockPlans = [
     {name: 'Subscription Plan A', id: 'a'},
     {name: 'Subscription Plan B', id: 'b'},
     {name: 'Subscription Plan C', id: 'c'},
   ];
 
-  primaryAction.setContent('Add to plan');
-  primaryAction.setAction(() => {
-    data.done();
-    closeModal();
+  setPrimaryAction({
+    content: 'Add to plan',
+    onAction: () => {
+      done();
+      close();
+    }
   });
 
-  secondaryAction.setContent('Cancel');
-  secondaryAction.setAction(() => {
-    closeModal();
+  setSecondaryAction({
+    content: 'Cancel',
+    onAction: () => close()
   });
 
   const textElement = root.createComponent(Text);
@@ -65,17 +67,19 @@ const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate
   api
 ) => {
   const data = api.data;
-  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
-  primaryAction.setContent('Add to plan');
-  primaryAction.setAction(() => {
-    data.done();
-    closeModal();
+  setPrimaryAction({
+    content: 'Create plan',
+    onAction: () => {
+      done();
+      close();
+    }
   });
 
-  secondaryAction.setContent('Cancel');
-  secondaryAction.setAction(() => {
-    closeModal();
+  setSecondaryAction({
+    content: 'Cancel',
+    onAction: () => close()
   });
 
   const rootStack = root.createComponent(Stack, {vertical: true});
@@ -135,17 +139,19 @@ const Remove: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementRemove
   api
 ) => {
   const data = api.data;
-  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
-  primaryAction.setContent('Edit plan');
-  primaryAction.setAction(() => {
-    data.done();
-    closeModal();
+  setPrimaryAction({
+    content: 'Remove plan',
+    onAction: () => {
+      done();
+      close();
+    }
   });
 
-  secondaryAction.setContent('Cancel');
-  secondaryAction.setAction(() => {
-    closeModal();
+  setSecondaryAction({
+    content: 'Cancel',
+    onAction: () => close()
   });
 
   const textElement = root.createComponent(Text);
@@ -164,17 +170,19 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
   api
 ) => {
   const data = api.data;
-  const {primaryAction, secondaryAction, closeModal} = api.modalActions;
+  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
-  primaryAction.setContent('Edit plan');
-  primaryAction.setAction(() => {
-    data.done();
-    closeModal();
+  setPrimaryAction({
+    content: 'Edit plan',
+    onAction: () => {
+      done();
+      close();
+    }
   });
 
-  secondaryAction.setContent('Cancel');
-  secondaryAction.setAction(() => {
-    closeModal();
+  setSecondaryAction({
+    content: 'Cancel',
+    onAction: () => close()
   });
 
   const rootStack = root.createComponent(Stack, {vertical: true});

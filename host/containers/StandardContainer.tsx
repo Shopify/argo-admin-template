@@ -1,12 +1,12 @@
 import React, {useMemo} from 'react';
-import {ExtensionPoint} from '@shopify/argo';
+import {ExtensionPoint} from '@shopify/argo-admin';
 import {
   ArgoExtension,
   ArgoExtensionsProps,
   useLayoutApi,
   useLocaleApi,
   useSessionTokenApi,
-} from '@shopify/argo-host';
+} from '@shopify/argo-admin-host';
 import {
   createWorkerFactory,
   useWorker,
@@ -14,7 +14,7 @@ import {
 } from '@shopify/react-web-worker';
 
 const createWorker = createWorkerFactory(() =>
-  import(/* webpackChunkName: 'sandbox-worker' */ '@shopify/argo-host/worker'),
+  import(/* webpackChunkName: 'sandbox-worker' */ '@shopify/argo-admin-host/worker'),
 );
 
 type BaseProps<T extends ExtensionPoint> = Omit<

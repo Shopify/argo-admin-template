@@ -1,4 +1,4 @@
-import {LocaleApi, ExtensionData, ExtensionPoint} from '@shopify/argo';
+import {LocaleApi, ExtensionData, ExtensionPoint} from '@shopify/argo-admin';
 
 export enum SubscriptionManagementActions {
   Create = 'CREATE',
