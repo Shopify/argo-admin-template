@@ -7,10 +7,10 @@ import {SubscriptionHost} from './SubscriptionHost';
 import {HostProps} from './types';
 import {ThemeConfig} from '@shopify/polaris/types/latest/src/utilities/theme';
 
-const {default: Logo} = require('../src/assets/logo/logo.svg');
+const {default: Logo} = require('./logo.svg');
 
 const reactThirdPartyWorker = createPlainWorkerFactory(() =>
-  import(/* webpackChunkName: 'extension' */ '../src/index.<% FileExtension %>')
+  import(/* webpackChunkName: 'extension' */ '../src')
 );
 
 export {HostWrapper as Host};
