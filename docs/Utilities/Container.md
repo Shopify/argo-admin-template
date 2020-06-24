@@ -1,15 +1,26 @@
 # Container
 
-Each extension point is provided a container API which provides additional methods the extension can use to communicate with Shopify Admin.
+Each extension point should provide a container API, allowing the extension to customize its container UI and communicate the end of its lifecycle.
 
 ## Subscription Management
 
-| Name               | Type       | Description                                                                            | Required |
-| ------------------ | ---------- | -------------------------------------------------------------------------------------- | -------- |
-| close              | `function` | Closes the container and the extension                                                 |          |
-| done               | `function` | Notify Shopify Admin that the extension workflow is complete and data has been updated |          |
-| setPrimaryAction   | `function` | Sets the primary action content and callback when the action is clicked                |          |
-| setSecondaryAction | `function` | Sets the secocndary action content and callback when the action is clicked             |          |
+Subscription Management extensions are rendered in a modal, so their container has primary and secondary actions.
+
+| Name               | Type              | Description                                                                                                                            | Required |
+| ------------------ | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| close              | `function`        | Closes the container and the extension                                                                                                 |          |
+| done               | `function`        | Notify Shopify Admin that the extension workflow is complete and data has been updated, so Admin should refresh related UI on the page |          |
+| setPrimaryAction   | `(ContainerAction) => void` | Sets the primary action content and callback when the action is clicked                                                                |          |
+| setSecondaryAction | `(ContainerAction) => void` | Sets the secondary action content and callback when the action is clicked                                                              |          |
+
+### ContainerAction
+
+| Name     | Type       | Description                          | Required |
+| -------- | ---------- | ------------------------------------ | -------- |
+| content  | `string`   | Label for the action.                | ☑️       |
+| onAction | `function` | Callback when the action is clicked. | ☑️       |
+
+### Examples
 
 #### Vanilla
 
