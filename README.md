@@ -27,3 +27,5 @@ yarn generate --type=SUBSCRIPTION_MANAGEMENT
 
 **Note:**
 Once you're setup, you may delete the `scripts` folder as you will no longer need it.
+
+Documentation on all of the components and utilities in the `argo-admin` library can be found in the [docs folder](./docs).
