@@ -39,24 +39,28 @@ export function SubscriptionHost(props: HostProps) {
   const selectedAction =
     settings.data?.action || SubscriptionManagementActions.Create;
 
-  const outData = actionFields[selectedAction].reduce(
-    (_settings, key) => {
-      // remove optional but undefined data values
-      const value = settings.data?.[key];
-      if (key !== 'action' && value !== undefined) {
-        _settings[key] = settings.data?.[key];
-      }
-      return _settings;
-    },
-    {} as any
-  );
-  const outSettings = merge({...settings, data: outData}, {
-    locale: {
-      setOnChange() {
-        console.log('Your onChange callback was set');
+  const outData = actionFields[selectedAction].reduce((_settings, key) => {
+    // remove optional but undefined data values
+    const value = settings.data?.[key];
+    if (key !== 'action' && value !== undefined) {
+      _settings[key] = settings.data?.[key];
+    }
+    return _settings;
+  }, {} as any);
+  const outSettings = merge(
+    {...settings, data: outData},
+    {
+      locale: {
+        initialValue: settings.locale,
+        setOnChange() {
+          console.log('Your onChange callback was set');
+        },
+      },
+      sessionToken: {
+        getSessionToken: () => Promise.resolve(settings.sessionToken),
       },
     },
-  });
+  );
 
   const extension = (
     <SubscriptionModalContainer

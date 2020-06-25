@@ -20,7 +20,7 @@ export type SubscriptionData = {
   ExtensionData<ExtensionPoint.SubscriptionManagementRemove>;
 
 export interface Settings {
-  locale?: LocaleApi['locale'];
-  sessionToken?: SessionTokenApi['sessionToken'];
+  locale?: string;
+  sessionToken?: string;
   data?: SubscriptionData;
 }

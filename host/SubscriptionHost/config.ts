@@ -58,10 +58,6 @@ export const defaultSettings: Settings = {
     variantId: '3',
     variantIds: ['4'],
   },
-  locale: {initialValue: 'en', setOnChange() {}},
-  sessionToken: {
-    getSessionToken() {
-      return Promise.resolve(undefined);
-    },
-  },
+  locale: 'en',
+  sessionToken: '',
 };

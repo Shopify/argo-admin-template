@@ -19,8 +19,6 @@ export function SettingsForm({settings, updateSettings}: Props) {
     return <Field key={key} state={settings} updateState={updateSettings} />;
   });
 
-  const [sessionToken, setSessionToken] = useState('');
-
   return (
     <Layout.Section oneHalf>
       <Card sectioned title="subscriptionManagement">
@@ -28,25 +26,21 @@ export function SettingsForm({settings, updateSettings}: Props) {
       </Card>
 
       <Card sectioned title="Argo data">
-        <Select
-          label="locale.initialValue"
-          options={LOCALES}
-          value={settings.locale?.initialValue}
-          onChange={(value) =>
-            updateSettings((state) => state.locale?.initialValue, value)
-          }
-        />
-        <TextField
-          label="sessionToken"
-          value={sessionToken}
-          onChange={(value) => {
-            setSessionToken(value);
-            updateSettings(
-              (state) => state.sessionToken?.getSessionToken,
-              () => Promise.resolve(value)
-            );
-          }}
-        />
+        <Stack vertical>
+          <Select
+            label="locale.initialValue"
+            options={LOCALES}
+            value={settings.locale}
+            onChange={(value) => updateSettings((state) => state.locale, value)}
+          />
+          <TextField
+            label="sessionToken"
+            value={settings.sessionToken}
+            onChange={(value) =>
+              updateSettings((state) => state.sessionToken, value)
+            }
+          />
+        </Stack>
       </Card>
     </Layout.Section>
   );
