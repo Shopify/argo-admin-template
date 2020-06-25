@@ -2,10 +2,9 @@
 
 ## Contents
 
-- [Extension Points](./ExtensionPoints/README.md)
-- [Components](./Components/README.md)
-- [Utilities](./Utilities/README.md)
-- [Calling external APIs](./ExternalApi/README.md)
+- [Components](./Components)
+- [Utilities](./Utilities)
+- [Calling external APIs](./ExternalAPI)
 
 ## Getting Started
 
