@@ -1,6 +1,5 @@
 import {useState, useEffect} from 'react';
 import {defaultSettings} from './config';
-import {SellingPlan} from './types';
 import {setter} from './utils';
 
 const states = new Map<string, object>();

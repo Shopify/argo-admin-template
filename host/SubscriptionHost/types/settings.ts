@@ -1,4 +1,9 @@
-import {LocaleApi, ExtensionData, ExtensionPoint} from '@shopify/argo-admin';
+import {
+  LocaleApi,
+  ExtensionData,
+  ExtensionPoint,
+  SessionTokenApi,
+} from '@shopify/argo-admin';
 
 export enum SubscriptionManagementActions {
   Create = 'CREATE',
@@ -16,5 +21,6 @@ export type SubscriptionData = {
 
 export interface Settings {
   locale?: LocaleApi['locale'];
+  sessionToken?: SessionTokenApi['sessionToken'];
   data?: SubscriptionData;
 }
