@@ -1,6 +1,5 @@
 import {useState, useEffect} from 'react';
 import {defaultSettings} from './config';
-import {SellingPlan} from './types';
 import {setter} from './utils';
 
 const states = new Map<string, object>();
@@ -8,7 +7,10 @@ const states = new Map<string, object>();
 // useEffect waits a tick before firing making 2+ components
 // using useStorage with the same storageKey default to initialState.
 // getInitialState will return the same state each time.
-function getInitialState<T extends object>(storageKey: string, initialState: T) {
+function getInitialState<T extends object>(
+  storageKey: string,
+  initialState: T,
+) {
   if (states.has(storageKey)) {
     return states.get(storageKey);
   }
@@ -22,9 +24,11 @@ function getInitialState<T extends object>(storageKey: string, initialState: T) 
 
 export function useStorage<T extends object>(
   storageKey: string,
-  initialState: T
+  initialState: T,
 ) {
-  const [state, setState] = useState<T>(getInitialState(storageKey, initialState));
+  const [state, setState] = useState<T>(
+    getInitialState(storageKey, initialState),
+  );
   function setPathState<V>(pathFn: (state: T) => V, value: V): void {
     setState(setter(pathFn, value)(state));
   }

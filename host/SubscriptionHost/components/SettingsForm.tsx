@@ -1,5 +1,5 @@
-import React from 'react';
-import {Card, Select, Layout, Stack} from '@shopify/polaris';
+import React, {useState} from 'react';
+import {Card, Select, Layout, Stack, TextField} from '@shopify/polaris';
 import {SubscriptionManagementActions, Settings} from '../types';
 import {actionFields, LOCALES} from '../config';
 import {ActionField} from './action-field';
@@ -16,13 +16,7 @@ export function SettingsForm({settings, updateSettings}: Props) {
   const dataForm = actionFields[selectedAction].map((field) => {
     const Field = ActionField[field];
     const key = `SubscriptionManagement-${field}`;
-    return (
-      <Field
-        key={key}
-        state={settings}
-        updateState={updateSettings}
-      />
-    );
+    return <Field key={key} state={settings} updateState={updateSettings} />;
   });
 
   return (
@@ -32,12 +26,21 @@ export function SettingsForm({settings, updateSettings}: Props) {
       </Card>
 
       <Card sectioned title="Argo data">
-        <Select
-          label="locale.initialValue"
-          options={LOCALES}
-          value={settings.locale?.initialValue}
-          onChange={(value) => updateSettings(state => state.locale?.initialValue, value)}
-        />
+        <Stack vertical>
+          <Select
+            label="locale.initialValue"
+            options={LOCALES}
+            value={settings.locale}
+            onChange={(value) => updateSettings((state) => state.locale, value)}
+          />
+          <TextField
+            label="sessionToken"
+            value={settings.sessionToken}
+            onChange={(value) =>
+              updateSettings((state) => state.sessionToken, value)
+            }
+          />
+        </Stack>
       </Card>
     </Layout.Section>
   );
