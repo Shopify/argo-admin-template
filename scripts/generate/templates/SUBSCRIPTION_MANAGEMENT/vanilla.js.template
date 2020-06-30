@@ -9,6 +9,7 @@ import {
 
 function Add(root, api) {
   const data = api.data;
+  const sessionToken = api.sessionToken;
   const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
   const mockPlans = [
     {name: 'Subscription Plan A', id: 'a'},
@@ -18,7 +19,13 @@ function Add(root, api) {
 
   setPrimaryAction({
     content: 'Add to plan',
-    onAction: () => {
+    onAction: async () => {
+      const token = await sessionToken.getSessionToken();
+      /*
+        This is where you will need to submit the form data to your app server to add the new plan.
+        You'll need to use the `token` value to authenticate this request on your app server.
+        Upon completion, call done() to trigger a reload of the resource page and close() to close the modal.
+      */
       done();
       close();
     },
@@ -60,11 +67,18 @@ function Add(root, api) {
 
 function Create(root, api) {
   const data = api.data;
+  const sessionToken = api.sessionToken;
   const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
   setPrimaryAction({
     content: 'Create plan',
-    onAction: () => {
+    onAction: async () => {
+      const token = await sessionToken.getSessionToken();
+      /*
+        This is where you will need to submit the form data to your app server to create a new plan.
+        You'll need to use the `token` value to authenticate this request on your app server.
+        Upon completion, call done() to trigger a reload of the resource page and close() to close the modal.
+      */
       done();
       close();
     },
@@ -129,11 +143,18 @@ function Create(root, api) {
 
 function Remove(root, api) {
   const data = api.data;
+  const sessionToken = api.sessionToken;
   const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
   setPrimaryAction({
     content: 'Remove from plan',
-    onAction: () => {
+    onAction: async () => {
+      const token = await sessionToken.getSessionToken();
+      /*
+        This is where you will need to submit the form data to your app server to remove the plan.
+        You'll need to use the `token` value to authenticate this request on your app server.
+        Upon completion, call done() to trigger a reload of the resource page and close() to close the modal.
+      */
       done();
       close();
     },
@@ -157,11 +178,18 @@ function Remove(root, api) {
 
 function Edit(root, api) {
   const data = api.data;
+  const sessionToken = api.sessionToken;
   const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
   setPrimaryAction({
     content: 'Edit plan',
-    onAction: () => {
+    onAction: async () => {
+      const token = await sessionToken.getSessionToken();
+      /*
+        This is where you will need to submit the form data to your app server to edit the plan.
+        You'll need to use the `token` value to authenticate this request on your app server.
+        Upon completion, call done() to trigger a reload of the resource page and close() to close the modal.
+      */
       done();
       close();
     },
