@@ -13,11 +13,11 @@ Informs merchants about important changes or persistent conditions. Use this com
     const banner = root.createComponent(Banner, {
       action:  {
         onAction: () => console.log('Clicked the action'),
-        content: 'Click me';
-      };
-      status: 'warning';
-      title: 'This is a warning';
-      onDismiss: () => console.log('Closed');
+        content: 'Click me',
+      },
+      status: 'warning',
+      title: 'This is a warning',
+      onDismiss: () => console.log('Closed')
     });
 
     const bannerText = root.createComponent(Text, {
