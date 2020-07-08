@@ -14,9 +14,8 @@ render(ExtensionPoint.MyExtension, (root) => {
     onClick: () => console.log('I’ve been clicked!'),
   });
 
-  const clickableText = root.createComponent(Text, {
-    children: 'I can be clicked',
-  });
+  const clickableText = root.createComponent(Text);
+  clickableText.appendChild('I can be clicked');
 
   clickable.appendChild(clickableText);
   root.appendChild(clickable);
