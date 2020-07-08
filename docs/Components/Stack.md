@@ -35,14 +35,14 @@ render(ExtensionPoint.MyExtension, (root) => {
     wrap: false,
   });
 
-  hStack.appendChild(buildInlineText());
-  hStack.appendChild(buildInlineText());
-  hStack.appendChild(buildInlineText());
+  hStack.appendChild(buildInlineText(root));
+  hStack.appendChild(buildInlineText(root));
+  hStack.appendChild(buildInlineText(root));
   vStack.appendChild(hStack);
 
-  vStack.appendChild(buildStackText());
-  vStack.appendChild(buildStackText());
-  vStack.appendChild(buildStackText());
+  vStack.appendChild(buildStackText(root));
+  vStack.appendChild(buildStackText(root));
+  vStack.appendChild(buildStackText(root));
 
   root.appendChild(vStack);
 
