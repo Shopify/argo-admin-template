@@ -1,4 +1,4 @@
-# Utilies
+# Utilities
 
 Utilities are divided into two categories: some provide data, and others make functionality available to the extension. They’re accessed through the `input` param in vanilla JS, and the hooks API in React.
 
