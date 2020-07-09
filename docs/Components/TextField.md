@@ -13,14 +13,14 @@ It has a range of options and supports several text formats including numbers.
   render(ExtensionPoint.MyExtension, (root) => {
     const textfield = root.createComponent(TextField, {
       label: 'Super text field',
-      type: 'text';
+      type: 'text',
       value: 'I can fly!',
       placeholder: 'Type a thing',
       multiline: 3,
       prefix: 'I typed:',
       suffix: 'into this text field',
       error: 'I hate to break this to you, but you cannot fly',
-      onAfterChange: (value: string) => console.log(value, ' was typed'),
+      onAfterChange: (value) => console.log(value, ' was typed'),
       onFocus: () => console.log('Welcome to the super field!'),
       onBlur: () => console.log('Left to do something else'),
       clearButton: true,
