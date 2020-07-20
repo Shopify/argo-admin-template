@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-
-import {replaceString} from './replace-string';
+import inquirer from 'inquirer';
 
 export enum Template {
   Vanilla = 'vanilla',
@@ -17,10 +16,39 @@ const indexPaths = {
   [Template.ReactTypescript]: 'react.tsx.template',
 };
 
-const FILE_EXTENSION = '<% FileExtension %>';
+const choiceMap: {[key: string]: Template} = {
+  'Vanilla JS': Template.Vanilla,
+  React: Template.React,
+  'Vanilla JS with Typescript': Template.VanillaTypescript,
+  'React with Typescript': Template.ReactTypescript,
+};
 
-export function generateSrc(extensionType: string, template: Template) {
-  const indexPath = indexPaths[template] || indexPaths[Template.Vanilla];
+export async function generateSrc({
+  extensionType,
+  rootDir,
+}: {
+  extensionType: string;
+  rootDir: string;
+}) {
+  const response = await inquirer.prompt<{template: string}>([
+    {
+      type: 'list',
+      name: 'template',
+      message: 'Select template:',
+      min: 1,
+      max: 1,
+      instructions: false,
+      choices: Object.keys(choiceMap),
+    },
+  ]);
+
+  const {template: templateResponse} = response;
+  const template = choiceMap[templateResponse];
+
+  console.log('✅ You selected:', template);
+
+  const indexPath =
+    indexPaths[template] || indexPaths[Template.Vanilla];
   const ext = indexPath.split('.')[1];
 
   const file = fs.readFileSync(
@@ -29,18 +57,20 @@ export function generateSrc(extensionType: string, template: Template) {
   const text = file.toString();
 
   try {
-    const outDir = path.resolve(__dirname, '../../src');
-    if (!fs.existsSync(outDir)) {
-      fs.mkdirSync(outDir);
+    if (!fs.existsSync(rootDir)) {
+      fs.mkdirSync(rootDir);
     }
 
-    const outPath = path.resolve(__dirname, `../../src/index.${ext}`);
-    fs.writeFileSync(outPath, text);
+    const outFile = path.resolve(rootDir, `index.${ext}`);
+    fs.writeFileSync(outFile, text);
 
-    console.log(`src/index.${ext} file was created.`);
+    const entry = path.relative(rootDir, outFile);
+    console.log(`${entry} file was created.`);
+
+    return {entry, template};
   } catch (error) {
-    console.error(`src/index.${ext} file could not be created: `, error);
+    const errorMessage = `index.${ext} file could not be created`;
+    console.error(`${errorMessage}: `, error);
+    throw new Error(errorMessage);
   }
-
-  replaceString('../../webpack.config.js', ext, FILE_EXTENSION);
 }
