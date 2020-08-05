@@ -1,17 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import {
+  Checkbox,
   ExtensionPoint,
   TextField,
   Text,
   Stack,
-  Checkbox,
-} from '@shopify/argo-admin';
-import {
   render,
   useData,
   useContainer,
   useSessionToken,
-} from '@shopify/argo-admin/react';
+} from '@shopify/argo-admin-react';
 
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 function Add() {
