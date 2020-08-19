@@ -1,5 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo, useCallback} from 'react';
 import {
+  Button,
+  Card,
   Checkbox,
   ExtensionPoint,
   TextField,
@@ -12,6 +14,7 @@ import {
 } from '@shopify/argo-admin-react';
 
 // 'Add' mode should allow a user to add the current product to an existing selling plan
+// [Shopify admin renders this mode inside a modal container]
 function Add() {
   // Information about the product and/or plan your extension is editing.
   // Your extension receives different data in each mode.
@@ -81,9 +84,10 @@ function Add() {
 }
 
 // 'Create' mode should create a new selling plan, and add the current product to it
+// [Shopify admin renders this mode inside an app overlay container]
 function Create() {
   const data = useData();
-  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
+  const {close, done} = useContainer();
   const {getSessionToken} = useSessionToken();
 
   // Mock plan settings
@@ -91,53 +95,57 @@ function Create() {
   const [percentageOff, setPercentageOff] = useState('');
   const [deliveryFrequency, setDeliveryFrequency] = useState('');
 
-  useEffect(() => {
-    setPrimaryAction({
-      content: 'Create plan',
-      onAction: async () => {
-        // Get a fresh session token before every call to your app server.
-        const token = await getSessionToken();
+  const onPrimaryAction = useCallback(async () => {
+    const token = await getSessionToken();
 
-        // Here, send the form data to your app server to create the new plan.
+    // Here, send the form data to your app server to create the new plan.
 
-        // Upon completion, call done() to trigger a reload of the resource page, and close() to
-        // terminate the extension.
-        done();
-        close();
-      },
-    });
-
-    setSecondaryAction({
-      content: 'Cancel',
-      onAction: () => close(),
-    });
+    done();
+    close();
   }, [getSessionToken]);
 
+  const actions = useMemo(() => (
+    <Stack distribution="fill">
+      <Button title="Cancel" onClick={() => close()} />
+      <Stack distribution="trailing">
+        <Button title="Create plan" onClick={onPrimaryAction} primary/>
+      </Stack>
+    </Stack>
+  ), [onPrimaryAction]);
+
   return (
-    <Stack vertical>
-      <Text>
-        Create subscription plan for {`{Product id ${data.productId}}`}
-      </Text>
+    <Stack distribution="center">
+      <Stack vertical>
 
-      <TextField
-        label="Plan title"
-        value={planTitle}
-        onAfterChange={setPlanTitle}
-      />
+        <Text size="titleLarge">Create subscription plan</Text>
 
-      <Stack>
-        <TextField
-          type="number"
-          label="Delivery frequency (in weeks)"
-          value={deliveryFrequency}
-          onAfterChange={setDeliveryFrequency}
-        />
-        <TextField
-          type="number"
-          label="Percentage off (%)"
-          value={percentageOff}
-          onAfterChange={setPercentageOff}
-        />
+        <Card title={`Create subscription plan for Product id ${data.productId}`} sectioned>
+          <TextField
+            label="Plan title"
+            value={planTitle}
+            onAfterChange={setPlanTitle}
+          />
+        </Card>
+
+        <Card title="Delivery and discount" sectioned>
+          <Stack>
+            <TextField
+              type="number"
+              label="Delivery frequency (in weeks)"
+              value={deliveryFrequency}
+              onAfterChange={setDeliveryFrequency}
+            />
+            <TextField
+              type="number"
+              label="Percentage off (%)"
+              value={percentageOff}
+              onAfterChange={setPercentageOff}
+            />
+          </Stack>
+        </Card>
+
+        {actions}
+
       </Stack>
     </Stack>
   );
@@ -145,21 +153,20 @@ function Create() {
 
 // 'Remove' mode should remove the current product from a selling plan.
 // This should not delete the selling plan.
+// [Shopify admin renders this mode inside a modal container]
 function Remove() {
   const data = useData();
   const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
+  const {getSessionToken} = useSessionToken();
 
   useEffect(() => {
     setPrimaryAction({
       content: 'Remove from plan',
       onAction: async () => {
-        // Get a fresh session token before every call to your app server.
         const token = await getSessionToken();
 
         // Here, send the form data to your app server to remove the product from the plan.
 
-        // Upon completion, call done() to trigger a reload of the resource page, and close() to
-        // terminate the extension.
         done();
         close();
       },
@@ -181,62 +188,67 @@ function Remove() {
 
 // 'Edit' mode should modify an existing selling plan.
 // Changes should affect other products that have this plan applied.
+// [Shopify admin renders this mode inside an app overlay container]
 function Edit() {
   const data = useData();
-  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
+  const {close, done} = useContainer();
   const {getSessionToken} = useSessionToken();
 
   const [planTitle, setPlanTitle] = useState('Current plan');
   const [percentageOff, setPercentageOff] = useState('10');
   const [deliveryFrequency, setDeliveryFrequency] = useState('1');
 
-  useEffect(() => {
-    setPrimaryAction({
-      content: 'Edit plan',
-      onAction: async () => {
-        // Get a fresh session token before every call to your app server.
-        const token = await getSessionToken();
+  const onPrimaryAction = useCallback(async () => {
+    const token = await getSessionToken();
 
-        // Here, send the form data to your app server to modify the selling plan.
+    // Here, send the form data to your app server to modify the selling plan.
 
-        // Upon completion, call done() to trigger a reload of the resource page, and close() to
-        // terminate the extension.
-        done();
-        close();
-      },
-    });
-
-    setSecondaryAction({
-      content: 'Cancel',
-      onAction: () => close(),
-    });
+    done();
+    close();
   }, [getSessionToken]);
 
+  const actions = useMemo(() => (
+    <Stack distribution="fill">
+      <Button title="Cancel" onClick={() => close()} />
+      <Stack distribution="trailing">
+        <Button title="Edit plan" onClick={onPrimaryAction} primary/>
+      </Stack>
+    </Stack>
+  ), [onPrimaryAction]);
+
   return (
-    <Stack vertical>
-      <Text>
-        Create subscription plan for {`{Product id ${data.productId}}`}
-      </Text>
+    <Stack distribution="center">
+      <Stack vertical>
 
-      <TextField
-        label="Plan title"
-        value={planTitle}
-        onAfterChange={setPlanTitle}
-      />
+        <Text size="titleLarge">Edit subscription plan</Text>
 
-      <Stack>
-        <TextField
-          type="number"
-          label="Delivery frequency (in weeks)"
-          value={deliveryFrequency}
-          onAfterChange={setDeliveryFrequency}
-        />
-        <TextField
-          type="number"
-          label="Percentage off (%)"
-          value={percentageOff}
-          onAfterChange={setPercentageOff}
-        />
+        <Card title={`Edit subscription plan for Product id ${data.productId}`} sectioned>
+          <TextField
+            label="Plan title"
+            value={planTitle}
+            onAfterChange={setPlanTitle}
+          />
+        </Card>
+
+        <Card title="Delivery and discount" sectioned>
+          <Stack>
+            <TextField
+              type="number"
+              label="Delivery frequency (in weeks)"
+              value={deliveryFrequency}
+              onAfterChange={setDeliveryFrequency}
+            />
+            <TextField
+              type="number"
+              label="Percentage off (%)"
+              value={percentageOff}
+              onAfterChange={setPercentageOff}
+            />
+          </Stack>
+        </Card>
+
+        {actions}
+
       </Stack>
     </Stack>
   );

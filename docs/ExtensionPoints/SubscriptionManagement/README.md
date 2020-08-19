@@ -108,7 +108,6 @@ The following components are available only for Subscription Management Create a
 - [Card](../../Components/Card.md)
 - [CardSection](../../Components/CardSection.md)
 - [Modal](../../Components/Modal.md)
-- [Page](../../Components/Page.md)
 
 ## Available utilities
 

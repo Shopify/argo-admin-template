@@ -5,10 +5,13 @@ import {
   TextField,
   Text,
   Stack,
+  Button,
+  Card,
   Checkbox,
 } from '@shopify/argo-admin';
 
 // 'Add' mode should allow a user to add the current product to an existing selling plan
+// [Shopify admin renders this mode inside a modal container]
 const Add: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementAdd] = (
   root,
   api
@@ -81,44 +84,47 @@ const Add: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementAdd] = (
 };
 
 // 'Create' mode should create a new selling plan, and add the current product to it
+// [Shopify admin renders this mode inside an app overlay container]
 const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate] = (
   root,
   api
 ) => {
   const data = api.data;
   const sessionToken = api.sessionToken;
-  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
+  const {close, done} = api.container;
 
-  setPrimaryAction({
-    content: 'Create plan',
-    onAction: async () => {
-      // Get a fresh session token before every call to your app server.
+  const primaryButton = root.createComponent(Button, {
+    title: 'Create plan',
+    primary: true,
+    onClick: async () => {
       const token = await sessionToken.getSessionToken();
 
       // Here, send the form data to your app server to create the new plan.
 
-      // Upon completion, call done() to trigger a reload of the resource page, and close() to
-      // terminate the extension.
       done();
       close();
     },
   });
-
-  setSecondaryAction({
-    content: 'Cancel',
-    onAction: () => close(),
+  const secondaryButton = root.createComponent(Button, {
+    title: 'Cancel',
+    onClick: () => close(),
   });
 
-  const rootStack = root.createComponent(Stack, {vertical: true});
-  root.appendChild(rootStack);
+  const containerStack = root.createComponent(Stack, {distribution: 'center'});
+  root.appendChild(containerStack);
 
-  const textElement = root.createComponent(Text);
-  textElement.appendChild(
-    root.createText(
-      `Create subscription plan for {Product id ${data.productId}}`
-    )
-  );
+  const rootStack = root.createComponent(Stack, {vertical: true});
+  containerStack.appendChild(rootStack);
+
+  const textElement = root.createComponent(Text, {size: 'titleLarge'});
+  textElement.appendChild(root.createText('Create subscription plan'));
   rootStack.appendChild(textElement);
+
+  const planTitleCard = root.createComponent(Card, {
+    sectioned: true,
+    title: `Create subscription plan for Product id ${data.productId}`,
+  });
+  rootStack.appendChild(planTitleCard);
 
   const planTitleField = root.createComponent(TextField, {
     label: 'Plan title',
@@ -129,10 +135,16 @@ const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate
       });
     },
   });
-  rootStack.appendChild(planTitleField);
+  planTitleCard.appendChild(planTitleField);
+
+  const planDetailsCard = root.createComponent(Card, {
+    sectioned: true,
+    title: 'Delivery and discount',
+  });
+  rootStack.appendChild(planDetailsCard);
 
   const stack = root.createComponent(Stack);
-  rootStack.appendChild(stack);
+  planDetailsCard.appendChild(stack);
 
   const deliveryFrequencyField = root.createComponent(TextField, {
     type: 'number',
@@ -158,11 +170,22 @@ const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate
   });
   stack.appendChild(percentageOffField);
 
+  const actionsElement = root.createComponent(Stack, {distribution: 'fill'});
+  rootStack.appendChild(actionsElement);
+  actionsElement.appendChild(secondaryButton);
+
+  const primaryButtonStack = root.createComponent(Stack, {
+    distribution: 'trailing',
+  });
+  actionsElement.appendChild(primaryButtonStack);
+  primaryButtonStack.appendChild(primaryButton);
+
   root.mount();
 };
 
 // 'Remove' mode should remove the current product from a selling plan.
 // This should not delete the selling plan.
+// [Shopify admin renders this mode inside a modal container]
 const Remove: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementRemove] = (
   root,
   api
@@ -174,13 +197,10 @@ const Remove: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementRemove
   setPrimaryAction({
     content: 'Remove plan',
     onAction: async () => {
-      // Get a fresh session token before every call to your app server.
       const token = await sessionToken.getSessionToken();
 
       // Here, send the form data to your app server to remove the product from the plan.
 
-      // Upon completion, call done() to trigger a reload of the resource page, and close() to
-      // terminate the extension.
       done();
       close();
     },
@@ -204,42 +224,47 @@ const Remove: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementRemove
 
 // 'Edit' mode should modify an existing selling plan.
 // Changes should affect other products that have this plan applied.
+// [Shopify admin renders this mode inside an app overlay container]
 const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = (
   root,
   api
 ) => {
   const data = api.data;
   const sessionToken = api.sessionToken;
-  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
+  const {close, done} = api.container;
 
-  setPrimaryAction({
-    content: 'Edit plan',
-    onAction: async () => {
-      // Get a fresh session token before every call to your app server.
+  const primaryButton = root.createComponent(Button, {
+    title: 'Edit plan',
+    primary: true,
+    onClick: async () => {
       const token = await sessionToken.getSessionToken();
 
       // Here, send the form data to your app server to modify the selling plan.
 
-      // Upon completion, call done() to trigger a reload of the resource page, and close() to
-      // terminate the extension.
       done();
       close();
-    },
+    }
+  });
+  const secondaryButton = root.createComponent(Button, {
+    title: 'Cancel',
+    onClick: () => close(),
   });
 
-  setSecondaryAction({
-    content: 'Cancel',
-    onAction: () => close(),
-  });
+  const containerStack = root.createComponent(Stack, {distribution: 'center'});
+  root.appendChild(containerStack);
 
   const rootStack = root.createComponent(Stack, {vertical: true});
-  root.appendChild(rootStack);
+  containerStack.appendChild(rootStack);
 
-  const textElement = root.createComponent(Text);
-  textElement.appendChild(
-    root.createText(`Edit subscription plan for {Product id ${data.productId}}`)
-  );
+  const textElement = root.createComponent(Text, {size: 'titleLarge'});
+  textElement.appendChild(root.createText('Edit subscription plan'));
   rootStack.appendChild(textElement);
+
+  const planTitleCard = root.createComponent(Card, {
+    sectioned: true,
+    title: `Edit subscription plan for Product id ${data.productId}`,
+  });
+  rootStack.appendChild(planTitleCard);
 
   const planTitleField = root.createComponent(TextField, {
     label: 'Plan title',
@@ -250,10 +275,16 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
       });
     },
   });
-  rootStack.appendChild(planTitleField);
+  planTitleCard.appendChild(planTitleField);
+
+  const planDetailsCard = root.createComponent(Card, {
+    sectioned: true,
+    title: 'Delivery and discount',
+  });
+  rootStack.appendChild(planDetailsCard);
 
   const stack = root.createComponent(Stack);
-  rootStack.appendChild(stack);
+  planDetailsCard.appendChild(stack);
 
   const deliveryFrequencyField = root.createComponent(TextField, {
     type: 'number',
@@ -278,6 +309,16 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
     },
   });
   stack.appendChild(percentageOffField);
+
+  const actionsElement = root.createComponent(Stack, {distribution: 'fill'});
+  rootStack.appendChild(actionsElement);
+  actionsElement.appendChild(secondaryButton);
+
+  const primaryButtonStack = root.createComponent(Stack, {
+    distribution: 'trailing',
+  });
+  actionsElement.appendChild(primaryButtonStack);
+  primaryButtonStack.appendChild(primaryButton);
 
   root.mount();
 };
