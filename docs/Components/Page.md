@@ -1,8 +1,6 @@
 # Page
 
-⚠️ **Incomplete** (not required for MVP)
-
-The Page component is ...
+Use to build the outer wrapper of a page, including the page title and associated actions.
 
 ## Implementation
 
@@ -27,10 +25,26 @@ render(ExtensionPoint.MyExtension, (root) => {
 import {render, ExtensionPoint, Page} from '@shopify/argo-admin-react';
 
 function App() {
-  return <Page>...</Page>;
+  return <Page>This is the best extension.</Page>;
 }
 
 render(ExtensionPoint.MyExtension, () => <App />);
 ```
 
 ## Props API
+
+| Name             | Type             | Description                                                                               | Required |
+| ---------------- | ---------------- | ----------------------------------------------------------------------------------------- | -------- |
+| title            | `string`         | Page title, in large type.                                                                | ☑️       |
+| subTitle         | `string`         | Page subtitle, in regular type.                                                           |          |
+| primaryAction    | `Action`         | Primary page-level action. See [Action](#Action) action.                                  |          |
+| secondaryActions | `Action[]`       | Collection of secondary page-level actions. See [Action](#Action)actions.                 |          |
+| thumbnail        | `ThumbnailProps` | Thumbnail that precedes the title. See [Thumbnail Props API](./Thumbnail.md#Props%20API). |          |
+
+### Action
+
+| Name        | Type         | Description                                           | Required |
+| ----------- | ------------ | ----------------------------------------------------- | -------- |
+| content     | `string`     | Action label text.                                    | ☑️       |
+| destructive | `boolean`    | Indicates a dangerous or potentially negative action. |          |
+| onAction    | `() => void` | Callback for the action.                              |          |
