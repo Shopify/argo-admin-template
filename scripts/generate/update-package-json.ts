@@ -3,22 +3,39 @@ import path from 'path';
 import {promisify} from 'util';
 import {Template} from './generate-src';
 
-export function addScripts({entry, type}: {entry: string; type: string}) {
+function templateIsTypescript(template: Template) {
+  return [Template.VanillaTypescript, Template.ReactTypescript].includes(
+    template
+  );
+}
+
+function templateIsReact(template: Template) {
+  return [Template.React, Template.ReactTypescript].includes(template);
+}
+
+export function addScripts({
+  entry,
+  type,
+  template,
+}: {
+  entry: string;
+  type: string;
+  template: Template;
+}) {
+  const typescriptFlag = templateIsTypescript(template) ? ' --typescript' : '';
+
   return updatePackage((npmPackage) => {
     npmPackage.scripts[
       'server'
-    ] = `argo-admin-cli server --entry="${entry}" --port=39351 --type=${type}`;
+    ] = `argo-admin-cli server --entry="${entry}" --port=39351 --type=${type}${typescriptFlag}`;
     npmPackage.scripts['build'] = `argo-admin-cli build --entry="${entry}"`;
     return npmPackage;
   });
 }
 
 export function cleanUpInitialize({template}: {template: Template}) {
-  const isTypescript = [
-    Template.VanillaTypescript,
-    Template.ReactTypescript,
-  ].includes(template);
-  const isReact = [Template.React, Template.ReactTypescript].includes(template);
+  const isTypescript = templateIsTypescript(template);
+  const isReact = templateIsReact(template);
 
   return updatePackage((npmPackage) => {
     npmPackage.scripts.generate = undefined;
@@ -29,7 +46,7 @@ export function cleanUpInitialize({template}: {template: Template}) {
       typescript: isTypescript ? devDependencies['typescript'] : undefined,
     };
 
-    if(isReact) {
+    if (isReact) {
       npmPackage.dependencies['@shopify/argo-admin'] = undefined;
     } else {
       npmPackage.dependencies.react = undefined;
