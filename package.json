@@ -14,7 +14,7 @@
     "yargs": "^15.3.1"
   },
   "scripts": {
-    "generate": "ts-node -O '{\"esModuleInterop\": true}' ./scripts/generate"
+    "generate": "ts-node -O \"{\\\"esModuleInterop\\\": true}\" ./scripts/generate"
   },
   "dependencies": {
     "@shopify/argo-admin": "latest",
