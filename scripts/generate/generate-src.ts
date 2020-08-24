@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+
 import inquirer from 'inquirer';
 
 export enum Template {
@@ -47,12 +48,11 @@ export async function generateSrc({
 
   console.log('✅ You selected:', template);
 
-  const indexPath =
-    indexPaths[template] || indexPaths[Template.Vanilla];
+  const indexPath = indexPaths[template] || indexPaths[Template.Vanilla];
   const ext = indexPath.split('.')[1];
 
   const file = fs.readFileSync(
-    __dirname + `/templates/${extensionType}/${indexPath}`
+    `${__dirname}/templates/${extensionType}/${indexPath}`
   );
   const text = file.toString();
 

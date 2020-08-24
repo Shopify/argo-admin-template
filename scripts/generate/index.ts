@@ -1,5 +1,7 @@
 import path from 'path';
+
 import yargs from 'yargs';
+
 import {generateSrc} from './generate-src';
 import {extensionTypes} from './constants';
 import {addScripts} from './update-package-json';
@@ -48,4 +50,4 @@ async function tryCatch<T = void>(fn: () => T): Promise<T> {
   }
 }
 
-(init(yargs.argv as any));
+init(yargs.argv as any);

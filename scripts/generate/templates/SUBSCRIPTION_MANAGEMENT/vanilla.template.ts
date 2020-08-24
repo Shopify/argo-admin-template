@@ -1,18 +1,21 @@
 import {
   ExtensionPoint,
+  ExtensionPointCallback,
+  render,
   TextField,
   Text,
   Stack,
   Button,
   Card,
   Checkbox,
-  render,
 } from '@shopify/argo-admin';
-import React from 'react';
 
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 // [Shopify admin renders this mode inside a modal container]
-function Add(root, api) {
+const Add: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementAdd] = (
+  root,
+  api
+) => {
   // Information about the product and/or plan your extension is editing.
   // Your extension receives different data in each mode.
   const data = api.data;
@@ -45,6 +48,7 @@ function Add(root, api) {
       close();
     },
   });
+
   setSecondaryAction({
     content: 'Cancel',
     onAction: () => close(),
@@ -77,11 +81,14 @@ function Add(root, api) {
   root.appendChild(stack);
 
   root.mount();
-}
+};
 
 // 'Create' mode should create a new selling plan, and add the current product to it
 // [Shopify admin renders this mode inside an app overlay container]
-function Create(root, api) {
+const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate] = (
+  root,
+  api
+) => {
   const data = api.data;
   const sessionToken = api.sessionToken;
   const {close, done} = api.container;
@@ -174,18 +181,21 @@ function Create(root, api) {
   primaryButtonStack.appendChild(primaryButton);
 
   root.mount();
-}
+};
 
 // 'Remove' mode should remove the current product from a selling plan.
 // This should not delete the selling plan.
 // [Shopify admin renders this mode inside a modal container]
-function Remove(root, api) {
+const Remove: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementRemove] = (
+  root,
+  api
+) => {
   const data = api.data;
   const sessionToken = api.sessionToken;
   const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
   setPrimaryAction({
-    content: 'Remove from plan',
+    content: 'Remove plan',
     onAction: async () => {
       const token = await sessionToken.getSessionToken();
 
@@ -210,12 +220,15 @@ function Remove(root, api) {
 
   root.appendChild(textElement);
   root.mount();
-}
+};
 
 // 'Edit' mode should modify an existing selling plan.
 // Changes should affect other products that have this plan applied.
 // [Shopify admin renders this mode inside an app overlay container]
-function Edit(root, api) {
+const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = (
+  root,
+  api
+) => {
   const data = api.data;
   const sessionToken = api.sessionToken;
   const {close, done} = api.container;
@@ -230,7 +243,7 @@ function Edit(root, api) {
 
       done();
       close();
-    }
+    },
   });
   const secondaryButton = root.createComponent(Button, {
     title: 'Cancel',
@@ -308,7 +321,7 @@ function Edit(root, api) {
   primaryButtonStack.appendChild(primaryButton);
 
   root.mount();
-}
+};
 
 // Your extension must render all four modes
 render(ExtensionPoint.SubscriptionManagementAdd, Add);
