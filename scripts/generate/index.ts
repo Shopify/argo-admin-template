@@ -34,7 +34,7 @@ async function init({type}: InitConfig) {
     })
   );
 
-  await tryCatch(() => addScripts({entry, type, template}));
+  await tryCatch(() => addScripts({entry, type}));
 
   await tryCatch(() => cleanUp({template}));
 }

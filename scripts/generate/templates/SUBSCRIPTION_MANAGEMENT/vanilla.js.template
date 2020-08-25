@@ -7,8 +7,6 @@ import {
   render,
 } from '@shopify/argo-admin';
 
-console.log(`Globals can be defined in argo-admin.config.js: EXAMPLE_URL=${EXAMPLE_URL}`);
-
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 function Add(root, api) {
   // Information about the product and/or plan your extension is editing.

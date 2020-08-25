@@ -13,21 +13,11 @@ function templateIsReact(template: Template) {
   return [Template.React, Template.ReactTypescript].includes(template);
 }
 
-export function addScripts({
-  entry,
-  type,
-  template,
-}: {
-  entry: string;
-  type: string;
-  template: Template;
-}) {
-  const typescriptFlag = templateIsTypescript(template) ? ' --typescript' : '';
-
+export function addScripts({entry, type}: {entry: string; type: string}) {
   return updatePackage((npmPackage) => {
     npmPackage.scripts[
       'server'
-    ] = `argo-admin-cli server --entry="${entry}" --port=39351 --type=${type}${typescriptFlag}`;
+    ] = `argo-admin-cli server --entry="${entry}" --port=39351 --type=${type}`;
     npmPackage.scripts['build'] = `argo-admin-cli build --entry="${entry}"`;
     return npmPackage;
   });

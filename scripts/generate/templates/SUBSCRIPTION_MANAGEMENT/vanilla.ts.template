@@ -8,8 +8,6 @@ import {
   Checkbox,
 } from '@shopify/argo-admin';
 
-console.log(`Globals can be defined in argo-admin.config.js: EXAMPLE_URL=${EXAMPLE_URL}`);
-
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 const Add: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementAdd] = (
   root,
