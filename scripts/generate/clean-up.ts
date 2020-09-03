@@ -1,12 +1,14 @@
 import path from 'path';
 import {exec} from 'child_process';
+
 import {cleanUpInitialize} from './update-package-json';
 import {Template} from './generate-src';
 
 export async function cleanUp({template}: {template: Template}) {
   exec(`rm -rf ${path.resolve('.', 'scripts')}`);
   exec(`rm -rf ${path.resolve('.', '.prettierrc')}`);
-  
+  exec(`rm -rf ${path.resolve('.', '.eslintrc.js')}`);
+
   try {
     await cleanUpInitialize({template});
     console.log('package.json updated.');

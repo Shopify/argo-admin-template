@@ -18,16 +18,18 @@ import {
 function Add() {
   // Information about the product and/or plan your extension is editing.
   // Your extension receives different data in each mode.
-  const data = useData();
+  const data = useData<ExtensionPoint.SubscriptionManagementAdd>();
 
   // The UI your extension renders inside
-  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
+  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer<
+    ExtensionPoint.SubscriptionManagementAdd
+  >();
 
   // Session token contains information about the current user. Use it to authenticate calls
   // from your extension to your app server.
   const {getSessionToken} = useSessionToken();
 
-  const [selectedPlans, setSelectedPlans] = useState([]);
+  const [selectedPlans, setSelectedPlans] = useState<string[]>([]);
   const mockPlans = [
     {name: 'Subscription Plan A', id: 'a'},
     {name: 'Subscription Plan B', id: 'b'},
@@ -55,7 +57,7 @@ function Add() {
       content: 'Cancel',
       onAction: () => close(),
     });
-  }, [getSessionToken]);
+  }, [getSessionToken, close, done, setPrimaryAction, setSecondaryAction]);
 
   return (
     <>
@@ -86,8 +88,10 @@ function Add() {
 // 'Create' mode should create a new selling plan, and add the current product to it
 // [Shopify admin renders this mode inside an app overlay container]
 function Create() {
-  const data = useData();
-  const {close, done} = useContainer();
+  const data = useData<ExtensionPoint.SubscriptionManagementCreate>();
+  const {close, done} = useContainer<
+    ExtensionPoint.SubscriptionManagementCreate
+  >();
   const {getSessionToken} = useSessionToken();
 
   // Mock plan settings
@@ -102,24 +106,29 @@ function Create() {
 
     done();
     close();
-  }, [getSessionToken]);
+  }, [getSessionToken, done, close]);
 
-  const actions = useMemo(() => (
-    <Stack distribution="fill">
-      <Button title="Cancel" onClick={() => close()} />
-      <Stack distribution="trailing">
-        <Button title="Create plan" onClick={onPrimaryAction} primary/>
+  const actions = useMemo(
+    () => (
+      <Stack distribution="fill">
+        <Button title="Cancel" onClick={() => close()} />
+        <Stack distribution="trailing">
+          <Button title="Create plan" onClick={onPrimaryAction} primary />
+        </Stack>
       </Stack>
-    </Stack>
-  ), [onPrimaryAction]);
+    ),
+    [onPrimaryAction, close]
+  );
 
   return (
     <Stack distribution="center">
       <Stack vertical>
-
         <Text size="titleLarge">Create subscription plan</Text>
 
-        <Card title={`Create subscription plan for Product id ${data.productId}`} sectioned>
+        <Card
+          title={`Create subscription plan for Product id ${data.productId}`}
+          sectioned
+        >
           <TextField
             label="Plan title"
             value={planTitle}
@@ -145,7 +154,6 @@ function Create() {
         </Card>
 
         {actions}
-
       </Stack>
     </Stack>
   );
@@ -155,8 +163,10 @@ function Create() {
 // This should not delete the selling plan.
 // [Shopify admin renders this mode inside a modal container]
 function Remove() {
-  const data = useData();
-  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer();
+  const data = useData<ExtensionPoint.SubscriptionManagementRemove>();
+  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer<
+    ExtensionPoint.SubscriptionManagementRemove
+  >();
   const {getSessionToken} = useSessionToken();
 
   useEffect(() => {
@@ -176,7 +186,7 @@ function Remove() {
       content: 'Cancel',
       onAction: () => close(),
     });
-  }, [getSessionToken]);
+  }, [getSessionToken, done, close, setPrimaryAction, setSecondaryAction]);
 
   return (
     <Text>
@@ -190,13 +200,15 @@ function Remove() {
 // Changes should affect other products that have this plan applied.
 // [Shopify admin renders this mode inside an app overlay container]
 function Edit() {
-  const data = useData();
-  const {close, done} = useContainer();
+  const data = useData<ExtensionPoint.SubscriptionManagementEdit>();
+  const [planTitle, setPlanTitle] = useState('Current plan');
   const {getSessionToken} = useSessionToken();
 
-  const [planTitle, setPlanTitle] = useState('Current plan');
   const [percentageOff, setPercentageOff] = useState('10');
   const [deliveryFrequency, setDeliveryFrequency] = useState('1');
+  const {close, done} = useContainer<
+    ExtensionPoint.SubscriptionManagementEdit
+  >();
 
   const onPrimaryAction = useCallback(async () => {
     const token = await getSessionToken();
@@ -205,24 +217,29 @@ function Edit() {
 
     done();
     close();
-  }, [getSessionToken]);
+  }, [getSessionToken, done, close]);
 
-  const actions = useMemo(() => (
-    <Stack distribution="fill">
-      <Button title="Cancel" onClick={() => close()} />
-      <Stack distribution="trailing">
-        <Button title="Edit plan" onClick={onPrimaryAction} primary/>
+  const actions = useMemo(
+    () => (
+      <Stack distribution="fill">
+        <Button title="Cancel" onClick={() => close()} />
+        <Stack distribution="trailing">
+          <Button title="Edit plan" onClick={onPrimaryAction} primary />
+        </Stack>
       </Stack>
-    </Stack>
-  ), [onPrimaryAction]);
+    ),
+    [onPrimaryAction, close]
+  );
 
   return (
     <Stack distribution="center">
       <Stack vertical>
-
         <Text size="titleLarge">Edit subscription plan</Text>
 
-        <Card title={`Edit subscription plan for Product id ${data.productId}`} sectioned>
+        <Card
+          title={`Edit subscription plan for Product id ${data.productId}`}
+          sectioned
+        >
           <TextField
             label="Plan title"
             value={planTitle}
@@ -248,7 +265,6 @@ function Edit() {
         </Card>
 
         {actions}
-
       </Stack>
     </Stack>
   );
