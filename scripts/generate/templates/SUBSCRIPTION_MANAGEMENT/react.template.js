@@ -13,6 +13,8 @@ import {
   useSessionToken,
 } from '@shopify/argo-admin-react';
 
+console.log('test')
+
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 // [Shopify admin renders this mode inside a modal container]
 function Add() {
