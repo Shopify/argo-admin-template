@@ -11,10 +11,10 @@ export enum Template {
 }
 
 const indexPaths = {
-  [Template.Vanilla]: 'vanilla.js.template',
-  [Template.React]: 'react.js.template',
-  [Template.VanillaTypescript]: 'vanilla.ts.template',
-  [Template.ReactTypescript]: 'react.tsx.template',
+  [Template.Vanilla]: 'vanilla.template.js',
+  [Template.React]: 'react.template.js',
+  [Template.VanillaTypescript]: 'vanilla.template.ts',
+  [Template.ReactTypescript]: 'react.template.tsx',
 };
 
 const choiceMap: {[key: string]: Template} = {
@@ -49,7 +49,7 @@ export async function generateSrc({
   console.log('✅ You selected:', template);
 
   const indexPath = indexPaths[template] || indexPaths[Template.Vanilla];
-  const ext = indexPath.split('.')[1];
+  const ext = path.extname(indexPath);
 
   const file = fs.readFileSync(
     `${__dirname}/templates/${extensionType}/${indexPath}`
@@ -61,7 +61,7 @@ export async function generateSrc({
       fs.mkdirSync(rootDir);
     }
 
-    const outFile = path.resolve(rootDir, `index.${ext}`);
+    const outFile = path.resolve(rootDir, `index${ext}`);
     fs.writeFileSync(outFile, text);
 
     const entry = path.relative(rootDir, outFile);
@@ -69,7 +69,7 @@ export async function generateSrc({
 
     return {entry, template};
   } catch (error) {
-    const errorMessage = `index.${ext} file could not be created`;
+    const errorMessage = `index${ext} file could not be created`;
     console.error(`${errorMessage}: `, error);
     throw new Error(errorMessage);
   }
