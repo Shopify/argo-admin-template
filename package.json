@@ -17,7 +17,7 @@
     "yargs": "^15.3.1"
   },
   "scripts": {
-    "check": "prettier --check \"**/scripts/**/*.{ts,tsx}\"",
+    "type-check": "prettier --check \"**/scripts/**/*.{ts,tsx}\"",
     "format": "prettier --write \"**/scripts/**/*.{ts,tsx}\"",
     "generate": "ts-node -O \"{\\\"esModuleInterop\\\": true}\" ./scripts/generate",
     "lint": "eslint ./scripts --ext .js,.ts,.tsx --format codeframe"
