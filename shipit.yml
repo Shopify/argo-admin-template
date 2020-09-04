@@ -1,4 +1,0 @@
-ci:
-  require:
-    - lint
-    - check

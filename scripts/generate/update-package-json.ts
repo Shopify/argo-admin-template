@@ -21,7 +21,7 @@ export function cleanUpInitialize({template}: {template: Template}) {
 
   return updatePackage((npmPackage) => {
     npmPackage.scripts.generate = undefined;
-    npmPackage.scripts.check = undefined;
+    npmPackage.scripts['type-check'] = undefined;
     npmPackage.scripts.format = undefined;
     npmPackage.scripts.lint = undefined;
 

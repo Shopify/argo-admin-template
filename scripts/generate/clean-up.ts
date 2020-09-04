@@ -8,6 +8,7 @@ export async function cleanUp({template}: {template: Template}) {
   exec(`rm -rf ${path.resolve('.', 'scripts')}`);
   exec(`rm -rf ${path.resolve('.', '.prettierrc')}`);
   exec(`rm -rf ${path.resolve('.', '.eslintrc.js')}`);
+  exec(`rm -rf ${path.resolve('.', '.github')}`);
 
   try {
     await cleanUpInitialize({template});
