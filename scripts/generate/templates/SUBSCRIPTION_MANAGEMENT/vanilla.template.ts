@@ -10,6 +10,24 @@ import {
   Checkbox,
 } from '@shopify/argo-admin';
 
+interface Translations {
+  [key: string]: string;
+}
+
+const translations: {
+  [locale: string]: Translations;
+} = {
+  de: {
+    hello: 'Guten Tag',
+  },
+  en: {
+    hello: 'Hello',
+  },
+  fr: {
+    hello: 'Bonjour',
+  },
+};
+
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 // [Shopify admin renders this mode inside a modal container]
 const Add: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementAdd] = (
@@ -19,6 +37,13 @@ const Add: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementAdd] = (
   // Information about the product and/or plan your extension is editing.
   // Your extension receives different data in each mode.
   const data = api.data;
+
+  // Information about the merchant's selected language. Use this to support multiple languages.
+  const locale = api.locale.initialValue;
+
+  // Use locale to set translations with a fallback
+  const localizedStrings: Translations =
+    translations[locale] || translations.en;
 
   // Session token contains information about the current user. Use it to authenticate calls
   // from your extension to your app server.
@@ -53,6 +78,10 @@ const Add: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementAdd] = (
     content: 'Cancel',
     onAction: () => close(),
   });
+
+  const localizedHelloText = root.createComponent(Text);
+  localizedHelloText.appendChild(root.createText(`${localizedStrings.hello}!`));
+  root.appendChild(localizedHelloText);
 
   const textElement = root.createComponent(Text);
   textElement.appendChild(
@@ -90,8 +119,12 @@ const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate
   api
 ) => {
   const data = api.data;
+  const locale = api.locale.initialValue;
   const sessionToken = api.sessionToken;
   const {close, done} = api.container;
+
+  const localizedStrings: Translations =
+    translations[locale] || translations.en;
 
   const primaryButton = root.createComponent(Button, {
     title: 'Create plan',
@@ -117,7 +150,9 @@ const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate
   containerStack.appendChild(rootStack);
 
   const textElement = root.createComponent(Text, {size: 'titleLarge'});
-  textElement.appendChild(root.createText('Create subscription plan'));
+  textElement.appendChild(
+    root.createText(`${localizedStrings.hello}! Create subscription plan`)
+  );
   rootStack.appendChild(textElement);
 
   const planTitleCard = root.createComponent(Card, {
@@ -191,8 +226,12 @@ const Remove: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementRemove
   api
 ) => {
   const data = api.data;
+  const locale = api.locale.initialValue;
   const sessionToken = api.sessionToken;
   const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
+
+  const localizedStrings: Translations =
+    translations[locale] || translations.en;
 
   setPrimaryAction({
     content: 'Remove plan',
@@ -210,6 +249,10 @@ const Remove: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementRemove
     content: 'Cancel',
     onAction: () => close(),
   });
+
+  const localizedHelloText = root.createComponent(Text);
+  localizedHelloText.appendChild(root.createText(`${localizedStrings.hello}!`));
+  root.appendChild(localizedHelloText);
 
   const textElement = root.createComponent(Text);
   textElement.appendChild(
@@ -230,8 +273,12 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
   api
 ) => {
   const data = api.data;
+  const locale = api.locale.initialValue;
   const sessionToken = api.sessionToken;
   const {close, done} = api.container;
+
+  const localizedStrings: Translations =
+    translations[locale] || translations.en;
 
   const primaryButton = root.createComponent(Button, {
     title: 'Edit plan',
@@ -257,7 +304,9 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
   containerStack.appendChild(rootStack);
 
   const textElement = root.createComponent(Text, {size: 'titleLarge'});
-  textElement.appendChild(root.createText('Edit subscription plan'));
+  textElement.appendChild(
+    root.createText(`${localizedStrings.hello}! Edit subscription plan`)
+  );
   rootStack.appendChild(textElement);
 
   const planTitleCard = root.createComponent(Card, {

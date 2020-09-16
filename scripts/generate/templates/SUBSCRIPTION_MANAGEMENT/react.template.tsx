@@ -10,8 +10,27 @@ import {
   render,
   useData,
   useContainer,
+  useLocale,
   useSessionToken,
 } from '@shopify/argo-admin-react';
+
+interface Translations {
+  [key: string]: string;
+}
+
+const translations: {
+  [locale: string]: Translations;
+} = {
+  de: {
+    hello: 'Guten Tag',
+  },
+  en: {
+    hello: 'Hello',
+  },
+  fr: {
+    hello: 'Bonjour',
+  },
+};
 
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 // [Shopify admin renders this mode inside a modal container]
@@ -24,6 +43,14 @@ function Add() {
   const {close, done, setPrimaryAction, setSecondaryAction} = useContainer<
     ExtensionPoint.SubscriptionManagementAdd
   >();
+
+  // Information about the merchant's selected language. Use this to support multiple languages.
+  const locale = useLocale();
+
+  // Use locale to set translations with a fallback
+  const localizedStrings: Translations = useMemo(() => {
+    return translations[locale] || translations.en;
+  }, [locale]);
 
   // Session token contains information about the current user. Use it to authenticate calls
   // from your extension to your app server.
@@ -61,6 +88,7 @@ function Add() {
 
   return (
     <>
+      <Text size="titleLarge">{localizedStrings.hello}!</Text>
       <Text>
         Add {`{Product id ${data.productId}}`} to an existing plan or existing
         plans
@@ -92,6 +120,12 @@ function Create() {
   const {close, done} = useContainer<
     ExtensionPoint.SubscriptionManagementCreate
   >();
+
+  const locale = useLocale();
+  const localizedStrings: Translations = useMemo(() => {
+    return translations[locale] || translations.en;
+  }, [locale]);
+
   const {getSessionToken} = useSessionToken();
 
   // Mock plan settings
@@ -123,7 +157,9 @@ function Create() {
   return (
     <Stack distribution="center">
       <Stack vertical>
-        <Text size="titleLarge">Create subscription plan</Text>
+        <Text size="titleLarge">
+          {localizedStrings.hello}! Create subscription plan
+        </Text>
 
         <Card
           title={`Create subscription plan for Product id ${data.productId}`}
@@ -167,6 +203,11 @@ function Remove() {
   const {close, done, setPrimaryAction, setSecondaryAction} = useContainer<
     ExtensionPoint.SubscriptionManagementRemove
   >();
+  const locale = useLocale();
+  const localizedStrings: Translations = useMemo(() => {
+    return translations[locale] || translations.en;
+  }, [locale]);
+
   const {getSessionToken} = useSessionToken();
 
   useEffect(() => {
@@ -189,10 +230,13 @@ function Remove() {
   }, [getSessionToken, done, close, setPrimaryAction, setSecondaryAction]);
 
   return (
-    <Text>
-      Remove {`{Product id ${data.productId}}`} from{' '}
-      {`{Plan group id ${data.sellingPlanGroupId}}`}
-    </Text>
+    <>
+      <Text size="titleLarge">{localizedStrings.hello}!</Text>
+      <Text>
+        Remove {`{Product id ${data.productId}}`} from{' '}
+        {`{Plan group id ${data.sellingPlanGroupId}}`}
+      </Text>
+    </>
   );
 }
 
@@ -202,6 +246,11 @@ function Remove() {
 function Edit() {
   const data = useData<ExtensionPoint.SubscriptionManagementEdit>();
   const [planTitle, setPlanTitle] = useState('Current plan');
+  const locale = useLocale();
+  const localizedStrings: Translations = useMemo(() => {
+    return translations[locale] || translations.en;
+  }, [locale]);
+
   const {getSessionToken} = useSessionToken();
 
   const [percentageOff, setPercentageOff] = useState('10');
@@ -234,7 +283,9 @@ function Edit() {
   return (
     <Stack distribution="center">
       <Stack vertical>
-        <Text size="titleLarge">Edit subscription plan</Text>
+        <Text size="titleLarge">
+          {localizedStrings.hello}! Edit subscription plan
+        </Text>
 
         <Card
           title={`Edit subscription plan for Product id ${data.productId}`}
