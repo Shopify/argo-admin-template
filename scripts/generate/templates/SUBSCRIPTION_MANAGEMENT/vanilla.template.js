@@ -9,12 +9,30 @@ import {
   render,
 } from '@shopify/argo-admin';
 
+const translations = {
+  de: {
+    hello: 'Guten Tag',
+  },
+  en: {
+    hello: 'Hello',
+  },
+  fr: {
+    hello: 'Bonjour',
+  },
+};
+
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 // [Shopify admin renders this mode inside a modal container]
 function Add(root, api) {
   // Information about the product and/or plan your extension is editing.
   // Your extension receives different data in each mode.
   const data = api.data;
+
+  // Information about the merchant's selected language. Use this to support multiple languages.
+  const locale = api.locale.initialValue;
+
+  // Use locale to set translations with a fallback
+  const localizedStrings = translations[locale] || translations.en;
 
   // Session token contains information about the current user. Use it to authenticate calls
   // from your extension to your app server.
@@ -49,6 +67,10 @@ function Add(root, api) {
     onAction: () => close(),
   });
 
+  const localizedHelloText = root.createComponent(Text);
+  localizedHelloText.appendChild(root.createText(`${localizedStrings.hello}!`));
+  root.appendChild(localizedHelloText);
+
   const textElement = root.createComponent(Text);
   textElement.appendChild(
     root.createText(
@@ -82,8 +104,11 @@ function Add(root, api) {
 // [Shopify admin renders this mode inside an app overlay container]
 function Create(root, api) {
   const data = api.data;
+  const locale = api.locale.initialValue;
   const sessionToken = api.sessionToken;
   const {close, done} = api.container;
+
+  const localizedStrings = translations[locale] || translations.en;
 
   const primaryButton = root.createComponent(Button, {
     title: 'Create plan',
@@ -109,7 +134,9 @@ function Create(root, api) {
   containerStack.appendChild(rootStack);
 
   const textElement = root.createComponent(Text, {size: 'titleLarge'});
-  textElement.appendChild(root.createText('Create subscription plan'));
+  textElement.appendChild(
+    root.createText(`${localizedStrings.hello}! Create subscription plan`)
+  );
   rootStack.appendChild(textElement);
 
   const planTitleCard = root.createComponent(Card, {
@@ -180,8 +207,11 @@ function Create(root, api) {
 // [Shopify admin renders this mode inside a modal container]
 function Remove(root, api) {
   const data = api.data;
+  const locale = api.locale.initialValue;
   const sessionToken = api.sessionToken;
   const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
+
+  const localizedStrings = translations[locale] || translations.en;
 
   setPrimaryAction({
     content: 'Remove from plan',
@@ -200,6 +230,10 @@ function Remove(root, api) {
     onAction: () => close(),
   });
 
+  const localizedHelloText = root.createComponent(Text);
+  localizedHelloText.appendChild(root.createText(`${localizedStrings.hello}!`));
+  root.appendChild(localizedHelloText);
+
   const textElement = root.createComponent(Text);
   textElement.appendChild(
     root.createText(
@@ -216,8 +250,11 @@ function Remove(root, api) {
 // [Shopify admin renders this mode inside an app overlay container]
 function Edit(root, api) {
   const data = api.data;
+  const locale = api.locale.initialValue;
   const sessionToken = api.sessionToken;
   const {close, done} = api.container;
+
+  const localizedStrings = translations[locale] || translations.en;
 
   const primaryButton = root.createComponent(Button, {
     title: 'Edit plan',
@@ -243,7 +280,9 @@ function Edit(root, api) {
   containerStack.appendChild(rootStack);
 
   const textElement = root.createComponent(Text, {size: 'titleLarge'});
-  textElement.appendChild(root.createText('Edit subscription plan'));
+  textElement.appendChild(
+    root.createText(`${localizedStrings.hello}! Edit subscription plan`)
+  );
   rootStack.appendChild(textElement);
 
   const planTitleCard = root.createComponent(Card, {
