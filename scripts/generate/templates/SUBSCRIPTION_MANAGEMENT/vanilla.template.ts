@@ -1,7 +1,7 @@
 import {
   ExtensionPoint,
   ExtensionPointCallback,
-  render,
+  extend,
   TextField,
   Text,
   Stack,
@@ -129,7 +129,7 @@ const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate
   const primaryButton = root.createComponent(Button, {
     title: 'Create plan',
     primary: true,
-    onClick: async () => {
+    onPress: async () => {
       const token = await sessionToken.getSessionToken();
 
       // Here, send the form data to your app server to create the new plan.
@@ -140,7 +140,7 @@ const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate
   });
   const secondaryButton = root.createComponent(Button, {
     title: 'Cancel',
-    onClick: () => close(),
+    onPress: () => close(),
   });
 
   const containerStack = root.createComponent(Stack, {distribution: 'center'});
@@ -283,7 +283,7 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
   const primaryButton = root.createComponent(Button, {
     title: 'Edit plan',
     primary: true,
-    onClick: async () => {
+    onPress: async () => {
       const token = await sessionToken.getSessionToken();
 
       // Here, send the form data to your app server to modify the selling plan.
@@ -294,7 +294,7 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
   });
   const secondaryButton = root.createComponent(Button, {
     title: 'Cancel',
-    onClick: () => close(),
+    onPress: () => close(),
   });
 
   const containerStack = root.createComponent(Stack, {distribution: 'center'});
@@ -373,7 +373,7 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
 };
 
 // Your extension must render all four modes
-render(ExtensionPoint.SubscriptionManagementAdd, Add);
-render(ExtensionPoint.SubscriptionManagementCreate, Create);
-render(ExtensionPoint.SubscriptionManagementRemove, Remove);
-render(ExtensionPoint.SubscriptionManagementEdit, Edit);
+extend(ExtensionPoint.SubscriptionManagementAdd, Add);
+extend(ExtensionPoint.SubscriptionManagementCreate, Create);
+extend(ExtensionPoint.SubscriptionManagementRemove, Remove);
+extend(ExtensionPoint.SubscriptionManagementEdit, Edit);
