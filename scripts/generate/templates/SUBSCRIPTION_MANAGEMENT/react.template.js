@@ -7,6 +7,7 @@ import {
   TextField,
   Text,
   Stack,
+  extend,
   render,
   useData,
   useContainer,
@@ -134,9 +135,9 @@ function Create() {
   const actions = useMemo(
     () => (
       <Stack distribution="fill">
-        <Button title="Cancel" onClick={() => close()} />
+        <Button title="Cancel" onPress={() => close()} />
         <Stack distribution="trailing">
-          <Button title="Create plan" onClick={onPrimaryAction} primary />
+          <Button title="Create plan" onPress={onPrimaryAction} primary />
         </Stack>
       </Stack>
     ),
@@ -256,9 +257,9 @@ function Edit() {
   const actions = useMemo(
     () => (
       <Stack distribution="fill">
-        <Button title="Cancel" onClick={() => close()} />
+        <Button title="Cancel" onPress={() => close()} />
         <Stack distribution="trailing">
-          <Button title="Edit plan" onClick={onPrimaryAction} primary />
+          <Button title="Edit plan" onPress={onPrimaryAction} primary />
         </Stack>
       </Stack>
     ),
@@ -307,7 +308,19 @@ function Edit() {
 }
 
 // Your extension must render all four modes
-render(ExtensionPoint.SubscriptionManagementAdd, () => <Add />);
-render(ExtensionPoint.SubscriptionManagementCreate, () => <Create />);
-render(ExtensionPoint.SubscriptionManagementRemove, () => <Remove />);
-render(ExtensionPoint.SubscriptionManagementEdit, () => <Edit />);
+extend(
+  ExtensionPoint.SubscriptionManagementAdd,
+  render(() => <Add />)
+);
+extend(
+  ExtensionPoint.SubscriptionManagementCreate,
+  render(() => <Create />)
+);
+extend(
+  ExtensionPoint.SubscriptionManagementRemove,
+  render(() => <Remove />)
+);
+extend(
+  ExtensionPoint.SubscriptionManagementEdit,
+  render(() => <Edit />)
+);
