@@ -158,7 +158,7 @@ function Create() {
           <TextField
             label="Plan title"
             value={planTitle}
-            onAfterChange={setPlanTitle}
+            onChange={setPlanTitle}
           />
         </Card>
 
@@ -168,13 +168,13 @@ function Create() {
               type="number"
               label="Delivery frequency (in weeks)"
               value={deliveryFrequency}
-              onAfterChange={setDeliveryFrequency}
+              onChange={setDeliveryFrequency}
             />
             <TextField
               type="number"
               label="Percentage off (%)"
               value={percentageOff}
-              onAfterChange={setPercentageOff}
+              onChange={setPercentageOff}
             />
           </Stack>
         </Card>
@@ -280,7 +280,7 @@ function Edit() {
           <TextField
             label="Plan title"
             value={planTitle}
-            onAfterChange={setPlanTitle}
+            onChange={setPlanTitle}
           />
         </Card>
 
@@ -290,13 +290,13 @@ function Edit() {
               type="number"
               label="Delivery frequency (in weeks)"
               value={deliveryFrequency}
-              onAfterChange={setDeliveryFrequency}
+              onChange={setDeliveryFrequency}
             />
             <TextField
               type="number"
               label="Percentage off (%)"
               value={percentageOff}
-              onAfterChange={setPercentageOff}
+              onChange={setPercentageOff}
             />
           </Stack>
         </Card>
