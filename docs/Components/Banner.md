@@ -1,19 +1,31 @@
 # Banner
 
-Informs merchants about important changes or persistent conditions. Use this component if you need to communicate to merchants in a prominent way. Banners are placed at the top of the page, section or card they apply to, and below the relevant header if one exists.
+Banners inform merchants about important changes or persistent conditions. Use this component if you need to communicate to merchants in a prominent way. [Learn more about best practices and guidelines on using Banners](https://polaris.shopify.com/components/feedback-indicators/banner#section-best-practices).
+
+## Behavior
+
+- 📱 Do not nest other components other than Text. They will not be rendered. Use nested Text to render text content within the Banner.
+- 📱 Do not nest banners inside horizontal Stacks, Pressables, ResourceItems, Cards, or CardSections. This will result in unintended behavior.
+
+| ✅ Do                                                         | 🛑 Don't                         |
+| ------------------------------------------------------------- | -------------------------------- |
+| Place Banners at the top of the page or section they apply to | Use too many Banners at one time |
+| Use status to provide additional context to the merchant      |                                  |
+
+For more guidelines, refer to Polaris' [Banner best practices](https://polaris.shopify.com/components/feedback-indicators/banner#section-best-practices).
 
 ## Examples
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-  import {render, ExtensionPoint, Banner} from '@shopify/argo-admin';
+  import {extend, ExtensionPoint, Banner} from '@shopify/argo-admin';
 
-  render(ExtensionPoint.MyExtension, (root) => {
+  extend('Playground', (root) => {
     const banner = root.createComponent(Banner, {
       action:  {
-        onAction: () => console.log('Clicked the action'),
-        content: 'Click me';
+        onAction: () => console.log('Pressed the action'),
+        content: 'Press me';
       };
       status: 'warning';
       title: 'This is a warning';
@@ -30,17 +42,17 @@ Informs merchants about important changes or persistent conditions. Use this com
   });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {render, ExtensionPoint, Banner} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, Banner} from '@shopify/argo-admin-react';
 
 function App() {
   return (
     <Banner
       action={{
-        onAction: () => console.log('Clicked the action');
-        content: 'Click me';
+        onAction: () => console.log('Pressed the action');
+        content: 'Press me';
       }}
       status="warning"
       title="This is a warning"
@@ -51,7 +63,7 @@ function App() {
   )
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend('Playground', render(() => <App />));
 ```
 
 ## Props API
@@ -67,5 +79,5 @@ render(ExtensionPoint.MyExtension, () => <App />);
 
 | Name     | Type         | Description                          | Required |
 | -------- | ------------ | ------------------------------------ | -------- |
-| onAction | `() => void` | Callback when the button is clicked. | ☑️       |
+| onAction | `() => void` | Callback when the button is pressed. | ☑️       |
 | content  | `string`     | Button label text.                   | ☑️       |

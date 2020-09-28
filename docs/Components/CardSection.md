@@ -1,15 +1,19 @@
 # CardSection
 
-Card components can be separated into sections, each one visually separated by a horizontal line and an optional section title.
+CardSections are used to group similar concepts within a Card. CardSections add dividers, which visually separate regions within cards.
+
+| ✅ Do                                           | 🛑 Don't                        |
+| ----------------------------------------------- | ------------------------------- |
+| Use CardSection to split up content within Card | Use CardSection outside of Card |
 
 ## Examples
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {render, ExtensionPoint, CardSection} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, CardSection} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend('Playground', (root) => {
   const card = root.createComponent(Card, {});
   root.appendChild(card);
 
@@ -21,10 +25,10 @@ render(ExtensionPoint.MyExtension, (root) => {
 });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {render, ExtensionPoint, CardSection} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, CardSection} from '@shopify/argo-admin-react';
 
 function App() {
   return (
@@ -34,7 +38,10 @@ function App() {
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Playground',
+  render(() => <App />),
+);
 ```
 
 ## Props API

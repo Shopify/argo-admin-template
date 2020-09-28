@@ -4,46 +4,50 @@ The toast component is a non-disruptive message that appears at the bottom of th
 
 ## Examples
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {render, ExtensionPoint, Button} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Button} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root, api) => {
+extend('Admin::Product::SubscriptionPlan::Add', (root, api) => {
   const {toast} = api;
 
   const button = root.createComponent(Button, {
     label: 'Pop toast',
-    onClick: () => toast.show('Toast popped!'),
+    onPress: () => toast.show('Toast popped!'),
   });
+  root.appendChild(button);
 
   const errorButton = root.createComponent(Button, {
     label: 'Do something',
-    onClick: () => toast.show('That didn’t work.', {error: true}),
+    onPress: () => toast.show('That didn’t work.', {error: true}),
   });
+  root.appendChild(errorButton);
 
-  root.appendChild(toast);
   root.mount();
 });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {render, useToast, ExtensionPoint, Button} from '@shopify/argo-admin-react';
+import {extend, render, useToast, ExtensionPoint, Button} from '@shopify/argo-admin-react';
 
 function App() {
   const {show: showToast} = useToast();
 
   return (
     <>
-      <Button onClick={() => showToast('Toast popped!')} label="Pop toast" />
-      <Button onClick={() => showToast('That didn’t work.', {error: true})} label="Do something" />
+      <Button onPress={() => showToast('Toast popped!')} label="Pop toast" />
+      <Button onPress={() => showToast('That didn’t work.', {error: true})} label="Do something" />
     </>
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Admin::Product::SubscriptionPlan::Add',
+  render(() => <App />),
+);
 ```
 
 ## Toast API

@@ -1,15 +1,17 @@
 # Page
 
+**Note:** This component is note available in Product Subscription extensions. See the [full list of available components](../ExtensionPoints/ProductSubscription/README.md).
+
 Use to build the outer wrapper of a page, including the page title and associated actions.
 
 ## Implementation
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {render, ExtensionPoint, Page} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Page} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend('Playground', (root) => {
   const page = root.createComponent(Page, {});
 
   page.appendChild('This is the best extension.');
@@ -19,27 +21,30 @@ render(ExtensionPoint.MyExtension, (root) => {
 });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {render, ExtensionPoint, Page} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, Page} from '@shopify/argo-admin-react';
 
 function App() {
   return <Page>This is the best extension.</Page>;
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Playground',
+  render(() => <App />),
+);
 ```
 
 ## Props API
 
-| Name             | Type             | Description                                                                               | Required |
-| ---------------- | ---------------- | ----------------------------------------------------------------------------------------- | -------- |
-| title            | `string`         | Page title, in large type.                                                                | ☑️       |
-| subTitle         | `string`         | Page subtitle, in regular type.                                                           |          |
-| primaryAction    | `Action`         | Primary page-level action. See [Action](#Action) action.                                  |          |
-| secondaryActions | `Action[]`       | Collection of secondary page-level actions. See [Action](#Action)actions.                 |          |
-| thumbnail        | `ThumbnailProps` | Thumbnail that precedes the title. See [Thumbnail Props API](./Thumbnail.md#Props%20API). |          |
+| Name             | Type             | Description                                                                              | Required |
+| ---------------- | ---------------- | ---------------------------------------------------------------------------------------- | -------- |
+| title            | `string`         | Page title, in large type                                                                | ☑️       |
+| subTitle         | `string`         | Page subtitle, in regular type                                                           |          |
+| primaryAction    | `Action`         | Primary page-level action. See [Action](#Action) action                                  |          |
+| secondaryActions | `Action[]`       | Collection of secondary page-level actions. See [Action](#Action)actions                 |          |
+| thumbnail        | `ThumbnailProps` | Thumbnail that precedes the title. See [Thumbnail Props API](./Thumbnail.md#Props%20API) |          |
 
 ### Action
 

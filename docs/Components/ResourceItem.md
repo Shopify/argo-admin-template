@@ -4,54 +4,72 @@ Resource items represent specific objects within a collection, such as products 
 
 A ResourceItem should be rendered within a [ResourceList](./ResourceList.md).
 
+## Behavior
+
+- 📱 All children of ResourceItems are placed in a single view object, which makes recycling the views expensive. Consider making your ResourceItems simple.
+- 📱 Any child of ResourceItem that has an `onPress` will take precedence and the `onPress` of ResourceItem will not be invoked
+
+| ✅ Do                                                                        | 🛑 Don't                              |
+| ---------------------------------------------------------------------------- | ------------------------------------- |
+| 📱 Keep ResourceItem shallow. Complex hierarchies have performance penalties | 📱 Use complex and deep Stack layouts |
+
 ## Examples
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {render, ExtensionPoint, ResourceList, ResourceItem} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, ResourceList, ResourceItem} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
-  const resourceitem1 = root.createComponent(ResourceItem, {
+extend('Playground', (root) => {
+  const resourceItem1 = root.createComponent(ResourceItem, {
     id: '1234',
-    onClick: () => console.log('Clicked 1'),
+    onPress: () => console.log('Pressed 1'),
   });
-  resourceitem1.appendChild('Cool item');
-  const resourceitem2 = root.createComponent(ResourceItem, {
+  resourceItem1.appendChild('Cool item');
+  const resourceItem2 = root.createComponent(ResourceItem, {
     id: '5678',
-    onClick: () => console.log('Clicked 2'),
+    onPress: () => console.log('Pressed 2'),
   });
-  resourceitem2.appendChild('Cooler item');
+  resourceItem2.appendChild('Cooler item');
 
-  const resourcelist = root.createComponent(ResourceList, {});
+  const resourceList = root.createComponent(ResourceList, {});
 
-  resourcelist.appendChild(resourceitem1);
-  resourcelist.appendChild(resourceitem2);
+  resourceList.appendChild(resourceItem1);
+  resourceList.appendChild(resourceItem2);
 
-  root.appendChild(resourcelist);
+  root.appendChild(resourceList);
   root.mount();
 });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {render, ExtensionPoint, ResourceList, ResourceItem} from '@shopify/argo-admin-react';
+import {
+  extend,
+  render,
+  ExtensionPoint,
+  ResourceList,
+  ResourceItem,
+} from '@shopify/argo-admin-react';
 
 function App() {
   return (
     <ResourceList>
-      <ResourceItem id="1234" onClick={() => console.log('Clicked 1')}>
+      <ResourceItem id="1234" onPress={() => console.log('Pressed 1')}>
         Cool item
       </ResourceItem>
-      <ResourceItem id="5678" onClick={() => console.log('Clicked 2')}>
+      <ResourceItem id="5678" onPress={() => console.log('Pressed 2')}>
         Cooler item
       </ResourceItem>
     </ResourceList>
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Playground',
+  render(() => <App />),
+);
 ```
 
 ## Props API
@@ -59,4 +77,4 @@ render(ExtensionPoint.MyExtension, () => <App />);
 | Name    | Type               | Description | Required |
 | ------- | ------------------ | ----------- | -------- |
 | id      | `string`, `number` |             | ☑️       |
-| onClick | `() => void`       |             | ☑️       |
+| onPress | `() => void`       |             | ☑️       |
