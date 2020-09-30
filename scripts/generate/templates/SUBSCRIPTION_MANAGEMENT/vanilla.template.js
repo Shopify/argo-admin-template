@@ -148,7 +148,7 @@ function Create(root, api) {
   const planTitleField = root.createComponent(TextField, {
     label: 'Plan title',
     value: '',
-    onAfterChange(value) {
+    onChange(value) {
       planTitleField.updateProps({
         value,
       });
@@ -169,7 +169,7 @@ function Create(root, api) {
     type: 'number',
     label: 'Delivery frequency (in weeks)',
     value: undefined,
-    onAfterChange(value) {
+    onChange(value) {
       deliveryFrequencyField.updateProps({
         value,
       });
@@ -181,7 +181,7 @@ function Create(root, api) {
     type: 'number',
     label: 'Percentage off (%)',
     value: undefined,
-    onAfterChange(value) {
+    onChange(value) {
       percentageOffField.updateProps({
         value,
       });
@@ -294,7 +294,7 @@ function Edit(root, api) {
   const planTitleField = root.createComponent(TextField, {
     label: 'Plan title',
     value: 'Current Plan',
-    onAfterChange(value) {
+    onChange(value) {
       planTitleField.updateProps({
         value,
       });
@@ -315,7 +315,7 @@ function Edit(root, api) {
     type: 'number',
     label: 'Delivery frequency (in weeks)',
     value: '1',
-    onAfterChange(value) {
+    onChange(value) {
       deliveryFrequencyField.updateProps({
         value,
       });
@@ -327,7 +327,7 @@ function Edit(root, api) {
     type: 'number',
     label: 'Percentage off (%)',
     value: '10',
-    onAfterChange(value) {
+    onChange(value) {
       percentageOffField.updateProps({
         value,
       });

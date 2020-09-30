@@ -7,9 +7,9 @@ Checkboxes are most commonly used to give merchants a way to make a range of sel
 #### Vanilla
 
 ```js
-import {render, ExtensionPoint, Checkbox} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Checkbox} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend(ExtensionPoint.MyExtension, (root) => {
   const checkbox = root.createComponent(Checkbox, {
     label: 'Opt in to something cool',
     checked: true,
@@ -25,23 +25,25 @@ render(ExtensionPoint.MyExtension, (root) => {
 #### React
 
 ```jsx
-import {render, ExtensionPoint, Checkbox} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, Checkbox} from '@shopify/argo-admin-react';
 
 function App() {
   return (
-    <Checkbox label="Opt in to something cool" checked onChange={() => console.log('Checked')}>
-      ...
-    </Checkbox>
+    <Checkbox label="Opt in to something cool" checked onChange={() => console.log('Checked')} />
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  ExtensionPoint.MyExtension,
+  render(() => <App />),
+);
 ```
 
 ## Props API
 
-| Name     | Type                | Description                        | Required |
-| -------- | ------------------- | ---------------------------------- | -------- |
-| label    | `string`            | Label for the checkbox.            |          |
-| checked  | `boolean`           | Checkbox is selected.              |          |
-| onChange | `(boolean) => void` | Callback when checkbox is toggled. |          |
+| Name     | Type                | Description                                                                                | Required |
+| -------- | ------------------- | ------------------------------------------------------------------------------------------ | -------- |
+| label    | `string`            | Label for the checkbox.                                                                    |          |
+| checked  | `boolean`           | Checkbox is selected.                                                                      |          |
+| value    | `boolean`           | An alias of checked. If both checked and value are define, checked is the source of truth. |          |
+| onChange | `(boolean) => void` | Callback when checkbox is toggled.                                                         |          |

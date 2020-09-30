@@ -164,7 +164,7 @@ const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate
   const planTitleField = root.createComponent(TextField, {
     label: 'Plan title',
     value: '',
-    onAfterChange(value) {
+    onChange(value) {
       planTitleField.updateProps({
         value,
       });
@@ -185,7 +185,7 @@ const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate
     type: 'number',
     label: 'Delivery frequency (in weeks)',
     value: undefined,
-    onAfterChange(value) {
+    onChange(value) {
       deliveryFrequencyField.updateProps({
         value,
       });
@@ -197,7 +197,7 @@ const Create: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementCreate
     type: 'number',
     label: 'Percentage off (%)',
     value: undefined,
-    onAfterChange(value) {
+    onChange(value) {
       percentageOffField.updateProps({
         value,
       });
@@ -318,7 +318,7 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
   const planTitleField = root.createComponent(TextField, {
     label: 'Plan title',
     value: 'Current Plan',
-    onAfterChange(value) {
+    onChange(value) {
       planTitleField.updateProps({
         value,
       });
@@ -339,7 +339,7 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
     type: 'number',
     label: 'Delivery frequency (in weeks)',
     value: '1',
-    onAfterChange(value) {
+    onChange(value) {
       deliveryFrequencyField.updateProps({
         value,
       });
@@ -351,7 +351,7 @@ const Edit: ExtensionPointCallback[ExtensionPoint.SubscriptionManagementEdit] = 
     type: 'number',
     label: 'Percentage off (%)',
     value: '10',
-    onAfterChange(value) {
+    onChange(value) {
       percentageOffField.updateProps({
         value,
       });
