@@ -1,3 +1,3 @@
 # Argo Admin Extensions
 
-- [SubscriptionManagement](./SubscriptionManagement/README.md#extension-points)
+- [Product Subscription](ProductSubscription/README.md#extension-points)

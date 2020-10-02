@@ -51,4 +51,4 @@ render(ExtensionPoint.MyExtension, () => <App />);
 
 ## Extension Points with Data API
 
-- [Subscription Management](../ExtensionPoints/SubscriptionManagement/README.md#data-api)
+- [Subscription Management](../ExtensionPoints/ProductSubscription/README.md#data-api)

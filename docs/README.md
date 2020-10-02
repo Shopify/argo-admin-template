@@ -70,4 +70,4 @@ function App() {
 render(ExtensionPoint.MyExtension, () => <App />);
 ```
 
-**Note:** Some extensions have multiple extension points, like [SubscriptionManagement](./ExtensionPoints/SubscriptionManagement/README.md)
+**Note:** Some extensions have multiple extension points, like [Product Subscription](ExtensionPoints/ProductSubscription/README.md)
