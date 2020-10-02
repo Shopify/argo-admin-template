@@ -4,7 +4,7 @@ This extension renders in the Product Details and Product Variants Page inside a
 
 ## Extension Points
 
-Product subscription extension has multiple extension points. Each is triggered by a different merchant action, receives different data, and has a different responsibility.
+The Product subscription extension uses multiple extension points. Each is triggered by a different merchant action, receives different data, and is responsible for handling a distinct part of the subscriptions experience.
 
 The different extension points are:
 
