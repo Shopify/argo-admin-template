@@ -35,12 +35,12 @@ render(ExtensionPoint, renderCallback);
 - `ExtensionPoint`: Where in the Shopify Admin the extension should render. Import this enum from Argo.
 - `renderCallback`: A method that returns Argo components to be rendered.
 
-#### Vanilla Example
+#### Vanilla javascript example
 
 ```js
-import {ExtensionPoint, render, Text} from '@shopify/argo-admin';
+import {ExtensionPoint, extend, TextField} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend(ExtensionPoint.MyExtension, (root) => {
   const text = root.createComponent(TextField, {
     style: 'strong',
     alignment: 'center',
@@ -53,11 +53,11 @@ render(ExtensionPoint.MyExtension, (root) => {
 });
 ```
 
-#### React Example
+#### React example
 
-```js
+```jsx
 import {ExtensionPoint, Text} from '@shopify/argo-admin';
-import {render} from '@shopify/argo-admin-react';
+import {extend, render} from '@shopify/argo-admin-react';
 
 function App() {
   return (
@@ -67,7 +67,10 @@ function App() {
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  ExtensionPoint.MyExtension,
+  render(() => <App />)
+);
 ```
 
 **Note:** Some extensions have multiple extension points, like [Product Subscription](ExtensionPoints/ProductSubscription/README.md)

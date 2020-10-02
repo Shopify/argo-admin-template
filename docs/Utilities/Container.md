@@ -23,12 +23,12 @@ There are two different container types for the Product subscription extension, 
 | setPrimaryAction   | `function` | Sets the primary action content and callback when the action is clicked                |          |
 | setSecondaryAction | `function` | Sets the secondary action content and callback when the action is clicked              |          |
 
-##### Vanilla Javascript
+##### Vanilla javascript example
 
 ```js
-import {render, ExtensionPoint, Button} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Button} from '@shopify/argo-admin';
 
-render(ExtensionPoint.SubscriptionManagementAdd, (root, api) => {
+extend(ExtensionPoint.SubscriptionManagementAdd, (root, api) => {
   const {
     container: {close, done, setPrimaryAction, setSecondaryAction},
   } = api;
@@ -59,10 +59,10 @@ render(ExtensionPoint.SubscriptionManagementAdd, (root, api) => {
 });
 ```
 
-##### React
+##### React example
 
 ```jsx
-import {render, useContainer, ExtensionPoint, Text} from '@shopify/argo-admin-react';
+import {extend, render, useContainer, ExtensionPoint, Text} from '@shopify/argo-admin-react';
 
 function App() {
   const container = useContainer();
@@ -90,7 +90,10 @@ function App() {
   return <Text>Hello world</Text>;
 }
 
-render(ExtensionPoint.SubscriptionManagementAdd, () => <App />);
+extend(
+  ExtensionPoint.SubscriptionManagementAdd,
+  render(() => <App />)
+);
 ```
 
 #### Create, Edit (App overlay container)
@@ -100,12 +103,12 @@ render(ExtensionPoint.SubscriptionManagementAdd, () => <App />);
 | close     | `function` | Closes the container and the extension                                                 |          |
 | done      | `function` | Notify Shopify Admin that the extension workflow is complete and data has been updated |          |
 
-##### Vanilla Javascript
+##### Vanilla javascript example
 
 ```js
-import {render, ExtensionPoint, Button} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Button} from '@shopify/argo-admin';
 
-render(ExtensionPoint.SubscriptionManagementEdit, (root, api) => {
+extend(ExtensionPoint.SubscriptionManagementEdit, (root, api) => {
   const {
     container: {close, done},
   } = api;
@@ -139,10 +142,10 @@ render(ExtensionPoint.SubscriptionManagementEdit, (root, api) => {
 });
 ```
 
-##### React
+##### React example
 
 ```jsx
-import {render, useContainer, ExtensionPoint, Text} from '@shopify/argo-admin-react';
+import {extend, render, useContainer, ExtensionPoint, Text} from '@shopify/argo-admin-react';
 
 function App() {
   const {close, done} = useContainer();
@@ -173,5 +176,8 @@ function App() {
   );
 }
 
-render(ExtensionPoint.SubscriptionManagementEdit, () => <App />);
+extend(
+  ExtensionPoint.SubscriptionManagementEdit,
+  render(() => <App />)
+);
 ```

@@ -4,14 +4,14 @@ Extension points may provide relevant data to the extension. The type of data va
 
 ## Implementation
 
-Below are examples of implementing the data API for the Subscription Management Add extension point.
+Below are examples of implementing the data API for the Product subscription Add extension point.
 
-#### Vanilla
+#### Vanilla javascript example
 
 ```js
-import {ExtensionPoint, render, Text} from '@shopify/argo-admin';
+import {ExtensionPoint, extend, Text} from '@shopify/argo-admin';
 
-render(ExtensionPoint.SubscriptionManagementAdd, (root, api) => {
+extend(ExtensionPoint.SubscriptionManagementAdd, (root, api) => {
   const {productId, variantId} = api.data;
 
   const productDataText = root.createComponent(Text);
@@ -26,11 +26,11 @@ render(ExtensionPoint.SubscriptionManagementAdd, (root, api) => {
 });
 ```
 
-#### React
+#### React example
 
-```js
+```jsx
 import {ExtensionPoint, Text} from '@shopify/argo-admin';
-import {render, useData} from '@shopify/argo-admin-react';
+import {extend, render, useData} from '@shopify/argo-admin-react';
 
 function App() {
   const {productId, variantId} = useData();
@@ -38,17 +38,20 @@ function App() {
   return (
     <Text>
       {`
-      Here is my product data:
-      - product id: ${productId}
-      - variant id: ${variantId}
-    `}
+        Here is my product data:
+        - product id: ${productId}
+        - variant id: ${variantId}
+      `}
     </Text>
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  ExtensionPoint.SubscriptionManagementAdd,
+  render(() => <App />)
+);
 ```
 
 ## Extension Points with Data API
 
-- [Subscription Management](../ExtensionPoints/ProductSubscription/README.md#data-api)
+- [Product Subscription](../ExtensionPoints/ProductSubscription/README.md#data-api)
