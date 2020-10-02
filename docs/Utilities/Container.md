@@ -7,10 +7,10 @@ Containers are interface elements that are used to render your extension with Ar
 There are two different container types for the Product subscription extension, depending on the extension mode:
 
 #### Add, Remove
-**App overlay container**: A full-screen container designed for complex tasks, like configuring a subscription for the first time.
+**App modal container**: A smaller overlay typically used for editing an existing configuration or confirming a change. In the app modal container, primary and secondary action buttons are responsible for triggering a custom behaviour, such as performing a resource update.
 
 #### Create, Edit
-**App modal container**: A smaller overlay typically used for editing an existing configuration or confirming a change. In the app modal container, primary and secondary action buttons are responsible for triggering a custom behaviour, such as performing a resource update.
+**App overlay container**: A full-screen container designed for complex tasks, like configuring a subscription for the first time.
 
 ### Container API
 
