@@ -2,9 +2,9 @@
 
 ## Contents
 
-- [Components](./Components)
-- [Utilities](./Utilities)
-- [Calling external APIs](./ExternalAPI)
+- [Extension Points](./ExtensionPoints/README.md)
+- [Components](./Components/README.md)
+- [Utilities](./Utilities/README.md)
 
 ## Getting Started
 
@@ -23,11 +23,16 @@ Run `shopify serve` and start coding! All the code you will write for your exten
 
 ## Render API
 
-The `render` method provided by Argo lets you tell Shopify what you want to render and where you want to render it.
-It’s similar to `ReactDOM.render`, but works with vanilla JavaScript:
+The `extend` method provided by Argo add your script to an area of Shopify and can be rendered similar to `ReactDOM.render`. The `render` method helps you render React code.
 
 ```js
-render(ExtensionPoint, renderCallback);
+extend(ExtensionPoint, renderCallback);
+
+// or JSX
+extend(
+  ExtensionPoint,
+  render(() => <App />),
+);
 ```
 
 #### Arguments
@@ -35,12 +40,12 @@ render(ExtensionPoint, renderCallback);
 - `ExtensionPoint`: Where in the Shopify Admin the extension should render. Import this enum from Argo.
 - `renderCallback`: A method that returns Argo components to be rendered.
 
-#### Vanilla Example
+#### Vanilla JavaScript example
 
 ```js
-import {ExtensionPoint, render, Text} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Text} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend('App', (root) => {
   const text = root.createComponent(TextField, {
     style: 'strong',
     alignment: 'center',
@@ -53,11 +58,11 @@ render(ExtensionPoint.MyExtension, (root) => {
 });
 ```
 
-#### React Example
+#### React example
 
 ```js
 import {ExtensionPoint, Text} from '@shopify/argo-admin';
-import {render} from '@shopify/argo-admin-react';
+import {extend, render} from '@shopify/argo-admin-react';
 
 function App() {
   return (
@@ -67,7 +72,10 @@ function App() {
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Admin::Product::SubscriptionPlan::Add',
+  render(() => <App />),
+);
 ```
 
-**Note:** Some extensions have multiple extension points, like [SubscriptionManagement](./ExtensionPoints/SubscriptionManagement/README.md)
+**Note:** Some extensions have multiple extension points, like [ProductSubscription](./ExtensionPoints/ProductSubscription/README.md)

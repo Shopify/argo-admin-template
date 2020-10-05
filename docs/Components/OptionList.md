@@ -1,15 +1,25 @@
 # OptionList
 
-The option list component lets you create a list of grouped items that merchants can pick from.
+**Note:** This component is note available in Product Subscription extensions. See the [full list of available components](../ExtensionPoints/ProductSubscription/README.md).
+
+Option lists let you create grouped items. This can include single selection or multiple selection of options.
+
+Option lists are styled differently than choice lists and should not be used within a form, but as a standalone menu.
+
+| ✅ Do                                                                 | 🛑 Don't                |
+| --------------------------------------------------------------------- | ----------------------- |
+| Use OptionList to present either a single choice or multi choice list | Have only a single item |
+
+For more guidelines, refer to Polaris' [Option List best practices](https://polaris.shopify.com/components/lists-and-tables/option-list#section-best-practices).
 
 ## Examples
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {ExtensionPoint, render, OptionsList} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, OptionsList} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend('Playground', (root) => {
   const options = [
     {label: 'Red', value: 'red', disabled: false},
     {label: 'Green', value: 'green', disabled: false},
@@ -32,11 +42,10 @@ render(ExtensionPoint.MyExtension, (root) => {
 });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {ExtensionPoint, OptionList} from '@shopify/argo-admin';
-import {render} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, OptionList} from '@shopify/argo-admin-react';
 
 function App() {
   const options = [
@@ -55,7 +64,10 @@ function App() {
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Playground',
+  render(() => <App />),
+);
 ```
 
 ## Props API

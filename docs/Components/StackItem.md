@@ -4,14 +4,23 @@ By default, each individual element in a [Stack](./Stack.md) is treated as one s
 
 Use the fill prop on a single stack item component to make it fill the rest of the available horizontal space.
 
+## Behavior
+
+- 📱 All children of StackItems are placed in a single view object, which makes recycling the views expensive. Consider keeping your StackItems simple.
+
+| ✅ Do                                                                      | 🛑 Don't                              |
+| -------------------------------------------------------------------------- | ------------------------------------- |
+| 📱 Keep StackItems shallow. Complex hierarchies have performance penalties | 📱 Use complex and deep Stack layouts |
+| Wrap small UI elements in StackItem to group UI elements and styles        | Use StackItems outside of Stacks      |
+
 ## Examples
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {render, ExtensionPoint, Stack, StackItem, Text} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Stack, StackItem, Text} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend('Playground', (root) => {
   const stack = root.createComponent(Stack);
   const stackItemFill = root.createComponent(StackItem, {fill: true});
 
@@ -36,10 +45,10 @@ render(ExtensionPoint.MyExtension, (root) => {
 });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {render, ExtensionPoint, Stack, StackItem, Text} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, Stack, StackItem, Text} from '@shopify/argo-admin-react';
 
 function App() {
   return (
@@ -55,7 +64,10 @@ function App() {
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Playground',
+  render(() => <App />),
+);
 ```
 
 ## Props API

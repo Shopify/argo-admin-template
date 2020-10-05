@@ -1,15 +1,24 @@
 # Badge
 
-Badges are used to inform merchants of the status of an object or of an action that’s been taken.
+Badges are used to inform merchants of the status of an object, or the status of an action that’s been taken.
+
+| ✅ Do                                                                     | 🛑 Don't                                           |
+| ------------------------------------------------------------------------- | -------------------------------------------------- |
+| Use Badges to display the status of an object                             | Use Badges without context, or as singular objects |
+| Use Badges to represent discrete information                              |                                                    |
+| Have clear and helpful relationship to the content or task they represent |                                                    |
+| Badges can be stacked horizontally                                        |                                                    |
+
+For more guidelines, refer to Polaris' [Badge best practices](https://polaris.shopify.com/components/images-and-icons/badge#section-best-practices).
 
 ## Implementation
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {render, ExtensionPoint, Badge} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Badge} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend('Playground', (root) => {
   const badge = root.createComponent(Badge, {
     message: 'Example message',
     status: 'success',
@@ -20,16 +29,19 @@ render(ExtensionPoint.MyExtension, (root) => {
 });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {render, ExtensionPoint, Badge} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, Badge} from '@shopify/argo-admin-react';
 
 function App() {
   return <Badge message="Example message" status="success" />;
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Playground',
+  render(() => <App />),
+);
 ```
 
 ## Props API

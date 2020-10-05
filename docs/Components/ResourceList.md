@@ -1,26 +1,32 @@
 # ResourceList
 
-A resource list displays a collection of objects of the same type, like products or customers.
-The main job of a resource list is to help merchants find an object and navigate to a full-page representation of it.
+ResourceLists display a collection of objects of the same type, like products or customers.
+The main job of a ResourceList is to help merchants find an object and navigate to a full-page representation of it.
 
 A resource list should contain [ResourceItem](./ResourceItem.md) components.
 
+| ✅ Do                                              | 🛑 Don't                                                           |
+| -------------------------------------------------- | ------------------------------------------------------------------ |
+| Use ResourceList to show a summary of the resource | ResourceLists should not contain elements other than ResourceItems |
+
+For more guidelines, refer to Polaris' [Resource List best practices](https://polaris.shopify.com/components/lists-and-tables/resource-list#section-best-practices).
+
 ## Examples
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {render, ExtensionPoint, ResourceList, ResourceItem} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, ResourceList, ResourceItem} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend('Playground', (root) => {
   const resourceitem1 = root.createComponent(ResourceItem, {
     id: '1234',
-    onClick: () => console.log('Clicked 1'),
+    onPress: () => console.log('Pressed 1'),
   });
   resourceitem1.appendChild('Cool item');
   const resourceitem2 = root.createComponent(ResourceItem, {
     id: '5678',
-    onClick: () => console.log('Clicked 2'),
+    onPress: () => console.log('Pressed 2'),
   });
   resourceitem2.appendChild('Cooler item');
 
@@ -41,10 +47,10 @@ render(ExtensionPoint.MyExtension, (root) => {
 });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {render, ExtensionPoint, ResourceList, ResourceItem} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, ResourceList, ResourceItem} from '@shopify/argo-admin-react';
 
 function App() {
   return (
@@ -56,17 +62,20 @@ function App() {
         onQueryClear: () => console.log('Clear filters')
       }
     >
-      <ResourceItem id="1234" onClick={() => console.log('Clicked 1')}>
+      <ResourceItem id="1234" onPress={() => console.log('Pressed 1')}>
         Cool item
       </ResourceItem>
-      <ResourceItem id="5678" onClick={() => console.log('Clicked 2')}>
+      <ResourceItem id="5678" onPress={() => console.log('Pressed 2')}>
         Cooler item
       </ResourceItem>
     </ResourceList>
   )
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Playground',
+  render(() => <App />),
+);
 ```
 
 ## Props API
@@ -82,4 +91,4 @@ render(ExtensionPoint.MyExtension, () => <App />);
 | queryValue       | `string`           |             |          |
 | queryPlaceholder | `string`           |             |          |
 | onQueryChange    | `(string) => void` |             | ☑️       |
-| onQueryClear     | `() => void`       |             |          |
+| onQueryClear     | `() => void`       |             | ☑️       |

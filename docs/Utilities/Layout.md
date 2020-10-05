@@ -4,12 +4,12 @@ You can use the Layout utility to adjust your content based on the user's screen
 
 ## Implementation
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {render, ExtensionPoint, Text} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Text} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root, api) => {
+extend('Admin::Product::SubscriptionPlan::Add', (root, api) => {
   const {layout} = api;
   const currentLayoutText = root.createComponent(Text, {
     children: `The current layout is: ${layout.initialValue.horizontal}`,
@@ -24,10 +24,10 @@ render(ExtensionPoint.MyExtension, (root, api) => {
 });
 ```
 
-#### React
+#### React example
 
 ```js
-import {render, useLayout, ExtensionPoint, Text} from '@shopify/argo-admin';
+import {extend, render, useLayout, ExtensionPoint, Text} from '@shopify/argo-admin';
 
 function App() {
   const layout = useLayout();
@@ -35,7 +35,10 @@ function App() {
   return <Text>{`The current layout is: ${layout.horizontal}`}</Text>;
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Admin::Product::SubscriptionPlan::Add',
+  render(() => <App />),
+);
 ```
 
 ## Layout API

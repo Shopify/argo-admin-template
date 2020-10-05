@@ -1,15 +1,21 @@
 # Thumbnail
 
-Use thumbnails as a visual anchor and identifier for an object. They should be used along with text to provide context.
+Thumbnails are used as a visual anchor and identifier for an object. They should be used along with text to provide context.
+
+| ✅ Do                                  | 🛑 Don't                                  |
+| -------------------------------------- | ----------------------------------------- |
+| Use Thumbnails with supporting context | Use Thumbnails without supporting context |
+
+Also refer to Polaris' [Thumbnail best practices](https://polaris.shopify.com/components/images-and-icons/thumbnail#section-best-practices).
 
 ## Examples
 
-#### Vanilla
+#### Vanilla javascript example
 
 ```js
-import {render, ExtensionPoint, Thumbnail} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Thumbnail} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend('Playground', (root) => {
   const thumbnail = root.createComponent(Thumbnail, {
     size: 'small',
     scaleType: 'fit',
@@ -25,7 +31,7 @@ render(ExtensionPoint.MyExtension, (root) => {
 #### React
 
 ```jsx
-import {render, ExtensionPoint, Thumbnail} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, Thumbnail} from '@shopify/argo-admin-react';
 
 function App() {
   return (
@@ -38,20 +44,16 @@ function App() {
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Playground',
+  render(() => <App />),
+);
 ```
 
 ## Props API
 
-| Name      | Type                            | Description                         | Required |
-| --------- | ------------------------------- | ----------------------------------- | -------- |
-| size      | `'small'`,`'medium'`, `'large'` | Size of the thumbnail.              |          |
-| scaleType | `ScaleType`                     | Method used to scale the thumbnail. |          |
-| source    | `string`                        | URL for the image.                  |          |
-| alt       | `string`                        | Alt text for the thumbnail.         |          |
-
-### ScaleType
-
-- `'fill'` May stretch image to fit the content view.
-- `'fit'` Preserves aspect ratio, padding remaining space.
-- `'crop'` Preserves aspect ratio, fills content view, and crops area outside content view.
+| Name   | Type                            | Description                 | Required |
+| ------ | ------------------------------- | --------------------------- | -------- |
+| size   | `'small'`,`'medium'`, `'large'` | Size of the thumbnail.      |          |
+| source | `string`                        | URL for the image.          |          |
+| alt    | `string`                        | Alt text for the thumbnail. |          |
