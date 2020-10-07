@@ -12,7 +12,4 @@ Utilities are divided into two categories: some provide data, and others make fu
 ### Functionality utilities
 
 - [Toast](./Toast.md)
-<<<<<<< HEAD:docs/Utilities/README.md
 - [Container](./Container.md)
-=======
->>>>>>> 247f047... Update ReadMe.md:docs/Utilities/ReadMe.md
