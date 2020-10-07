@@ -1,15 +1,21 @@
 import {
-  ExtensionPoint,
+  ExtensionPointCallback,
+  extend,
   TextField,
   Text,
   Stack,
   Button,
   Card,
   Checkbox,
-  extend,
 } from '@shopify/argo-admin';
 
-const translations = {
+interface Translations {
+  [key: string]: string;
+}
+
+const translations: {
+  [locale: string]: Translations;
+} = {
   de: {
     hello: 'Guten Tag',
   },
@@ -23,7 +29,10 @@ const translations = {
 
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 // [Shopify admin renders this mode inside a modal container]
-function Add(root, api) {
+const Add: ExtensionPointCallback['Admin::Product::SubscriptionPlan::Add'] = (
+  root,
+  api
+) => {
   // Information about the product and/or plan your extension is editing.
   // Your extension receives different data in each mode.
   const data = api.data;
@@ -32,7 +41,8 @@ function Add(root, api) {
   const locale = api.locale.initialValue;
 
   // Use locale to set translations with a fallback
-  const localizedStrings = translations[locale] || translations.en;
+  const localizedStrings: Translations =
+    translations[locale] || translations.en;
 
   // Session token contains information about the current user. Use it to authenticate calls
   // from your extension to your app server.
@@ -62,6 +72,7 @@ function Add(root, api) {
       close();
     },
   });
+
   setSecondaryAction({
     content: 'Cancel',
     onAction: () => close(),
@@ -98,17 +109,21 @@ function Add(root, api) {
   root.appendChild(stack);
 
   root.mount();
-}
+};
 
 // 'Create' mode should create a new selling plan, and add the current product to it
 // [Shopify admin renders this mode inside an app overlay container]
-function Create(root, api) {
+const Create: ExtensionPointCallback['Admin::Product::SubscriptionPlan::Create'] = (
+  root,
+  api
+) => {
   const data = api.data;
   const locale = api.locale.initialValue;
   const sessionToken = api.sessionToken;
   const {close, done} = api.container;
 
-  const localizedStrings = translations[locale] || translations.en;
+  const localizedStrings: Translations =
+    translations[locale] || translations.en;
 
   const primaryButton = root.createComponent(Button, {
     title: 'Create plan',
@@ -200,21 +215,25 @@ function Create(root, api) {
   primaryButtonStack.appendChild(primaryButton);
 
   root.mount();
-}
+};
 
 // 'Remove' mode should remove the current product from a selling plan.
 // This should not delete the selling plan.
 // [Shopify admin renders this mode inside a modal container]
-function Remove(root, api) {
+const Remove: ExtensionPointCallback['Admin::Product::SubscriptionPlan::Remove'] = (
+  root,
+  api
+) => {
   const data = api.data;
   const locale = api.locale.initialValue;
   const sessionToken = api.sessionToken;
   const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
-  const localizedStrings = translations[locale] || translations.en;
+  const localizedStrings: Translations =
+    translations[locale] || translations.en;
 
   setPrimaryAction({
-    content: 'Remove from plan',
+    content: 'Remove plan',
     onAction: async () => {
       const token = await sessionToken.getSessionToken();
 
@@ -243,18 +262,22 @@ function Remove(root, api) {
 
   root.appendChild(textElement);
   root.mount();
-}
+};
 
 // 'Edit' mode should modify an existing selling plan.
 // Changes should affect other products that have this plan applied.
 // [Shopify admin renders this mode inside an app overlay container]
-function Edit(root, api) {
+const Edit: ExtensionPointCallback['Admin::Product::SubscriptionPlan::Edit'] = (
+  root,
+  api
+) => {
   const data = api.data;
   const locale = api.locale.initialValue;
   const sessionToken = api.sessionToken;
   const {close, done} = api.container;
 
-  const localizedStrings = translations[locale] || translations.en;
+  const localizedStrings: Translations =
+    translations[locale] || translations.en;
 
   const primaryButton = root.createComponent(Button, {
     title: 'Edit plan',
@@ -346,10 +369,10 @@ function Edit(root, api) {
   primaryButtonStack.appendChild(primaryButton);
 
   root.mount();
-}
+};
 
 // Your extension must render all four modes
-extend(ExtensionPoint.SubscriptionManagementAdd, Add);
-extend(ExtensionPoint.SubscriptionManagementCreate, Create);
-extend(ExtensionPoint.SubscriptionManagementRemove, Remove);
-extend(ExtensionPoint.SubscriptionManagementEdit, Edit);
+extend('Admin::Product::SubscriptionPlan::Add', Add);
+extend('Admin::Product::SubscriptionPlan::Create', Create);
+extend('Admin::Product::SubscriptionPlan::Remove', Remove);
+extend('Admin::Product::SubscriptionPlan::Edit', Edit);

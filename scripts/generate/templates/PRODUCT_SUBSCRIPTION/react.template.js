@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   Checkbox,
-  ExtensionPoint,
   TextField,
   Text,
   Stack,
@@ -309,18 +308,18 @@ function Edit() {
 
 // Your extension must render all four modes
 extend(
-  ExtensionPoint.SubscriptionManagementAdd,
+  'Admin::Product::SubscriptionPlan::Add',
   render(() => <Add />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementCreate,
+  'Admin::Product::SubscriptionPlan::Create',
   render(() => <Create />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementRemove,
+  'Admin::Product::SubscriptionPlan::Remove',
   render(() => <Remove />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementEdit,
+  'Admin::Product::SubscriptionPlan::Edit',
   render(() => <Edit />)
 );

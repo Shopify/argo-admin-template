@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   Checkbox,
-  ExtensionPoint,
   TextField,
   Text,
   Stack,
@@ -38,11 +37,11 @@ const translations: {
 function Add() {
   // Information about the product and/or plan your extension is editing.
   // Your extension receives different data in each mode.
-  const data = useData<ExtensionPoint.SubscriptionManagementAdd>();
+  const data = useData<'Admin::Product::SubscriptionPlan::Add'>();
 
   // The UI your extension renders inside
   const {close, done, setPrimaryAction, setSecondaryAction} = useContainer<
-    ExtensionPoint.SubscriptionManagementAdd
+    'Admin::Product::SubscriptionPlan::Add'
   >();
 
   // Information about the merchant's selected language. Use this to support multiple languages.
@@ -117,9 +116,9 @@ function Add() {
 // 'Create' mode should create a new selling plan, and add the current product to it
 // [Shopify admin renders this mode inside an app overlay container]
 function Create() {
-  const data = useData<ExtensionPoint.SubscriptionManagementCreate>();
+  const data = useData<'Admin::Product::SubscriptionPlan::Create'>();
   const {close, done} = useContainer<
-    ExtensionPoint.SubscriptionManagementCreate
+    'Admin::Product::SubscriptionPlan::Create'
   >();
 
   const locale = useLocale();
@@ -200,9 +199,9 @@ function Create() {
 // This should not delete the selling plan.
 // [Shopify admin renders this mode inside a modal container]
 function Remove() {
-  const data = useData<ExtensionPoint.SubscriptionManagementRemove>();
+  const data = useData<'Admin::Product::SubscriptionPlan::Remove'>();
   const {close, done, setPrimaryAction, setSecondaryAction} = useContainer<
-    ExtensionPoint.SubscriptionManagementRemove
+    'Admin::Product::SubscriptionPlan::Remove'
   >();
   const locale = useLocale();
   const localizedStrings: Translations = useMemo(() => {
@@ -245,7 +244,7 @@ function Remove() {
 // Changes should affect other products that have this plan applied.
 // [Shopify admin renders this mode inside an app overlay container]
 function Edit() {
-  const data = useData<ExtensionPoint.SubscriptionManagementEdit>();
+  const data = useData<'Admin::Product::SubscriptionPlan::Edit'>();
   const [planTitle, setPlanTitle] = useState('Current plan');
   const locale = useLocale();
   const localizedStrings: Translations = useMemo(() => {
@@ -257,7 +256,7 @@ function Edit() {
   const [percentageOff, setPercentageOff] = useState('10');
   const [deliveryFrequency, setDeliveryFrequency] = useState('1');
   const {close, done} = useContainer<
-    ExtensionPoint.SubscriptionManagementEdit
+    'Admin::Product::SubscriptionPlan::Edit'
   >();
 
   const onPrimaryAction = useCallback(async () => {
@@ -324,18 +323,18 @@ function Edit() {
 
 // Your extension must render all four modes
 extend(
-  ExtensionPoint.SubscriptionManagementAdd,
+  'Admin::Product::SubscriptionPlan::Add',
   render(() => <Add />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementCreate,
+  'Admin::Product::SubscriptionPlan::Create',
   render(() => <Create />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementRemove,
+  'Admin::Product::SubscriptionPlan::Remove',
   render(() => <Remove />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementEdit,
+  'Admin::Product::SubscriptionPlan::Edit',
   render(() => <Edit />)
 );
