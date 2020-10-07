@@ -1,13 +1,19 @@
 # Select
 
-Select lets merchants choose one option from an options menu. Consider select when you have 4 or more options, to avoid cluttering the interface.
+Select allows merchants to choose one option from a dropdown menu. Consider Select when you have 4 or more options, to avoid creating clutter and make your component more scalable.
+
+| ✅ Do                                      | 🛑 Don't                |
+| ------------------------------------------ | ----------------------- |
+| Use Select when you have 4 or more options | Have only a single item |
+
+For more guidelines, refer to Polaris' [Select best practices](https://polaris.shopify.com/components/forms/select#section-best-practices).
 
 ## Examples
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {render, ExtensionPoint, Select} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Select} from '@shopify/argo-admin';
 
 const options = [
   {
@@ -24,7 +30,7 @@ const options = [
   },
 ];
 
-render(ExtensionPoint.MyExtension, (root) => {
+extend('Playground', (root) => {
   const select = root.createComponent(Select, {
     label: 'Select an option',
     options,
@@ -39,10 +45,10 @@ render(ExtensionPoint.MyExtension, (root) => {
 });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {render, ExtensionPoint, Select} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, Select} from '@shopify/argo-admin-react';
 
 const options = [
   {
@@ -71,18 +77,22 @@ function App() {
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Playground',
+  render(() => <App />),
+);
 ```
 
 ## Props API
 
 | Name        | Type              | Description                                                  | Required |
 | ----------- | ----------------- | ------------------------------------------------------------ | -------- |
-| label       | `string`          | Label for the select.                                        |          |
+| error       | `string`          | Display an error state                                       |          |
+| label       | `string`          | Label for the select.                                        | ☑️       |
 | labelInline | `boolean`         | Show the label to the left of the value, inside the control. |          |
 | options     | `Option[]`        | Options for the select.                                      | ☑️       |
-| onChange    | `(value) => void` | Callback when selection is changed.                          | ☑️       |
-| value       | `string`          | Value for form input.                                        | ☑️       |
+| onChange    | `(value) => void` | Callback when selection is changed.                          |          |
+| value       | `string`          | Value for form input.                                        |          |
 
 ### Option
 

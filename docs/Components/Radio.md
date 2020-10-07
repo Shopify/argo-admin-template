@@ -1,16 +1,23 @@
 # Radio
 
-Use radio buttons to present each item in a list of options where merchants must make a single selection.
+Radio allows merchants to choose a single item from a list of radio buttons.
+
+| ✅ Do                                              | 🛑 Don't                         |
+| -------------------------------------------------- | -------------------------------- |
+| Use Radio to give merchants a single select choice | Horizontally stack Radio options |
+| Vertically align Radio options                     |                                  |
+
+For more guidelines, refer to Polaris' [Radio button best practices](https://polaris.shopify.com/components/forms/radio-button#section-best-practices).
 
 ## Examples
 
-#### Vanilla
+#### Vanilla JavaScript example
 
 ```js
-import {render, ExtensionPoint, RadioButton} from '@shopify/argo-admin';
+import {extend, ExtensionPoint, Radio} from '@shopify/argo-admin';
 
-render(ExtensionPoint.MyExtension, (root) => {
-  const radio1 = root.createComponent(RadioButton, {
+extend('Playground', (root) => {
+  const radio1 = root.createComponent(Radio, {
     label: 'Option 1',
     helpText: 'Help text for option 1.',
     checked: true,
@@ -18,9 +25,10 @@ render(ExtensionPoint.MyExtension, (root) => {
     name: 'greatOptions',
     onChange: () => console.log('Option 1 selected'),
   });
-  const radio2 = root.createComponent(RadioButton, {
+
+  const radio2 = root.createComponent(Radio, {
     label: 'Option 2',
-    helpText: 'Help text for option 1.',
+    helpText: 'Help text for option 2.',
     id: 'option2',
     name: 'greatOptions',
     checked: false,
@@ -33,15 +41,15 @@ render(ExtensionPoint.MyExtension, (root) => {
 });
 ```
 
-#### React
+#### React example
 
 ```jsx
-import {render, ExtensionPoint, RadioButton} from '@shopify/argo-admin-react';
+import {extend, render, ExtensionPoint, Radio} from '@shopify/argo-admin-react';
 
 function App() {
   return (
     <>
-      <RadioButton
+      <Radio
         label="Option 1"
         helpText="Help text for option 1."
         checked
@@ -49,9 +57,9 @@ function App() {
         name="greatOptions"
         onChange={() => console.log('Option 1 selected')}
       />
-      <RadioButton
+      <Radio
         label="Option 2"
-        helpText="Help text for option 1."
+        helpText="Help text for option 2."
         id="option2"
         name="greatOptions"
         checked={false}
@@ -61,16 +69,20 @@ function App() {
   );
 }
 
-render(ExtensionPoint.MyExtension, () => <App />);
+extend(
+  'Playground',
+  render(() => <App />),
+);
 ```
 
 ## Props API
 
 | Name     | Type                         | Description                            | Required |
 | -------- | ---------------------------- | -------------------------------------- | -------- |
-| label    | `string`                     | Label for the radio button.            | ☑️       |
+| label    | `string`                     | Label for the radio button.            |          |
 | helpText | `string`                     | Additional text to aid in use.         |          |
-| checked  | `boolean`                    | Radio button is selected.              | ☑️       |
-| id       | `string`                     | Unique ID for radio button.            | ☑️       |
+| checked  | `boolean`                    | Radio button is selected.              |          |
+| id       | `string`                     | Unique ID for radio button.            |          |
 | name     | `string`                     | Name to group radio buttons together.  | ☑️       |
+| value    | `string`                     | Value of form input on selected        |          |
 | onChange | `(newValue: string) => void` | Callback when radio button is toggled. |          |
