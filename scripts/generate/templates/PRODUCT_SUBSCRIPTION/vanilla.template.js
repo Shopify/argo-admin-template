@@ -126,23 +126,20 @@ function Create(root, api) {
     onPress: () => close(),
   });
 
-  const containerStack = root.createComponent(Stack, {distribution: 'center'});
-  root.appendChild(containerStack);
-
-  const rootStack = root.createComponent(Stack, {vertical: true});
-  containerStack.appendChild(rootStack);
+  const textContainerStack = root.createComponent(Stack, {vertical: true});
+  root.appendChild(textContainerStack);
 
   const textElement = root.createComponent(Text, {size: 'titleLarge'});
   textElement.appendChild(
     root.createText(`${localizedStrings.hello}! Create subscription plan`)
   );
-  rootStack.appendChild(textElement);
+  textContainerStack.appendChild(textElement);
 
   const planTitleCard = root.createComponent(Card, {
     sectioned: true,
     title: `Create subscription plan for Product id ${data.productId}`,
   });
-  rootStack.appendChild(planTitleCard);
+  root.appendChild(planTitleCard);
 
   const planTitleField = root.createComponent(TextField, {
     label: 'Plan title',
@@ -159,7 +156,7 @@ function Create(root, api) {
     sectioned: true,
     title: 'Delivery and discount',
   });
-  rootStack.appendChild(planDetailsCard);
+  root.appendChild(planDetailsCard);
 
   const stack = root.createComponent(Stack);
   planDetailsCard.appendChild(stack);
@@ -188,8 +185,11 @@ function Create(root, api) {
   });
   stack.appendChild(percentageOffField);
 
-  const actionsElement = root.createComponent(Stack, {distribution: 'fill'});
-  rootStack.appendChild(actionsElement);
+  const actionsElement = root.createComponent(Stack, {
+    spacing: 'none',
+    distribution: 'fill',
+  });
+  root.appendChild(actionsElement);
   actionsElement.appendChild(secondaryButton);
 
   const primaryButtonStack = root.createComponent(Stack, {
@@ -272,23 +272,23 @@ function Edit(root, api) {
     onPress: () => close(),
   });
 
-  const containerStack = root.createComponent(Stack, {distribution: 'center'});
-  root.appendChild(containerStack);
-
-  const rootStack = root.createComponent(Stack, {vertical: true});
-  containerStack.appendChild(rootStack);
+  const textContainerStack = root.createComponent(Stack, {
+    spacing: 'none',
+    vertical: true,
+  });
+  root.appendChild(textContainerStack);
 
   const textElement = root.createComponent(Text, {size: 'titleLarge'});
   textElement.appendChild(
     root.createText(`${localizedStrings.hello}! Edit subscription plan`)
   );
-  rootStack.appendChild(textElement);
+  textContainerStack.appendChild(textElement);
 
   const planTitleCard = root.createComponent(Card, {
     sectioned: true,
     title: `Edit subscription plan for Product id ${data.productId}`,
   });
-  rootStack.appendChild(planTitleCard);
+  root.appendChild(planTitleCard);
 
   const planTitleField = root.createComponent(TextField, {
     label: 'Plan title',
@@ -305,7 +305,7 @@ function Edit(root, api) {
     sectioned: true,
     title: 'Delivery and discount',
   });
-  rootStack.appendChild(planDetailsCard);
+  root.appendChild(planDetailsCard);
 
   const stack = root.createComponent(Stack);
   planDetailsCard.appendChild(stack);
@@ -335,7 +335,7 @@ function Edit(root, api) {
   stack.appendChild(percentageOffField);
 
   const actionsElement = root.createComponent(Stack, {distribution: 'fill'});
-  rootStack.appendChild(actionsElement);
+  root.appendChild(actionsElement);
   actionsElement.appendChild(secondaryButton);
 
   const primaryButtonStack = root.createComponent(Stack, {

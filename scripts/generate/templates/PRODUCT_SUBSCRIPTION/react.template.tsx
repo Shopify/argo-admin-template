@@ -144,7 +144,7 @@ function Create() {
 
   const actions = useMemo(
     () => (
-      <Stack distribution="fill">
+      <Stack spacing="none" distribution="fill">
         <Button title="Cancel" onPress={() => close()} />
         <Stack distribution="trailing">
           <Button title="Create plan" onPress={onPrimaryAction} primary />
@@ -155,43 +155,43 @@ function Create() {
   );
 
   return (
-    <Stack distribution="center">
-      <Stack vertical>
+    <>
+      <Stack spacing="none">
         <Text size="titleLarge">
           {localizedStrings.hello}! Create subscription plan
         </Text>
-
-        <Card
-          title={`Create subscription plan for Product id ${data.productId}`}
-          sectioned
-        >
-          <TextField
-            label="Plan title"
-            value={planTitle}
-            onChange={setPlanTitle}
-          />
-        </Card>
-
-        <Card title="Delivery and discount" sectioned>
-          <Stack>
-            <TextField
-              type="number"
-              label="Delivery frequency (in weeks)"
-              value={deliveryFrequency}
-              onChange={setDeliveryFrequency}
-            />
-            <TextField
-              type="number"
-              label="Percentage off (%)"
-              value={percentageOff}
-              onChange={setPercentageOff}
-            />
-          </Stack>
-        </Card>
-
-        {actions}
       </Stack>
-    </Stack>
+
+      <Card
+        title={`Create subscription plan for Product id ${data.productId}`}
+        sectioned
+      >
+        <TextField
+          label="Plan title"
+          value={planTitle}
+          onChange={setPlanTitle}
+        />
+      </Card>
+
+      <Card title="Delivery and discount" sectioned>
+        <Stack>
+          <TextField
+            type="number"
+            label="Delivery frequency (in weeks)"
+            value={deliveryFrequency}
+            onChange={setDeliveryFrequency}
+          />
+          <TextField
+            type="number"
+            label="Percentage off (%)"
+            value={percentageOff}
+            onChange={setPercentageOff}
+          />
+        </Stack>
+      </Card>
+
+      {actions}
+    </>
   );
 }
 
@@ -270,7 +270,7 @@ function Edit() {
 
   const actions = useMemo(
     () => (
-      <Stack distribution="fill">
+      <Stack spacing="none" distribution="fill">
         <Button title="Cancel" onPress={() => close()} />
         <Stack distribution="trailing">
           <Button title="Edit plan" onPress={onPrimaryAction} primary />
@@ -281,43 +281,43 @@ function Edit() {
   );
 
   return (
-    <Stack distribution="center">
-      <Stack vertical>
+    <>
+      <Stack spacing="none">
         <Text size="titleLarge">
           {localizedStrings.hello}! Edit subscription plan
         </Text>
-
-        <Card
-          title={`Edit subscription plan for Product id ${data.productId}`}
-          sectioned
-        >
-          <TextField
-            label="Plan title"
-            value={planTitle}
-            onChange={setPlanTitle}
-          />
-        </Card>
-
-        <Card title="Delivery and discount" sectioned>
-          <Stack>
-            <TextField
-              type="number"
-              label="Delivery frequency (in weeks)"
-              value={deliveryFrequency}
-              onChange={setDeliveryFrequency}
-            />
-            <TextField
-              type="number"
-              label="Percentage off (%)"
-              value={percentageOff}
-              onChange={setPercentageOff}
-            />
-          </Stack>
-        </Card>
-
-        {actions}
       </Stack>
-    </Stack>
+
+      <Card
+        title={`Edit subscription plan for Product id ${data.productId}`}
+        sectioned
+      >
+        <TextField
+          label="Plan title"
+          value={planTitle}
+          onChange={setPlanTitle}
+        />
+      </Card>
+
+      <Card title="Delivery and discount" sectioned>
+        <Stack>
+          <TextField
+            type="number"
+            label="Delivery frequency (in weeks)"
+            value={deliveryFrequency}
+            onChange={setDeliveryFrequency}
+          />
+          <TextField
+            type="number"
+            label="Percentage off (%)"
+            value={percentageOff}
+            onChange={setPercentageOff}
+          />
+        </Stack>
+      </Card>
+
+      {actions}
+    </>
   );
 }
 
