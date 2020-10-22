@@ -12,7 +12,7 @@ Cards are used to group similar concepts and tasks together to make Shopify easi
 
 If you decide to use Card in your app, it's recommended to use Card at the top level without wrapping it inside any components, including Stack. If you really need something above, between, or below Card, you can wrap them in a Stack with `spacing: none` like below:
 
-```ts
+```tsx
 import {
   extend,
   render,
