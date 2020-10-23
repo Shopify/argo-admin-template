@@ -73,10 +73,9 @@ function Add() {
 
         // Here, send the form data to your app server to add the product to an existing plan.
 
-        // Upon completion, call done() to trigger a reload of the resource page, and close() to
-        // terminate the extension.
+        // Upon completion, call done() to trigger a reload of the resource page
+        // and terminate the extension.
         done();
-        close();
       },
     });
 
@@ -139,8 +138,7 @@ function Create() {
     // Here, send the form data to your app server to create the new plan.
 
     done();
-    close();
-  }, [getSessionToken, done, close]);
+  }, [getSessionToken, done]);
 
   const actions = useMemo(
     () => (
@@ -219,7 +217,6 @@ function Remove() {
         // Here, send the form data to your app server to remove the product from the plan.
 
         done();
-        close();
       },
     });
 
@@ -265,8 +262,7 @@ function Edit() {
     // Here, send the form data to your app server to modify the selling plan.
 
     done();
-    close();
-  }, [getSessionToken, done, close]);
+  }, [getSessionToken, done]);
 
   const actions = useMemo(
     () => (
