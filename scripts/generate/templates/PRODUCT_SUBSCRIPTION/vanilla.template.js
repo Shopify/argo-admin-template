@@ -55,7 +55,7 @@ function Add(root, api) {
 
       // Here, send the form data to your app server to add the product to an existing plan.
 
-      // Upon completion, call done() to trigger a reload of the resource page 
+      // Upon completion, call done() to trigger a reload of the resource page
       // and terminate the extension.
       done();
     },
