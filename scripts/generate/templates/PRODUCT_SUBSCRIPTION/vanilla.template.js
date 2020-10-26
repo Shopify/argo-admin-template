@@ -55,10 +55,9 @@ function Add(root, api) {
 
       // Here, send the form data to your app server to add the product to an existing plan.
 
-      // Upon completion, call done() to trigger a reload of the resource page, and close() to
-      // terminate the extension.
+      // Upon completion, call done() to trigger a reload of the resource page
+      // and terminate the extension.
       done();
-      close();
     },
   });
   setSecondaryAction({
@@ -118,7 +117,6 @@ function Create(root, api) {
       // Here, send the form data to your app server to create the new plan.
 
       done();
-      close();
     },
   });
   const secondaryButton = root.createComponent(Button, {
@@ -220,7 +218,6 @@ function Remove(root, api) {
       // Here, send the form data to your app server to remove the product from the plan.
 
       done();
-      close();
     },
   });
 
@@ -264,7 +261,6 @@ function Edit(root, api) {
       // Here, send the form data to your app server to modify the selling plan.
 
       done();
-      close();
     },
   });
   const secondaryButton = root.createComponent(Button, {

@@ -102,12 +102,12 @@ There are two different container types for the Product subscription extension, 
 
 #### Add, Remove (Modal container)
 
-| Name               | Type       | Description                                                                            | Required |
-| ------------------ | ---------- | -------------------------------------------------------------------------------------- | -------- |
-| close              | `function` | Closes the container and the extension                                                 |          |
-| done               | `function` | Notify Shopify Admin that the extension workflow is complete and data has been updated |          |
-| setPrimaryAction   | `Action`   | Sets the primary action                                                                |          |
-| setSecondaryAction | `Action`   | Sets the secondary action                                                              |          |
+| Name               | Type       | Description                                                                                                                            | Required |
+| ------------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| close              | `function` | Closes the container and the extension                                                                                                 |          |
+| done               | `function` | Notify Shopify Admin that the extension workflow is complete and data has been updated. It also closes the container and the extension |          |
+| setPrimaryAction   | `Action`   | Sets the primary action                                                                                                                |          |
+| setSecondaryAction | `Action`   | Sets the secondary action                                                                                                              |          |
 
 ##### Action
 
@@ -131,7 +131,6 @@ extend(ExtensionPoint.SubscriptionManagementAdd, (root, api) => {
     onAction: () => {
       console.log('Added');
       done();
-      close();
     },
   });
 
@@ -167,7 +166,6 @@ function App() {
       onAction: () => {
         console.log('Saved');
         done();
-        close();
       },
     });
 
@@ -191,10 +189,10 @@ extend(
 
 #### Create, Edit (App overlay container)
 
-| Name  | Type       | Description                                                                            | Required |
-| ----- | ---------- | -------------------------------------------------------------------------------------- | -------- |
-| close | `function` | Closes the container and the extension                                                 |          |
-| done  | `function` | Notify Shopify Admin that the extension workflow is complete and data has been updated |          |
+| Name  | Type       | Description                                                                                                                            | Required |
+| ----- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| close | `function` | Closes the container and the extension                                                                                                 |          |
+| done  | `function` | Notify Shopify Admin that the extension workflow is complete and data has been updated. It also closes the container and the extension |          |
 
 ##### Vanilla JavaScript example
 
@@ -212,7 +210,6 @@ extend(ExtensionPoint.SubscriptionManagementEdit, (root, api) => {
     onClick: () => {
       console.log('Updated');
       done();
-      close();
     },
   });
 
@@ -246,13 +243,12 @@ function App() {
   const onPrimaryAction = useCallback(() => {
     console.log('Updated');
     done();
-    close();
-  }, [getSessionToken, done, close]);
+  }, [getSessionToken, done]);
 
   const onSecondaryAction = useCallback(() => {
     console.log('Cancelled');
     close();
-  }, [getSessionToken, done, close]);
+  }, [getSessionToken, close]);
 
   const actions = useMemo(
     () => (
