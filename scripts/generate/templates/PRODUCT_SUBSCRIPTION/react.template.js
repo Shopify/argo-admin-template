@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   Checkbox,
-  ExtensionPoint,
   TextField,
   Text,
   Stack,
@@ -66,10 +65,9 @@ function Add() {
 
         // Here, send the form data to your app server to add the product to an existing plan.
 
-        // Upon completion, call done() to trigger a reload of the resource page, and close() to
-        // terminate the extension.
+        // Upon completion, call done() to trigger a reload of the resource page
+        // and terminate the extension.
         done();
-        close();
       },
     });
 
@@ -129,12 +127,11 @@ function Create() {
     // Here, send the form data to your app server to create the new plan.
 
     done();
-    close();
-  }, [getSessionToken, close, done]);
+  }, [getSessionToken, done]);
 
   const actions = useMemo(
     () => (
-      <Stack distribution="fill">
+      <Stack spacing="none" distribution="fill">
         <Button title="Cancel" onPress={() => close()} />
         <Stack distribution="trailing">
           <Button title="Create plan" onPress={onPrimaryAction} primary />
@@ -145,43 +142,43 @@ function Create() {
   );
 
   return (
-    <Stack distribution="center">
-      <Stack vertical>
+    <>
+      <Stack spacing="none">
         <Text size="titleLarge">
           {localizedStrings.hello}! Create subscription plan
         </Text>
-
-        <Card
-          title={`Create subscription plan for Product id ${data.productId}`}
-          sectioned
-        >
-          <TextField
-            label="Plan title"
-            value={planTitle}
-            onChange={setPlanTitle}
-          />
-        </Card>
-
-        <Card title="Delivery and discount" sectioned>
-          <Stack>
-            <TextField
-              type="number"
-              label="Delivery frequency (in weeks)"
-              value={deliveryFrequency}
-              onChange={setDeliveryFrequency}
-            />
-            <TextField
-              type="number"
-              label="Percentage off (%)"
-              value={percentageOff}
-              onChange={setPercentageOff}
-            />
-          </Stack>
-        </Card>
-
-        {actions}
       </Stack>
-    </Stack>
+
+      <Card
+        title={`Create subscription plan for Product id ${data.productId}`}
+        sectioned
+      >
+        <TextField
+          label="Plan title"
+          value={planTitle}
+          onChange={setPlanTitle}
+        />
+      </Card>
+
+      <Card title="Delivery and discount" sectioned>
+        <Stack>
+          <TextField
+            type="number"
+            label="Delivery frequency (in weeks)"
+            value={deliveryFrequency}
+            onChange={setDeliveryFrequency}
+          />
+          <TextField
+            type="number"
+            label="Percentage off (%)"
+            value={percentageOff}
+            onChange={setPercentageOff}
+          />
+        </Stack>
+      </Card>
+
+      {actions}
+    </>
   );
 }
 
@@ -207,7 +204,6 @@ function Remove() {
         // Here, send the form data to your app server to remove the product from the plan.
 
         done();
-        close();
       },
     });
 
@@ -251,12 +247,11 @@ function Edit() {
     // Here, send the form data to your app server to modify the selling plan.
 
     done();
-    close();
-  }, [getSessionToken, done, close]);
+  }, [getSessionToken, done]);
 
   const actions = useMemo(
     () => (
-      <Stack distribution="fill">
+      <Stack spacing="none" distribution="fill">
         <Button title="Cancel" onPress={() => close()} />
         <Stack distribution="trailing">
           <Button title="Edit plan" onPress={onPrimaryAction} primary />
@@ -267,60 +262,60 @@ function Edit() {
   );
 
   return (
-    <Stack distribution="center">
-      <Stack vertical>
+    <>
+      <Stack spacing="none">
         <Text size="titleLarge">
           {localizedStrings.hello}! Edit subscription plan
         </Text>
-
-        <Card
-          title={`Edit subscription plan for Product id ${data.productId}`}
-          sectioned
-        >
-          <TextField
-            label="Plan title"
-            value={planTitle}
-            onChange={setPlanTitle}
-          />
-        </Card>
-
-        <Card title="Delivery and discount" sectioned>
-          <Stack>
-            <TextField
-              type="number"
-              label="Delivery frequency (in weeks)"
-              value={deliveryFrequency}
-              onChange={setDeliveryFrequency}
-            />
-            <TextField
-              type="number"
-              label="Percentage off (%)"
-              value={percentageOff}
-              onChange={setPercentageOff}
-            />
-          </Stack>
-        </Card>
-
-        {actions}
       </Stack>
-    </Stack>
+
+      <Card
+        title={`Edit subscription plan for Product id ${data.productId}`}
+        sectioned
+      >
+        <TextField
+          label="Plan title"
+          value={planTitle}
+          onChange={setPlanTitle}
+        />
+      </Card>
+
+      <Card title="Delivery and discount" sectioned>
+        <Stack>
+          <TextField
+            type="number"
+            label="Delivery frequency (in weeks)"
+            value={deliveryFrequency}
+            onChange={setDeliveryFrequency}
+          />
+          <TextField
+            type="number"
+            label="Percentage off (%)"
+            value={percentageOff}
+            onChange={setPercentageOff}
+          />
+        </Stack>
+      </Card>
+
+      {actions}
+    </>
   );
 }
 
 // Your extension must render all four modes
 extend(
-  ExtensionPoint.SubscriptionManagementAdd,
+  'Admin::Product::SubscriptionPlan::Add',
   render(() => <Add />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementCreate,
+  'Admin::Product::SubscriptionPlan::Create',
   render(() => <Create />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementRemove,
+  'Admin::Product::SubscriptionPlan::Remove',
   render(() => <Remove />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementEdit,
+  'Admin::Product::SubscriptionPlan::Edit',
   render(() => <Edit />)
 );

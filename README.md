@@ -14,16 +14,16 @@ If you grabbed this template directly from github:
 ## With npm
 npm install
 
-npm run generate -- --type=SUBSCRIPTION_MANAGEMENT
+npm run generate -- --type=PRODUCT_SUBSCRIPTION
 
 ## With yarn
 yarn
 
-yarn generate --type=SUBSCRIPTION_MANAGEMENT
+yarn generate --type=PRODUCT_SUBSCRIPTION
 ```
 
 ### Available extensions:
- - SUBSCRIPTION_MANAGEMENT
+  - PRODUCT_SUBSCRIPTION
 
 **Note:**
 Once you're setup, you may delete the `scripts` folder as you will no longer need it.

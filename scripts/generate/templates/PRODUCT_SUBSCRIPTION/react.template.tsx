@@ -3,7 +3,6 @@ import {
   Button,
   Card,
   Checkbox,
-  ExtensionPoint,
   TextField,
   Text,
   Stack,
@@ -38,11 +37,11 @@ const translations: {
 function Add() {
   // Information about the product and/or plan your extension is editing.
   // Your extension receives different data in each mode.
-  const data = useData<ExtensionPoint.SubscriptionManagementAdd>();
+  const data = useData<'Admin::Product::SubscriptionPlan::Add'>();
 
   // The UI your extension renders inside
   const {close, done, setPrimaryAction, setSecondaryAction} = useContainer<
-    ExtensionPoint.SubscriptionManagementAdd
+    'Admin::Product::SubscriptionPlan::Add'
   >();
 
   // Information about the merchant's selected language. Use this to support multiple languages.
@@ -74,10 +73,9 @@ function Add() {
 
         // Here, send the form data to your app server to add the product to an existing plan.
 
-        // Upon completion, call done() to trigger a reload of the resource page, and close() to
-        // terminate the extension.
+        // Upon completion, call done() to trigger a reload of the resource page
+        // and terminate the extension.
         done();
-        close();
       },
     });
 
@@ -117,9 +115,9 @@ function Add() {
 // 'Create' mode should create a new selling plan, and add the current product to it
 // [Shopify admin renders this mode inside an app overlay container]
 function Create() {
-  const data = useData<ExtensionPoint.SubscriptionManagementCreate>();
+  const data = useData<'Admin::Product::SubscriptionPlan::Create'>();
   const {close, done} = useContainer<
-    ExtensionPoint.SubscriptionManagementCreate
+    'Admin::Product::SubscriptionPlan::Create'
   >();
 
   const locale = useLocale();
@@ -140,12 +138,11 @@ function Create() {
     // Here, send the form data to your app server to create the new plan.
 
     done();
-    close();
-  }, [getSessionToken, done, close]);
+  }, [getSessionToken, done]);
 
   const actions = useMemo(
     () => (
-      <Stack distribution="fill">
+      <Stack spacing="none" distribution="fill">
         <Button title="Cancel" onPress={() => close()} />
         <Stack distribution="trailing">
           <Button title="Create plan" onPress={onPrimaryAction} primary />
@@ -156,43 +153,43 @@ function Create() {
   );
 
   return (
-    <Stack distribution="center">
-      <Stack vertical>
+    <>
+      <Stack spacing="none">
         <Text size="titleLarge">
           {localizedStrings.hello}! Create subscription plan
         </Text>
-
-        <Card
-          title={`Create subscription plan for Product id ${data.productId}`}
-          sectioned
-        >
-          <TextField
-            label="Plan title"
-            value={planTitle}
-            onChange={setPlanTitle}
-          />
-        </Card>
-
-        <Card title="Delivery and discount" sectioned>
-          <Stack>
-            <TextField
-              type="number"
-              label="Delivery frequency (in weeks)"
-              value={deliveryFrequency}
-              onChange={setDeliveryFrequency}
-            />
-            <TextField
-              type="number"
-              label="Percentage off (%)"
-              value={percentageOff}
-              onChange={setPercentageOff}
-            />
-          </Stack>
-        </Card>
-
-        {actions}
       </Stack>
-    </Stack>
+
+      <Card
+        title={`Create subscription plan for Product id ${data.productId}`}
+        sectioned
+      >
+        <TextField
+          label="Plan title"
+          value={planTitle}
+          onChange={setPlanTitle}
+        />
+      </Card>
+
+      <Card title="Delivery and discount" sectioned>
+        <Stack>
+          <TextField
+            type="number"
+            label="Delivery frequency (in weeks)"
+            value={deliveryFrequency}
+            onChange={setDeliveryFrequency}
+          />
+          <TextField
+            type="number"
+            label="Percentage off (%)"
+            value={percentageOff}
+            onChange={setPercentageOff}
+          />
+        </Stack>
+      </Card>
+
+      {actions}
+    </>
   );
 }
 
@@ -200,9 +197,9 @@ function Create() {
 // This should not delete the selling plan.
 // [Shopify admin renders this mode inside a modal container]
 function Remove() {
-  const data = useData<ExtensionPoint.SubscriptionManagementRemove>();
+  const data = useData<'Admin::Product::SubscriptionPlan::Remove'>();
   const {close, done, setPrimaryAction, setSecondaryAction} = useContainer<
-    ExtensionPoint.SubscriptionManagementRemove
+    'Admin::Product::SubscriptionPlan::Remove'
   >();
   const locale = useLocale();
   const localizedStrings: Translations = useMemo(() => {
@@ -220,7 +217,6 @@ function Remove() {
         // Here, send the form data to your app server to remove the product from the plan.
 
         done();
-        close();
       },
     });
 
@@ -245,7 +241,7 @@ function Remove() {
 // Changes should affect other products that have this plan applied.
 // [Shopify admin renders this mode inside an app overlay container]
 function Edit() {
-  const data = useData<ExtensionPoint.SubscriptionManagementEdit>();
+  const data = useData<'Admin::Product::SubscriptionPlan::Edit'>();
   const [planTitle, setPlanTitle] = useState('Current plan');
   const locale = useLocale();
   const localizedStrings: Translations = useMemo(() => {
@@ -257,7 +253,7 @@ function Edit() {
   const [percentageOff, setPercentageOff] = useState('10');
   const [deliveryFrequency, setDeliveryFrequency] = useState('1');
   const {close, done} = useContainer<
-    ExtensionPoint.SubscriptionManagementEdit
+    'Admin::Product::SubscriptionPlan::Edit'
   >();
 
   const onPrimaryAction = useCallback(async () => {
@@ -266,12 +262,11 @@ function Edit() {
     // Here, send the form data to your app server to modify the selling plan.
 
     done();
-    close();
-  }, [getSessionToken, done, close]);
+  }, [getSessionToken, done]);
 
   const actions = useMemo(
     () => (
-      <Stack distribution="fill">
+      <Stack spacing="none" distribution="fill">
         <Button title="Cancel" onPress={() => close()} />
         <Stack distribution="trailing">
           <Button title="Edit plan" onPress={onPrimaryAction} primary />
@@ -282,60 +277,60 @@ function Edit() {
   );
 
   return (
-    <Stack distribution="center">
-      <Stack vertical>
+    <>
+      <Stack spacing="none">
         <Text size="titleLarge">
           {localizedStrings.hello}! Edit subscription plan
         </Text>
-
-        <Card
-          title={`Edit subscription plan for Product id ${data.productId}`}
-          sectioned
-        >
-          <TextField
-            label="Plan title"
-            value={planTitle}
-            onChange={setPlanTitle}
-          />
-        </Card>
-
-        <Card title="Delivery and discount" sectioned>
-          <Stack>
-            <TextField
-              type="number"
-              label="Delivery frequency (in weeks)"
-              value={deliveryFrequency}
-              onChange={setDeliveryFrequency}
-            />
-            <TextField
-              type="number"
-              label="Percentage off (%)"
-              value={percentageOff}
-              onChange={setPercentageOff}
-            />
-          </Stack>
-        </Card>
-
-        {actions}
       </Stack>
-    </Stack>
+
+      <Card
+        title={`Edit subscription plan for Product id ${data.productId}`}
+        sectioned
+      >
+        <TextField
+          label="Plan title"
+          value={planTitle}
+          onChange={setPlanTitle}
+        />
+      </Card>
+
+      <Card title="Delivery and discount" sectioned>
+        <Stack>
+          <TextField
+            type="number"
+            label="Delivery frequency (in weeks)"
+            value={deliveryFrequency}
+            onChange={setDeliveryFrequency}
+          />
+          <TextField
+            type="number"
+            label="Percentage off (%)"
+            value={percentageOff}
+            onChange={setPercentageOff}
+          />
+        </Stack>
+      </Card>
+
+      {actions}
+    </>
   );
 }
 
 // Your extension must render all four modes
 extend(
-  ExtensionPoint.SubscriptionManagementAdd,
+  'Admin::Product::SubscriptionPlan::Add',
   render(() => <Add />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementCreate,
+  'Admin::Product::SubscriptionPlan::Create',
   render(() => <Create />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementRemove,
+  'Admin::Product::SubscriptionPlan::Remove',
   render(() => <Remove />)
 );
 extend(
-  ExtensionPoint.SubscriptionManagementEdit,
+  'Admin::Product::SubscriptionPlan::Edit',
   render(() => <Edit />)
 );
