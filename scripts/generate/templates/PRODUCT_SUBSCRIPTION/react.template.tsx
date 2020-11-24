@@ -32,6 +32,17 @@ const translations: {
   },
 };
 
+function Actions({onPrimary, onClose, title}) {
+  return (
+    <Stack spacing="none" distribution="fill">
+      <Button title="Cancel" onPress={onClose} />
+      <Stack distribution="trailing">
+        <Button title={title} onPress={onPrimary} primary />
+      </Stack>
+    </Stack>
+  );
+}
+
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 // [Shopify admin renders this mode inside a modal container]
 function Add() {
@@ -40,9 +51,12 @@ function Add() {
   const data = useData<'Admin::Product::SubscriptionPlan::Add'>();
 
   // The UI your extension renders inside
-  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer<
-    'Admin::Product::SubscriptionPlan::Add'
-  >();
+  const {
+    close,
+    done,
+    setPrimaryAction,
+    setSecondaryAction,
+  } = useContainer<'Admin::Product::SubscriptionPlan::Add'>();
 
   // Information about the merchant's selected language. Use this to support multiple languages.
   const locale = useLocale();
@@ -89,8 +103,7 @@ function Add() {
     <>
       <Text size="titleLarge">{localizedStrings.hello}!</Text>
       <Text>
-        Add {`{Product id ${data.productId}}`} to an existing plan or existing
-        plans
+        Add Product id {data.productId} to an existing plan or existing plans
       </Text>
 
       <Stack>
@@ -116,9 +129,10 @@ function Add() {
 // [Shopify admin renders this mode inside an app overlay container]
 function Create() {
   const data = useData<'Admin::Product::SubscriptionPlan::Create'>();
-  const {close, done} = useContainer<
-    'Admin::Product::SubscriptionPlan::Create'
-  >();
+  const {
+    close,
+    done,
+  } = useContainer<'Admin::Product::SubscriptionPlan::Create'>();
 
   const locale = useLocale();
   const localizedStrings: Translations = useMemo(() => {
@@ -140,14 +154,13 @@ function Create() {
     done();
   }, [getSessionToken, done]);
 
-  const actions = useMemo(
+  const cachedActions = useMemo(
     () => (
-      <Stack spacing="none" distribution="fill">
-        <Button title="Cancel" onPress={() => close()} />
-        <Stack distribution="trailing">
-          <Button title="Create plan" onPress={onPrimaryAction} primary />
-        </Stack>
-      </Stack>
+      <Actions
+        onPrimary={onPrimaryAction}
+        onClose={close}
+        title="Create plan"
+      />
     ),
     [onPrimaryAction, close]
   );
@@ -188,7 +201,7 @@ function Create() {
         </Stack>
       </Card>
 
-      {actions}
+      {cachedActions}
     </>
   );
 }
@@ -198,9 +211,12 @@ function Create() {
 // [Shopify admin renders this mode inside a modal container]
 function Remove() {
   const data = useData<'Admin::Product::SubscriptionPlan::Remove'>();
-  const {close, done, setPrimaryAction, setSecondaryAction} = useContainer<
-    'Admin::Product::SubscriptionPlan::Remove'
-  >();
+  const {
+    close,
+    done,
+    setPrimaryAction,
+    setSecondaryAction,
+  } = useContainer<'Admin::Product::SubscriptionPlan::Remove'>();
   const locale = useLocale();
   const localizedStrings: Translations = useMemo(() => {
     return translations[locale] || translations.en;
@@ -230,8 +246,8 @@ function Remove() {
     <>
       <Text size="titleLarge">{localizedStrings.hello}!</Text>
       <Text>
-        Remove {`{Product id ${data.productId}}`} from{' '}
-        {`{Plan group id ${data.sellingPlanGroupId}}`}
+        Remove Product id {data.productId} from Plan group id{' '}
+        {data.sellingPlanGroupId}
       </Text>
     </>
   );
@@ -252,9 +268,10 @@ function Edit() {
 
   const [percentageOff, setPercentageOff] = useState('10');
   const [deliveryFrequency, setDeliveryFrequency] = useState('1');
-  const {close, done} = useContainer<
-    'Admin::Product::SubscriptionPlan::Edit'
-  >();
+  const {
+    close,
+    done,
+  } = useContainer<'Admin::Product::SubscriptionPlan::Edit'>();
 
   const onPrimaryAction = useCallback(async () => {
     const token = await getSessionToken();
@@ -264,14 +281,9 @@ function Edit() {
     done();
   }, [getSessionToken, done]);
 
-  const actions = useMemo(
+  const cachedActions = useMemo(
     () => (
-      <Stack spacing="none" distribution="fill">
-        <Button title="Cancel" onPress={() => close()} />
-        <Stack distribution="trailing">
-          <Button title="Edit plan" onPress={onPrimaryAction} primary />
-        </Stack>
-      </Stack>
+      <Actions onPrimary={onPrimaryAction} onClose={close} title="Edit plan" />
     ),
     [onPrimaryAction, close]
   );
@@ -312,7 +324,7 @@ function Edit() {
         </Stack>
       </Card>
 
-      {actions}
+      {cachedActions}
     </>
   );
 }

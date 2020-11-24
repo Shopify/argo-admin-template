@@ -10,5 +10,6 @@ module.exports = {
   rules: {
     'no-console': 'off',
     '@shopify/jsx-no-hardcoded-content': 'off',
+    "react/prop-types": "off"
   },
 };

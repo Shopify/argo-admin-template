@@ -26,6 +26,17 @@ const translations = {
   },
 };
 
+function Actions({onPrimary, onClose, title}) {
+  return (
+    <Stack spacing="none" distribution="fill">
+      <Button title="Cancel" onPress={onClose} />
+      <Stack distribution="trailing">
+        <Button title={title} onPress={onPrimary} primary />
+      </Stack>
+    </Stack>
+  );
+}
+
 // 'Add' mode should allow a user to add the current product to an existing selling plan
 // [Shopify admin renders this mode inside a modal container]
 function Add() {
@@ -81,8 +92,7 @@ function Add() {
     <>
       <Text size="titleLarge">{localizedStrings.hello}!</Text>
       <Text>
-        Add {`{Product id ${data.productId}}`} to an existing plan or existing
-        plans
+        Add Product id {data.productId} to an existing plan or existing plans
       </Text>
 
       <Stack>
@@ -129,14 +139,13 @@ function Create() {
     done();
   }, [getSessionToken, done]);
 
-  const actions = useMemo(
+  const cachedActions = useMemo(
     () => (
-      <Stack spacing="none" distribution="fill">
-        <Button title="Cancel" onPress={() => close()} />
-        <Stack distribution="trailing">
-          <Button title="Create plan" onPress={onPrimaryAction} primary />
-        </Stack>
-      </Stack>
+      <Actions
+        onPrimary={onPrimaryAction}
+        onClose={close}
+        title="Create plan"
+      />
     ),
     [onPrimaryAction, close]
   );
@@ -177,7 +186,7 @@ function Create() {
         </Stack>
       </Card>
 
-      {actions}
+      {cachedActions}
     </>
   );
 }
@@ -217,8 +226,8 @@ function Remove() {
     <>
       <Text size="titleLarge">{localizedStrings.hello}!</Text>
       <Text>
-        Remove {`{Product id ${data.productId}}`} from{' '}
-        {`{Plan group id ${data.sellingPlanGroupId}}`}
+        Remove Product id {data.productId} from Plan group id{' '}
+        {data.sellingPlanGroupId}
       </Text>
     </>
   );
@@ -249,14 +258,9 @@ function Edit() {
     done();
   }, [getSessionToken, done]);
 
-  const actions = useMemo(
+  const cachedActions = useMemo(
     () => (
-      <Stack spacing="none" distribution="fill">
-        <Button title="Cancel" onPress={() => close()} />
-        <Stack distribution="trailing">
-          <Button title="Edit plan" onPress={onPrimaryAction} primary />
-        </Stack>
-      </Stack>
+      <Actions onPrimary={onPrimaryAction} onClose={close} title="Edit plan" />
     ),
     [onPrimaryAction, close]
   );
@@ -297,7 +301,7 @@ function Edit() {
         </Stack>
       </Card>
 
-      {actions}
+      {cachedActions}
     </>
   );
 }
