@@ -1,6 +1,6 @@
 # Product Subscription App Extension
 
-This extension renders in the Product Details and Product Variants Page inside a **Modal container** or **App overlay** container. You can find a [complete tutorial for the Product Subscription App Extension in the Shopify Developer docs](https://shopify.dev/tutorials/product-subscription-extension-overview).
+This extension renders in the Product Details and Product Variants Page inside a [**Modal container** or **App overlay** container](https://shopify.dev/tutorials/create-manage-product-subscription-extension). You can find a [complete tutorial for the Product Subscription App Extension in the Shopify Developer docs](https://shopify.dev/tutorials/product-subscription-extension-overview).
 
 ## Extension Points
 
