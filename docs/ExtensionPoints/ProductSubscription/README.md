@@ -1,10 +1,10 @@
-# Product Subscription Extension
+# Product Subscription App Extension
 
-This extension renders in the Product Details and Product Variants Page inside a **Modal container** or **App overlay** container.
+This extension renders in the Product Details and Product Variants Page inside a **Modal container** or **App overlay** container. You can find a [complete tutorial for the Product Subscription App Extension in the Shopify Developer docs](https://shopify.dev/tutorials/product-subscription-extension-overview).
 
 ## Extension Points
 
-The Product subscription extension uses multiple extension points. Each is triggered by a different merchant action, receives different data, and is responsible for handling a distinct part of the subscriptions experience.
+The Product Subscription App Extension uses multiple extension points. Each is triggered by a different merchant action, receives different data, and is responsible for handling a distinct part of the subscriptions experience.
 
 The different extension points are:
 
@@ -90,7 +90,7 @@ See [Data](../../Utilities/Data.md) for more info about how to access subscripti
 
 See [Container](../../Utilities/Container.md) for more info about how to customize your extension’s container component using the Container API.
 
-There are two different container types for the Product subscription extension, depending on the extension mode:
+There are two different container types for the Product Subscription App Extension, depending on the extension mode:
 
 #### Add, Remove
 
@@ -276,7 +276,7 @@ extend(
 
 ## Available components
 
-The following components are available for all Product Subscription extension points:
+The following components are available for all Product Subscription App Extension points:
 
 - [Badge](../../Components/Badge.md)
 - [Banner](../../Components/Banner.md)
