@@ -7,7 +7,7 @@
   "license": "MIT",
   "devDependencies": {
     "@shopify/argo-admin-cli": "latest",
-    "@shopify/eslint-plugin": "^37.0.1",
+    "@shopify/eslint-plugin": "^39.0.3",
     "@types/yargs": "^15.0.4",
     "eslint": "^7.7.0",
     "inquirer": "^7.1.0",
