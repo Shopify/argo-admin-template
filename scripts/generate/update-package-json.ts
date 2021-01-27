@@ -2,11 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import {promisify} from 'util';
 
+import * as DotEnv from 'dotenv';
+
 import {Template} from './generate-src';
 
 export function addScripts({entry, type}: {entry: string; type: string}) {
+  DotEnv.config({path: path.resolve('.env')});
+
   return updatePackage((npmPackage) => {
-    npmPackage.scripts.server = `argo-admin-cli server --entry="${entry}" --port=39351 --type=${type}`;
+    npmPackage.scripts.server = `argo-admin-cli server --entry="${entry}" --port=39351 --type=${type} --apiKey=${process.env.SHOPIFY_API_KEY} --title=${process.env.EXTENSION_TITLE}`;
     npmPackage.scripts.build = `argo-admin-cli build --entry="${entry}"`;
     return npmPackage;
   });
