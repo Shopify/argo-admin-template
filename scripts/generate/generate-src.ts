@@ -4,10 +4,10 @@ import path from 'path';
 import inquirer from 'inquirer';
 
 export enum Template {
-  Vanilla = 'vanilla',
-  React = 'react',
-  VanillaTypescript = 'vanilla-typescript',
-  ReactTypescript = 'react-typescript',
+  Vanilla = 'js',
+  React = 'js+react',
+  VanillaTypescript = 'ts',
+  ReactTypescript = 'ts+react',
 }
 
 const indexPaths = {
@@ -24,13 +24,7 @@ const choiceMap: {[key: string]: Template} = {
   'React with Typescript': Template.ReactTypescript,
 };
 
-export async function generateSrc({
-  extensionType,
-  rootDir,
-}: {
-  extensionType: string;
-  rootDir: string;
-}) {
+async function getTemplateIdentifier() {
   const response = await inquirer.prompt<{template: string}>([
     {
       type: 'list',
@@ -44,7 +38,31 @@ export async function generateSrc({
   ]);
 
   const {template: templateResponse} = response;
-  const template = choiceMap[templateResponse];
+
+  return choiceMap[templateResponse];
+}
+
+function validateTemplateIdentifier(
+  templateIdentifier?: string
+): Template | undefined {
+  if (templateIdentifier && !isTemplate(templateIdentifier)) {
+    throw new Error(`Unknown template: ${templateIdentifier}`);
+  }
+  return isTemplate(templateIdentifier) ? templateIdentifier : undefined;
+}
+
+export async function generateSrc({
+  extensionType,
+  rootDir,
+  templateIdentifier,
+}: {
+  extensionType: string;
+  rootDir: string;
+  templateIdentifier?: string;
+}) {
+  const template =
+    validateTemplateIdentifier(templateIdentifier) ||
+    (await getTemplateIdentifier());
 
   console.log('✅ You selected:', template);
 
@@ -73,4 +91,15 @@ export async function generateSrc({
     console.error(`${errorMessage}: `, error);
     throw new Error(errorMessage);
   }
+}
+
+function isTemplate(
+  templateIdentifier: string
+): templateIdentifier is Template {
+  for (const t in Template) {
+    if (Template[t] === templateIdentifier) {
+      return true;
+    }
+  }
+  return false;
 }
