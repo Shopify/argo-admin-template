@@ -45,10 +45,12 @@ async function getTemplateIdentifier() {
 function validateTemplateIdentifier(
   templateIdentifier?: string
 ): Template | undefined {
-  if (templateIdentifier && !isTemplate(templateIdentifier)) {
+  if (isTemplate(templateIdentifier)) {
+    return templateIdentifier;
+  }
+  if (templateIdentifier) {
     throw new Error(`Unknown template: ${templateIdentifier}`);
   }
-  return isTemplate(templateIdentifier) ? templateIdentifier : undefined;
 }
 
 export async function generateSrc({
