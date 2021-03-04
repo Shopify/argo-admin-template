@@ -42,9 +42,7 @@ async function getTemplateIdentifier() {
   return choiceMap[templateResponse];
 }
 
-function validateTemplateIdentifier(
-  templateIdentifier: string
-): Template | undefined {
+function validateTemplateIdentifier(templateIdentifier: string): Template {
   if (isTemplate(templateIdentifier)) {
     return templateIdentifier;
   }
