@@ -43,14 +43,12 @@ async function getTemplateIdentifier() {
 }
 
 function validateTemplateIdentifier(
-  templateIdentifier?: string
+  templateIdentifier: string
 ): Template | undefined {
   if (isTemplate(templateIdentifier)) {
     return templateIdentifier;
   }
-  if (templateIdentifier) {
-    throw new Error(`Unknown template: ${templateIdentifier}`);
-  }
+  throw new Error(`Unknown template: ${templateIdentifier}`);
 }
 
 export async function generateSrc({
@@ -62,10 +60,9 @@ export async function generateSrc({
   rootDir: string;
   templateIdentifier?: string;
 }) {
-  const template =
-    validateTemplateIdentifier(templateIdentifier) ||
-    (await getTemplateIdentifier());
-
+  const template = templateIdentifier
+    ? validateTemplateIdentifier(templateIdentifier)
+    : await getTemplateIdentifier();
   console.log('✅ You selected:', template);
 
   const indexPath = indexPaths[template] || indexPaths[Template.Vanilla];
