@@ -15,9 +15,10 @@ See README.md for instructions.
 
 interface InitConfig {
   type: string;
+  template?: string;
 }
 
-async function init({type}: InitConfig) {
+async function init({type, template: templateIdentifier}: InitConfig) {
   const extensionType = String(type);
 
   if (extensionTypes.indexOf(extensionType) === -1) {
@@ -25,7 +26,7 @@ async function init({type}: InitConfig) {
     process.exit(1);
   }
 
-  console.log('Create ', type, ' extension project');
+  console.log(`Create ${type} extension project`);
 
   const rootDir = path.resolve('.');
 
@@ -33,6 +34,7 @@ async function init({type}: InitConfig) {
     generateSrc({
       extensionType,
       rootDir,
+      templateIdentifier,
     })
   );
 

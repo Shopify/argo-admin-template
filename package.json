@@ -2,7 +2,9 @@
   "name": "shopify-app-extension-template",
   "version": "0.1.0",
   "main": "extension.ts",
-  "engines" : { "node" : ">=10.16.0" },
+  "engines": {
+    "node": ">=10.16.0"
+  },
   "repository": "https://github.com/Shopify/shopify-app-extension-template.git",
   "author": "Shopify <app-extensions@shopify.com>",
   "license": "MIT",
@@ -10,6 +12,7 @@
     "@shopify/argo-admin-cli": "latest",
     "@shopify/eslint-plugin": "^39.0.3",
     "@types/yargs": "^15.0.4",
+    "@types/inquirer": "^7.3.1",
     "eslint": "^7.7.0",
     "inquirer": "^7.1.0",
     "prettier": "^2.1.0",

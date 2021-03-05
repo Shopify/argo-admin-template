@@ -4,33 +4,20 @@ import path from 'path';
 import inquirer from 'inquirer';
 
 export enum Template {
-  Vanilla = 'vanilla',
-  React = 'react',
-  VanillaTypescript = 'vanilla-typescript',
-  ReactTypescript = 'react-typescript',
+  Javascript = 'javascript',
+  Typescript = 'typescript',
+  JavascriptReact = 'javascript-react',
+  TypescriptReact = 'typescript-react',
 }
 
 const indexPaths = {
-  [Template.Vanilla]: 'vanilla.template.js',
-  [Template.React]: 'react.template.js',
-  [Template.VanillaTypescript]: 'vanilla.template.ts',
-  [Template.ReactTypescript]: 'react.template.tsx',
+  [Template.Javascript]: 'vanilla.template.js',
+  [Template.Typescript]: 'vanilla.template.ts',
+  [Template.JavascriptReact]: 'react.template.js',
+  [Template.TypescriptReact]: 'react.template.tsx',
 };
 
-const choiceMap: {[key: string]: Template} = {
-  'Vanilla JS': Template.Vanilla,
-  React: Template.React,
-  'Vanilla JS with Typescript': Template.VanillaTypescript,
-  'React with Typescript': Template.ReactTypescript,
-};
-
-export async function generateSrc({
-  extensionType,
-  rootDir,
-}: {
-  extensionType: string;
-  rootDir: string;
-}) {
+async function getTemplateIdentifier() {
   const response = await inquirer.prompt<{template: string}>([
     {
       type: 'list',
@@ -39,16 +26,36 @@ export async function generateSrc({
       min: 1,
       max: 1,
       instructions: false,
-      choices: Object.keys(choiceMap),
+      choices: Object.values(Template),
     },
   ]);
 
-  const {template: templateResponse} = response;
-  const template = choiceMap[templateResponse];
+  const {template} = response;
+  return template as Template;
+}
 
+function validateTemplateIdentifier(templateIdentifier: string): Template {
+  if (isTemplate(templateIdentifier)) {
+    return templateIdentifier;
+  }
+  throw new Error(`Unknown template: ${templateIdentifier}`);
+}
+
+export async function generateSrc({
+  extensionType,
+  rootDir,
+  templateIdentifier,
+}: {
+  extensionType: string;
+  rootDir: string;
+  templateIdentifier?: string;
+}) {
+  const template = templateIdentifier
+    ? validateTemplateIdentifier(templateIdentifier)
+    : await getTemplateIdentifier();
   console.log('✅ You selected:', template);
 
-  const indexPath = indexPaths[template] || indexPaths[Template.Vanilla];
+  const indexPath = indexPaths[template] || indexPaths[Template.Javascript];
   const ext = path.extname(indexPath);
 
   const file = fs.readFileSync(
@@ -73,4 +80,15 @@ export async function generateSrc({
     console.error(`${errorMessage}: `, error);
     throw new Error(errorMessage);
   }
+}
+
+function isTemplate(
+  templateIdentifier: string
+): templateIdentifier is Template {
+  for (const t in Template) {
+    if (Template[t] === templateIdentifier) {
+      return true;
+    }
+  }
+  return false;
 }
