@@ -4,24 +4,17 @@ import path from 'path';
 import inquirer from 'inquirer';
 
 export enum Template {
-  Vanilla = 'js',
-  React = 'js+react',
-  VanillaTypescript = 'ts',
-  ReactTypescript = 'ts+react',
+  Javascript = 'javascript',
+  Typescript = 'typescript',
+  JavascriptReact = 'javascript-react',
+  TypescriptReact = 'typescript-react',
 }
 
 const indexPaths = {
-  [Template.Vanilla]: 'vanilla.template.js',
-  [Template.React]: 'react.template.js',
-  [Template.VanillaTypescript]: 'vanilla.template.ts',
-  [Template.ReactTypescript]: 'react.template.tsx',
-};
-
-const choiceMap: {[key: string]: Template} = {
-  'Vanilla JS': Template.Vanilla,
-  React: Template.React,
-  'Vanilla JS with Typescript': Template.VanillaTypescript,
-  'React with Typescript': Template.ReactTypescript,
+  [Template.Javascript]: 'vanilla.template.js',
+  [Template.Typescript]: 'vanilla.template.ts',
+  [Template.JavascriptReact]: 'react.template.js',
+  [Template.TypescriptReact]: 'react.template.tsx',
 };
 
 async function getTemplateIdentifier() {
@@ -33,13 +26,12 @@ async function getTemplateIdentifier() {
       min: 1,
       max: 1,
       instructions: false,
-      choices: Object.keys(choiceMap),
+      choices: Object.values(Template),
     },
   ]);
 
-  const {template: templateResponse} = response;
-
-  return choiceMap[templateResponse];
+  const {template} = response;
+  return template as Template;
 }
 
 function validateTemplateIdentifier(templateIdentifier: string): Template {
@@ -63,7 +55,7 @@ export async function generateSrc({
     : await getTemplateIdentifier();
   console.log('✅ You selected:', template);
 
-  const indexPath = indexPaths[template] || indexPaths[Template.Vanilla];
+  const indexPath = indexPaths[template] || indexPaths[Template.Javascript];
   const ext = path.extname(indexPath);
 
   const file = fs.readFileSync(

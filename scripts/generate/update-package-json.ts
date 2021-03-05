@@ -13,11 +13,12 @@ export function addScripts({entry, type}: {entry: string; type: string}) {
 }
 
 export function cleanUpInitialize({template}: {template: Template}) {
-  const isTypescript = [
-    Template.VanillaTypescript,
-    Template.ReactTypescript,
-  ].includes(template);
-  const isReact = [Template.React, Template.ReactTypescript].includes(template);
+  const isTypescript = [Template.Typescript, Template.TypescriptReact].includes(
+    template
+  );
+  const isReact = [Template.JavascriptReact, Template.TypescriptReact].includes(
+    template
+  );
 
   return updatePackage((npmPackage) => {
     npmPackage.scripts.generate = undefined;

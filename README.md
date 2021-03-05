@@ -19,7 +19,7 @@ npm run generate -- --type=PRODUCT_SUBSCRIPTION
 ## With yarn
 yarn
 
-yarn generate --type=PRODUCT_SUBSCRIPTION --template=js+react
+yarn generate --type=PRODUCT_SUBSCRIPTION --template=javascript-react
 ```
 
 ### Available extensions:
