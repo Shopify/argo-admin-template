@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "extension.ts",
   "engines": {
-    "node": ">=10.16.0"
+    "node": ">=12.10.0"
   },
   "repository": "https://github.com/Shopify/shopify-app-extension-template.git",
   "author": "Shopify <app-extensions@shopify.com>",
@@ -11,11 +11,17 @@
   "devDependencies": {
     "@shopify/argo-admin-cli": "latest",
     "@shopify/eslint-plugin": "^39.0.3",
-    "@types/yargs": "^15.0.4",
     "@types/inquirer": "^7.3.1",
+    "@types/jest": "^26.0.22",
+    "@types/mock-fs": "^4.13.0",
+    "@types/yargs": "^15.0.4",
     "eslint": "^7.7.0",
     "inquirer": "^7.1.0",
+    "jest": "^26.6.3",
+    "jest-extended": "^0.11.5",
+    "mock-fs": "^4.13.0",
     "prettier": "^2.1.0",
+    "ts-jest": "^26.5.4",
     "ts-node": "^8.9.1",
     "typescript": "^3.0.0",
     "yargs": "^15.3.1"
@@ -24,7 +30,8 @@
     "type-check": "prettier --check \"**/scripts/**/*.{ts,tsx}\"",
     "format": "prettier --write \"**/scripts/**/*.{ts,tsx}\"",
     "generate": "ts-node -O \"{\\\"esModuleInterop\\\": true}\" ./scripts/generate",
-    "lint": "eslint ./scripts --ext .js,.ts,.tsx --format codeframe"
+    "lint": "eslint ./scripts --ext .js,.ts,.tsx --format codeframe",
+    "test": "jest"
   },
   "dependencies": {
     "@shopify/argo-admin": "latest",

@@ -38,9 +38,9 @@ async function init({type, template: templateIdentifier}: InitConfig) {
     })
   );
 
-  await tryCatch(() => addScripts({entry, type}));
+  await tryCatch(() => addScripts({entry, type, rootDir}));
 
-  await tryCatch(() => cleanUp({template}));
+  await tryCatch(() => cleanUp({template, rootDir}));
 }
 
 async function tryCatch<T = void>(fn: () => T): Promise<T> {

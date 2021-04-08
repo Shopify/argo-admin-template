@@ -1,18 +1,31 @@
-import fs from 'fs';
+import {promises as fs} from 'fs';
 import path from 'path';
-import {promisify} from 'util';
 
 import {Template} from './generate-src';
 
-export function addScripts({entry, type}: {entry: string; type: string}) {
+export function addScripts({
+  entry,
+  type,
+  rootDir,
+}: {
+  entry: string;
+  type: string;
+  rootDir: string;
+}) {
   return updatePackage((npmPackage) => {
     npmPackage.scripts.server = `argo-admin-cli server --entry="${entry}" --port=39351 --type=${type}`;
     npmPackage.scripts.build = `argo-admin-cli build --entry="${entry}"`;
     return npmPackage;
-  });
+  }, rootDir);
 }
 
-export function cleanUpInitialize({template}: {template: Template}) {
+export function cleanUpInitialize({
+  template,
+  rootDir,
+}: {
+  template: Template;
+  rootDir: string;
+}) {
   const isTypescript = [Template.Typescript, Template.TypescriptReact].includes(
     template
   );
@@ -25,6 +38,7 @@ export function cleanUpInitialize({template}: {template: Template}) {
     npmPackage.scripts['type-check'] = undefined;
     npmPackage.scripts.format = undefined;
     npmPackage.scripts.lint = undefined;
+    npmPackage.scripts.test = undefined;
 
     npmPackage.prettier = undefined;
 
@@ -43,18 +57,18 @@ export function cleanUpInitialize({template}: {template: Template}) {
     }
 
     return npmPackage;
-  });
+  }, rootDir);
 }
 
-const readFile = promisify(fs.readFile);
-const writeFile = promisify(fs.writeFile);
-
-export async function updatePackage(updateFn: (npmPackage: any) => any) {
-  const npmPackageFile = path.resolve('.', 'package.json');
-  const npmPackageJson = (await readFile(npmPackageFile)).toString();
+export async function updatePackage(
+  updateFn: (npmPackage: any) => any,
+  rootDir: string
+) {
+  const npmPackageFile = path.resolve(rootDir, 'package.json');
+  const npmPackageJson = (await fs.readFile(npmPackageFile)).toString();
 
   const npmPackage = updateFn(JSON.parse(npmPackageJson));
 
   const npmPackageJsonWithScripts = JSON.stringify(npmPackage, null, '  ');
-  await writeFile(npmPackageFile, npmPackageJsonWithScripts);
+  await fs.writeFile(npmPackageFile, npmPackageJsonWithScripts);
 }
