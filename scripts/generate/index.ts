@@ -7,24 +7,14 @@ import {extensionTypes} from './constants';
 import {addScripts} from './update-package-json';
 import {cleanUp} from './clean-up';
 
-const UNKNOWN_TYPE_ERROR = (type: string) => `
-Warning: Unknown extension point ${type}.
-Please use a supported extension type and generate your project manually.
-See README.md for instructions.
-`;
-
 interface InitConfig {
   type: string;
   template?: string;
 }
 
 async function init({type, template: templateIdentifier}: InitConfig) {
-  const extensionType = String(type);
-
-  if (extensionTypes.indexOf(extensionType) === -1) {
-    console.error(UNKNOWN_TYPE_ERROR(type));
-    process.exit(1);
-  }
+  const extensionType =
+    extensionTypes.find((t) => t === String(type)) || 'DEFAULT';
 
   console.log(`Create ${type} extension project`);
 
