@@ -18,10 +18,10 @@ Before you start, please [make sure you have `npm` installed](https://www.npmjs.
    ```sh
    cd YOUR_EXTENSION_NAME
    npm install
-   npm generate --type=PRODUCT_SUBSCRIPTION
+   npm run generate -- --type=PRODUCT_SUBSCRIPTION
    ```
 
-_**Note:** Currently `PRODUCT_SUBSCRIPTION` is the only supported type._
+_**Note:** Currently `PRODUCT_SUBSCRIPTION` is the only supported extension type._
 
 
 ## What's next?
