@@ -1,49 +1,29 @@
-# Setup
+# Shopify Admin, app extensions - Starter code
 
-## CLI
-If you have grabbed this template from the Shopify CLI you should be good to go!
+This repo contains starter code for apps that use _Argo_ to extend the UI of the _Shopify Admin_.       
+For more about _Argo_ and admin extensions, please [read our docs](https://shopify.dev/tutorials/product-subscription-extension-overview).
 
-Start developing your awesome extension.
+## Getting started
+
+Before you start, please [make sure you have `npm` installed](https://www.npmjs.com/get-npm) on your machine.
+
+ 1. Clone this repo
+
+   ```sh
+   git clone --depth=1 git@github.com:Shopify/argo-admin-template.git YOUR_EXTENSION_NAME
+   ```
+
+ 2. Generate starter code
+
+   ```sh
+   cd YOUR_EXTENSION_NAME
+   npm install
+   npm generate --type=PRODUCT_SUBSCRIPTION
+   ```
+
+_**Note:** Currently `PRODUCT_SUBSCRIPTION` is the only supported type._
 
 
-## From github
-If you grabbed this template directly from github:
+## What's next?
 
-#### npm
-```bash
-## With npm
-npm install
-
-npm run generate -- --type=PRODUCT_SUBSCRIPTION
-
-## With yarn
-yarn
-
-yarn generate --type=PRODUCT_SUBSCRIPTION --template=javascript-react
-```
-
-### Available extensions:
-  - PRODUCT_SUBSCRIPTION
-
-**Note:**
-Once you're setup, you may delete the `scripts` folder as you will no longer need it.
-
-Documentation on all of the components and utilities in the `argo-admin` library can be found in the [docs folder](./docs).
-
-### Local development
-
-During the setup, a new script has been added to your `package.json` for local development. Run the command to start developing locally. See [Local development with argo-admin-cli](https://www.npmjs.com/package/@shopify/argo-admin-cli#local-development).
-
-```bash
-  npm run server
-```
-
-Your starting file is the index file in the root folder (`index.js`, `index.ts`, or `index.tsx`).
-
-### Build
-
-During the setup, a new script has been added to your `package.json` for building your code. Run the command to start developing locally. See [Build with argo-admin-cli](https://www.npmjs.com/package/@shopify/argo-admin-cli#build).
-
-```bash
-  npm run build
-```
+Check out the generated readme and index files (at the root of this repo), they contain further instructions and code to get you started.
