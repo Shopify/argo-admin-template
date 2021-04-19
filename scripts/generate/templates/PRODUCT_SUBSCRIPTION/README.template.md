@@ -1,6 +1,7 @@
 # Production Subscription app extension
 
-Product subscription app extensions render UI that allows merchants to manage subscriptions as part of their normal workflow in the Shopify admin.       
+Product subscription app extensions render UI that allows merchants to manage subscriptions as part of their normal workflow in the Shopify admin.
+
 For more info, [read the docs](https://shopify.dev/tutorials/product-subscription-extension-overview).
 
 

@@ -55,7 +55,7 @@ export async function generateSrc({
     : await getTemplateIdentifier();
   console.log('✅ You selected:', template);
 
-  generate_readme({extensionType, rootDir})
+  generateReadme({extensionType, rootDir});
 
   const indexPath = indexPaths[template] || indexPaths[Template.Javascript];
   const ext = path.extname(indexPath);
@@ -95,9 +95,15 @@ function isTemplate(
   return false;
 }
 
-function generate_readme({extensionType, rootDir}: {extensionType: string; rootDir: string;}) {
+function generateReadme({
+  extensionType,
+  rootDir,
+}: {
+  extensionType: string;
+  rootDir: string;
+}) {
   const src = `${__dirname}/templates/${extensionType}/README.template.md`;
-  const dst = path.resolve(rootDir, `README.md`)
+  const dst = path.resolve(rootDir, `README.md`);
   try {
     fs.writeFileSync(dst, fs.readFileSync(src).toString());
   } catch (error) {
