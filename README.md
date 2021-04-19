@@ -5,21 +5,25 @@ For more about _Argo_ and admin extensions, please [read our docs](https://shopi
 
 ## Getting started
 
-Before you start, please [make sure you have `npm` installed](https://www.npmjs.com/get-npm) on your machine.
+Clone this repo
 
- 1. Clone this repo
+```sh
+git clone --depth=1 git@github.com:Shopify/argo-admin-template.git YOUR_EXTENSION_NAME
+```
 
-   ```sh
-   git clone --depth=1 git@github.com:Shopify/argo-admin-template.git YOUR_EXTENSION_NAME
-   ```
+Generate starter code
 
- 2. Generate starter code
+```sh
+cd YOUR_EXTENSION_NAME
 
-   ```sh
-   cd YOUR_EXTENSION_NAME
-   npm install
-   npm run generate -- --type=PRODUCT_SUBSCRIPTION
-   ```
+# With npm
+npm install
+npm run generate -- --type=PRODUCT_SUBSCRIPTION
+
+# With yarn
+yarn
+yarn generate --type=PRODUCT_SUBSCRIPTION
+```
 
 _**Note:** Currently `PRODUCT_SUBSCRIPTION` is the only supported extension type._
 
