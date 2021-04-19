@@ -27,7 +27,6 @@ yarn generate --type=PRODUCT_SUBSCRIPTION
 
 _**Note:** Currently `PRODUCT_SUBSCRIPTION` is the only supported extension type._
 
-
 ## What's next?
 
 Check out the generated readme and index files (at the root of this repo), they contain further instructions and code to get you started.
