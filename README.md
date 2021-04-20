@@ -37,7 +37,7 @@ yarn generate --type=PRODUCT_SUBSCRIPTION
 
 _**Note:** Currently `PRODUCT_SUBSCRIPTION` and `DEFAULT` are the only supported extension types._
 
-And, finally, see the reasult of the `generate` command:
+Finally, inspect the reasult of the `generate` command:
 
 ```sh
 git diff
