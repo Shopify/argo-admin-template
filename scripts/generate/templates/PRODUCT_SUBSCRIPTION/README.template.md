@@ -10,7 +10,11 @@ For more info, [read the docs](https://shopify.dev/tutorials/product-subscriptio
 Run a local server:
 
 ```bash
-  npm run server
+# With npm
+npm run server
+
+# With yarn
+yarn server
 ```
 
 Your starting file is the index file in the root folder (either `index.js`, `index.ts`, or `index.tsx`).
@@ -20,5 +24,9 @@ Your starting file is the index file in the root folder (either `index.js`, `ind
 Build a single minified JavaScript file containing your extension code:
 
 ```bash
-  npm run build
+# With npm
+npm run build
+
+# With yarn
+yarn build
 ```

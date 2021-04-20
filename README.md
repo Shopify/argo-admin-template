@@ -1,17 +1,27 @@
 # Shopify Admin, app extensions - Starter code
 
 This repo contains starter code for apps that use _Argo_ to extend the UI of the _Shopify Admin_.       
+
 For more about _Argo_ and admin extensions, please [read our docs](https://shopify.dev/tutorials/product-subscription-extension-overview).
 
 ## Getting started
 
-Clone this repo
+[Use the Shopify App CLI to create your _Argo_-enabled extension](https://shopify.dev/tutorials/getting-started-product-subscription-extension#scaffold-a-product-subscription-app-extension).
+
+**Note:** There is no need for you to clone this repo directly.
+The CLI will take care of cloning the repo and generating all required files.
+
+## Contributing
+
+Developers working on this repo will find most of the relevant code in the [`scripts/generate`](/scripts/generate).
+
+Start by cloning this repo:
 
 ```sh
-git clone --depth=1 git@github.com:Shopify/argo-admin-template.git YOUR_EXTENSION_NAME
+git clone git@github.com:Shopify/argo-admin-template.git YOUR_EXTENSION_NAME
 ```
 
-Generate starter code
+Then, generate the starter code:
 
 ```sh
 cd YOUR_EXTENSION_NAME
@@ -25,8 +35,10 @@ yarn
 yarn generate --type=PRODUCT_SUBSCRIPTION
 ```
 
-_**Note:** Currently `PRODUCT_SUBSCRIPTION` is the only supported extension type._
+_**Note:** Currently `PRODUCT_SUBSCRIPTION` and `DEFAULT` are the only supported extension types._
 
-## What's next?
+And, finally, see the reasult of the `generate` command:
 
-The `generate` command has created new files at the root of this repo. Check out the new `README.md` for further instructions, and `index.js/ts/tsx` for starter code.
+```sh
+git diff
+```
