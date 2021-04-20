@@ -29,4 +29,4 @@ _**Note:** Currently `PRODUCT_SUBSCRIPTION` is the only supported extension type
 
 ## What's next?
 
-Check out the generated readme and index files (at the root of this repo), they contain further instructions and code to get you started.
+The `generate` command has created new files at the root of this repo. Check out the new `README.md` for further instructions, and `index.js/ts/tsx` for starter code.
