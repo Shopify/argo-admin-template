@@ -1,49 +1,43 @@
-# Setup
+# Shopify Admin, app extensions - Starter code
 
-## CLI
-If you have grabbed this template from the Shopify CLI you should be good to go!
+This repo contains starter code for apps that use _Argo_ to extend the UI of the _Shopify Admin_.       
 
-Start developing your awesome extension.
+For more about _Argo_ and admin extensions, please [read our docs](https://shopify.dev/tutorials/product-subscription-extension-overview).
 
+## Getting started
 
-## From github
-If you grabbed this template directly from github:
+[Use the Shopify App CLI to create your _Argo_-enabled extension](https://shopify.dev/tutorials/getting-started-product-subscription-extension#scaffold-a-product-subscription-app-extension).
 
-#### npm
-```bash
-## With npm
+**Note:** We do _not_ recommend app developers to clone this repo directly. If you choose to do so, you will need to follow the instructions below to generate the starter code, and then set up the Shopify App CLI manually to use your extension.
+
+## Updating this repo
+
+Shopify developers working on this repo will find most of the relevant code in the [`scripts/generate`](/scripts/generate).
+
+Start by cloning this repo:
+
+```sh
+git clone git@github.com:Shopify/argo-admin-template.git YOUR_EXTENSION_NAME
+```
+
+Then, generate the starter code:
+
+```sh
+cd YOUR_EXTENSION_NAME
+
+# With npm
 npm install
-
 npm run generate -- --type=PRODUCT_SUBSCRIPTION
 
-## With yarn
+# With yarn
 yarn
-
-yarn generate --type=PRODUCT_SUBSCRIPTION --template=javascript-react
+yarn generate --type=PRODUCT_SUBSCRIPTION
 ```
 
-### Available extensions:
-  - PRODUCT_SUBSCRIPTION
+_**Note:** Currently `PRODUCT_SUBSCRIPTION` and `DEFAULT` are the only supported extension types._
 
-**Note:**
-Once you're setup, you may delete the `scripts` folder as you will no longer need it.
+Finally, inspect the result of the `generate` command:
 
-Documentation on all of the components and utilities in the `argo-admin` library can be found in the [docs folder](./docs).
-
-### Local development
-
-During the setup, a new script has been added to your `package.json` for local development. Run the command to start developing locally. See [Local development with argo-admin-cli](https://www.npmjs.com/package/@shopify/argo-admin-cli#local-development).
-
-```bash
-  npm run server
-```
-
-Your starting file is the index file in the root folder (`index.js`, `index.ts`, or `index.tsx`).
-
-### Build
-
-During the setup, a new script has been added to your `package.json` for building your code. Run the command to start developing locally. See [Build with argo-admin-cli](https://www.npmjs.com/package/@shopify/argo-admin-cli#build).
-
-```bash
-  npm run build
+```sh
+git diff
 ```

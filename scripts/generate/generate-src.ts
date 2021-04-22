@@ -55,6 +55,8 @@ export async function generateSrc({
     : await getTemplateIdentifier();
   console.log('✅ You selected:', template);
 
+  generateReadme({extensionType, rootDir});
+
   const indexPath = indexPaths[template] || indexPaths[Template.Javascript];
   const ext = path.extname(indexPath);
 
@@ -91,4 +93,22 @@ function isTemplate(
     }
   }
   return false;
+}
+
+function generateReadme({
+  extensionType,
+  rootDir,
+}: {
+  extensionType: string;
+  rootDir: string;
+}) {
+  const src = `${__dirname}/templates/${extensionType}/README.template.md`;
+  const dst = path.resolve(rootDir, `README.md`);
+  try {
+    fs.writeFileSync(dst, fs.readFileSync(src).toString());
+  } catch (error) {
+    const errorMessage = `README.md file could not be created`;
+    console.error(`${errorMessage}: `, error);
+    throw new Error(errorMessage);
+  }
 }
