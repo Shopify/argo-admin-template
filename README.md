@@ -8,7 +8,7 @@ For more about _Argo_ and admin extensions, please [read our docs](https://shopi
 
 [Use the Shopify App CLI to create your _Argo_-enabled extension](https://shopify.dev/tutorials/getting-started-product-subscription-extension#scaffold-a-product-subscription-app-extension).
 
-**Note:** We do _not_ recommend developers to clone this repo directly. If you choose to do so, you will need to follow the instructions below to generate the starter code, and then set up the Shopify App CLI manually to use your extension.
+**Note:** We do _not_ recommend app developers to clone this repo directly. If you choose to do so, you will need to follow the instructions below to generate the starter code, and then set up the Shopify App CLI manually to use your extension.
 
 ## Updating this repo
 
