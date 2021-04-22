@@ -8,13 +8,11 @@ For more about _Argo_ and admin extensions, please [read our docs](https://shopi
 
 [Use the Shopify App CLI to create your _Argo_-enabled extension](https://shopify.dev/tutorials/getting-started-product-subscription-extension#scaffold-a-product-subscription-app-extension).
 
-**Note:** We recommend [using the Shopify App CLI to create your Argo-enabled extension](https://shopify.dev/tutorials/getting-started-product-subscription-extension#scaffold-a-product-subscription-app-extension).
+**Note:** This repo is publicly available, but we do not recommended developers to clone it directly. If you choose to do so, you will need to follow the instructions below to generate the starter code, and then set up the Shopify App CLI manually to use your extension.
 
-If you clone this repo directly and follow the instructions below, you’ll need to set up the Shopify App CLI manually to use your extension.
+## Updating this repo
 
-## Contributing
-
-Developers working on this repo will find most of the relevant code in the [`scripts/generate`](/scripts/generate).
+Shopify developers working on this repo will find most of the relevant code in the [`scripts/generate`](/scripts/generate).
 
 Start by cloning this repo:
 
@@ -38,7 +36,7 @@ yarn generate --type=PRODUCT_SUBSCRIPTION
 
 _**Note:** Currently `PRODUCT_SUBSCRIPTION` and `DEFAULT` are the only supported extension types._
 
-Finally, inspect the reasult of the `generate` command:
+Finally, inspect the result of the `generate` command:
 
 ```sh
 git diff
