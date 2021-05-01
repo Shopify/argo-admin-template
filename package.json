@@ -29,6 +29,6 @@
   "dependencies": {
     "@shopify/argo-admin": "latest",
     "@shopify/argo-admin-react": "latest",
-    "react": "^17.0.0"
+    "react": "^16.13.0"
   }
 }
