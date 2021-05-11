@@ -27,8 +27,8 @@
     "lint": "eslint ./scripts --ext .js,.ts,.tsx --format codeframe"
   },
   "dependencies": {
-    "@shopify/argo-admin": "latest",
-    "@shopify/argo-admin-react": "latest",
-    "react": "^17.0.0"
+    "@shopify/argo-admin": "0.9.3",
+    "@shopify/argo-admin-react": "0.9.3",
+    "react": "^16.13.0"
   }
 }

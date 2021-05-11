@@ -51,12 +51,8 @@ function Add() {
   const data = useData<'Admin::Product::SubscriptionPlan::Add'>();
 
   // The UI your extension renders inside
-  const {
-    close,
-    done,
-    setPrimaryAction,
-    setSecondaryAction,
-  } = useContainer<'Admin::Product::SubscriptionPlan::Add'>();
+  const {close, done, setPrimaryAction, setSecondaryAction} =
+    useContainer<'Admin::Product::SubscriptionPlan::Add'>();
 
   // Information about the merchant's selected language. Use this to support multiple languages.
   const locale = useLocale();
@@ -129,10 +125,8 @@ function Add() {
 // [Shopify admin renders this mode inside an app overlay container]
 function Create() {
   const data = useData<'Admin::Product::SubscriptionPlan::Create'>();
-  const {
-    close,
-    done,
-  } = useContainer<'Admin::Product::SubscriptionPlan::Create'>();
+  const {close, done} =
+    useContainer<'Admin::Product::SubscriptionPlan::Create'>();
 
   const locale = useLocale();
   const localizedStrings: Translations = useMemo(() => {
@@ -211,12 +205,8 @@ function Create() {
 // [Shopify admin renders this mode inside a modal container]
 function Remove() {
   const data = useData<'Admin::Product::SubscriptionPlan::Remove'>();
-  const {
-    close,
-    done,
-    setPrimaryAction,
-    setSecondaryAction,
-  } = useContainer<'Admin::Product::SubscriptionPlan::Remove'>();
+  const {close, done, setPrimaryAction, setSecondaryAction} =
+    useContainer<'Admin::Product::SubscriptionPlan::Remove'>();
   const locale = useLocale();
   const localizedStrings: Translations = useMemo(() => {
     return translations[locale] || translations.en;
@@ -268,10 +258,8 @@ function Edit() {
 
   const [percentageOff, setPercentageOff] = useState('10');
   const [deliveryFrequency, setDeliveryFrequency] = useState('1');
-  const {
-    close,
-    done,
-  } = useContainer<'Admin::Product::SubscriptionPlan::Edit'>();
+  const {close, done} =
+    useContainer<'Admin::Product::SubscriptionPlan::Edit'>();
 
   const onPrimaryAction = useCallback(async () => {
     const token = await getSessionToken();
