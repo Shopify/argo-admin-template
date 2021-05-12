@@ -112,156 +112,154 @@ const Add: ExtensionPointCallback['Admin::Product::SubscriptionPlan::Add'] = (
 
 // 'Create' mode should create a new selling plan, and add the current product to it
 // [Shopify admin renders this mode inside an app overlay container]
-const Create: ExtensionPointCallback['Admin::Product::SubscriptionPlan::Create'] = (
-  root,
-  api
-) => {
-  const data = api.data;
-  const locale = api.locale.initialValue;
-  const sessionToken = api.sessionToken;
-  const {close, done} = api.container;
+const Create: ExtensionPointCallback['Admin::Product::SubscriptionPlan::Create'] =
+  (root, api) => {
+    const data = api.data;
+    const locale = api.locale.initialValue;
+    const sessionToken = api.sessionToken;
+    const {close, done} = api.container;
 
-  const localizedStrings: Translations =
-    translations[locale] || translations.en;
+    const localizedStrings: Translations =
+      translations[locale] || translations.en;
 
-  const primaryButton = root.createComponent(Button, {
-    title: 'Create plan',
-    primary: true,
-    onPress: async () => {
-      const token = await sessionToken.getSessionToken();
+    const primaryButton = root.createComponent(Button, {
+      title: 'Create plan',
+      primary: true,
+      onPress: async () => {
+        const token = await sessionToken.getSessionToken();
 
-      // Here, send the form data to your app server to create the new plan.
+        // Here, send the form data to your app server to create the new plan.
 
-      done();
-    },
-  });
-  const secondaryButton = root.createComponent(Button, {
-    title: 'Cancel',
-    onPress: () => close(),
-  });
+        done();
+      },
+    });
+    const secondaryButton = root.createComponent(Button, {
+      title: 'Cancel',
+      onPress: () => close(),
+    });
 
-  const textContainerStack = root.createComponent(Stack, {
-    spacing: 'none',
-  });
-  root.appendChild(textContainerStack);
+    const textContainerStack = root.createComponent(Stack, {
+      spacing: 'none',
+    });
+    root.appendChild(textContainerStack);
 
-  const textElement = root.createComponent(Text, {size: 'titleLarge'});
-  textElement.appendChild(
-    root.createText(`${localizedStrings.hello}! Create subscription plan`)
-  );
-  textContainerStack.appendChild(textElement);
+    const textElement = root.createComponent(Text, {size: 'titleLarge'});
+    textElement.appendChild(
+      root.createText(`${localizedStrings.hello}! Create subscription plan`)
+    );
+    textContainerStack.appendChild(textElement);
 
-  const planTitleCard = root.createComponent(Card, {
-    sectioned: true,
-    title: `Create subscription plan for Product id ${data.productId}`,
-  });
-  root.appendChild(planTitleCard);
+    const planTitleCard = root.createComponent(Card, {
+      sectioned: true,
+      title: `Create subscription plan for Product id ${data.productId}`,
+    });
+    root.appendChild(planTitleCard);
 
-  const planTitleField = root.createComponent(TextField, {
-    label: 'Plan title',
-    value: '',
-    onChange(value) {
-      planTitleField.updateProps({
-        value,
-      });
-    },
-  });
-  planTitleCard.appendChild(planTitleField);
+    const planTitleField = root.createComponent(TextField, {
+      label: 'Plan title',
+      value: '',
+      onChange(value) {
+        planTitleField.updateProps({
+          value,
+        });
+      },
+    });
+    planTitleCard.appendChild(planTitleField);
 
-  const planDetailsCard = root.createComponent(Card, {
-    sectioned: true,
-    title: 'Delivery and discount',
-  });
-  root.appendChild(planDetailsCard);
+    const planDetailsCard = root.createComponent(Card, {
+      sectioned: true,
+      title: 'Delivery and discount',
+    });
+    root.appendChild(planDetailsCard);
 
-  const stack = root.createComponent(Stack);
-  planDetailsCard.appendChild(stack);
+    const stack = root.createComponent(Stack);
+    planDetailsCard.appendChild(stack);
 
-  const deliveryFrequencyField = root.createComponent(TextField, {
-    type: 'number',
-    label: 'Delivery frequency (in weeks)',
-    value: undefined,
-    onChange(value) {
-      deliveryFrequencyField.updateProps({
-        value,
-      });
-    },
-  });
-  stack.appendChild(deliveryFrequencyField);
+    const deliveryFrequencyField = root.createComponent(TextField, {
+      type: 'number',
+      label: 'Delivery frequency (in weeks)',
+      value: undefined,
+      onChange(value) {
+        deliveryFrequencyField.updateProps({
+          value,
+        });
+      },
+    });
+    stack.appendChild(deliveryFrequencyField);
 
-  const percentageOffField = root.createComponent(TextField, {
-    type: 'number',
-    label: 'Percentage off (%)',
-    value: undefined,
-    onChange(value) {
-      percentageOffField.updateProps({
-        value,
-      });
-    },
-  });
-  stack.appendChild(percentageOffField);
+    const percentageOffField = root.createComponent(TextField, {
+      type: 'number',
+      label: 'Percentage off (%)',
+      value: undefined,
+      onChange(value) {
+        percentageOffField.updateProps({
+          value,
+        });
+      },
+    });
+    stack.appendChild(percentageOffField);
 
-  const actionsElement = root.createComponent(Stack, {
-    spacing: 'none',
-    distribution: 'fill',
-  });
-  root.appendChild(actionsElement);
-  actionsElement.appendChild(secondaryButton);
+    const actionsElement = root.createComponent(Stack, {
+      spacing: 'none',
+      distribution: 'fill',
+    });
+    root.appendChild(actionsElement);
+    actionsElement.appendChild(secondaryButton);
 
-  const primaryButtonStack = root.createComponent(Stack, {
-    distribution: 'trailing',
-  });
-  actionsElement.appendChild(primaryButtonStack);
-  primaryButtonStack.appendChild(primaryButton);
+    const primaryButtonStack = root.createComponent(Stack, {
+      distribution: 'trailing',
+    });
+    actionsElement.appendChild(primaryButtonStack);
+    primaryButtonStack.appendChild(primaryButton);
 
-  root.mount();
-};
+    root.mount();
+  };
 
 // 'Remove' mode should remove the current product from a selling plan.
 // This should not delete the selling plan.
 // [Shopify admin renders this mode inside a modal container]
-const Remove: ExtensionPointCallback['Admin::Product::SubscriptionPlan::Remove'] = (
-  root,
-  api
-) => {
-  const data = api.data;
-  const locale = api.locale.initialValue;
-  const sessionToken = api.sessionToken;
-  const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
+const Remove: ExtensionPointCallback['Admin::Product::SubscriptionPlan::Remove'] =
+  (root, api) => {
+    const data = api.data;
+    const locale = api.locale.initialValue;
+    const sessionToken = api.sessionToken;
+    const {close, done, setPrimaryAction, setSecondaryAction} = api.container;
 
-  const localizedStrings: Translations =
-    translations[locale] || translations.en;
+    const localizedStrings: Translations =
+      translations[locale] || translations.en;
 
-  setPrimaryAction({
-    content: 'Remove plan',
-    onAction: async () => {
-      const token = await sessionToken.getSessionToken();
+    setPrimaryAction({
+      content: 'Remove plan',
+      onAction: async () => {
+        const token = await sessionToken.getSessionToken();
 
-      // Here, send the form data to your app server to remove the product from the plan.
+        // Here, send the form data to your app server to remove the product from the plan.
 
-      done();
-    },
-  });
+        done();
+      },
+    });
 
-  setSecondaryAction({
-    content: 'Cancel',
-    onAction: () => close(),
-  });
+    setSecondaryAction({
+      content: 'Cancel',
+      onAction: () => close(),
+    });
 
-  const localizedHelloText = root.createComponent(Text);
-  localizedHelloText.appendChild(root.createText(`${localizedStrings.hello}!`));
-  root.appendChild(localizedHelloText);
+    const localizedHelloText = root.createComponent(Text);
+    localizedHelloText.appendChild(
+      root.createText(`${localizedStrings.hello}!`)
+    );
+    root.appendChild(localizedHelloText);
 
-  const textElement = root.createComponent(Text);
-  textElement.appendChild(
-    root.createText(
-      `Remove {Product id ${data.productId}} from {Plan group id ${data.sellingPlanGroupId}}`
-    )
-  );
+    const textElement = root.createComponent(Text);
+    textElement.appendChild(
+      root.createText(
+        `Remove {Product id ${data.productId}} from {Plan group id ${data.sellingPlanGroupId}}`
+      )
+    );
 
-  root.appendChild(textElement);
-  root.mount();
-};
+    root.appendChild(textElement);
+    root.mount();
+  };
 
 // 'Edit' mode should modify an existing selling plan.
 // Changes should affect other products that have this plan applied.
